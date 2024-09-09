@@ -1,0 +1,1 @@
+create React app in thios directory. do not write in this note.txt it's atemporary file that will be removed
