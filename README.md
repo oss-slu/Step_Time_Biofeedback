@@ -41,6 +41,7 @@ $ source env/bin/activate
 
 ###### Windows 
 To activate the virtual enviornment on Windows the commands differ depending if you're using Powershell or cmd.exe, specified below:
+
 ```
 # For cmd.exe
 env/Scripts/activate.bat
@@ -59,6 +60,11 @@ If your virtual enviornment is activated you should see the following all the wa
 <br />
 
 After activating your virtual enviornment make you should make sure you have the correct dependencies installed. Ensure your virtual enviornment is activated when running the following command to install the correct dependences from the requirements.txt file:
+
+<br />
+
+*Reminder: Ensure your virtual enviornment is activated before installing your dependencies. Otherwise, they will be installed globally, not inside the virtual enviornment*
+
 ```
 pip install -r requirements.txt
 ```
@@ -66,6 +72,19 @@ or
 ```
 # if pip doesn't work you may have to specify version
 pip<version> install -r requirements.txt
+```
+
+<br />
+
+If you need to undo the global installation you can unistall the dependencies that were unstalled globally using the following command:
+
+```
+pip uninstall -r requirements.txt
+```
+or
+```
+# if pip doesn't work you may have to specify version
+pip<version> uninstall -r requirements.txt
 ```
 
 #### Deactivating the Virtual Enviornment
