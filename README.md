@@ -1,4 +1,3 @@
-# Project Name
 
 ## Description
 This code streams data from a device using the Lab Streaming Layer (LSL) protocol. It demonstrates how to connect to a data stream, pull samples, and print the output using Python.
