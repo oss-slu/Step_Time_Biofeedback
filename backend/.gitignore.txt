@@ -1,0 +1,32 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual environment
+venv/
+ENV/
+env/
+*.egg-info/
+
+# Distribution / packaging
+dist/
+build/
+*.egg
+*.egg-info/
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# System files
+*.swp
+*.swo
