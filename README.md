@@ -1,3 +1,5 @@
+# Step Time Biofeedback
+
 ### Setting Up and Using a Python Virtual Environment (venv)
 This section is to outline the process of setting up a virtual enviornment (venv) for the STEP_TIME_BIOFEEDBACK project. Note: this process will vary depending on the operating system you are using so ensure you navigate based on which operating system you're working on.
 
@@ -110,4 +112,4 @@ pip<version> freeze < requirements.txt
 
 #### .gitignore
 
-Please ensure that you don't remove env/ from the gitignore file so you don't push your local virtual enviornment to the repository. 
+Please ensure that you don't remove env/ from the gitignore file so you don't push your local virtual enviornment to the repository.
