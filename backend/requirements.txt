@@ -1,3 +1,7 @@
 matplotlib==3.9.2
 pylsl==1.16.2
 numpy==1.26.2
+distlib==0.3.8
+filelock==3.16.0
+platformdirs==4.3.2
+virtualenv==20.26.4
