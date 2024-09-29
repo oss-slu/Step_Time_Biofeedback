@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-Connect_to_qtm
-=======
-# Project Name
->>>>>>> b4c3b857534470dae660a57b723892af41b488d8
+
+# connect to QTM
 
 ## Description
 This code streams data from a device using the Lab Streaming Layer (LSL) protocol. It demonstrates how to connect to a data stream, pull samples, and print the output using Python.
