@@ -1,0 +1,36 @@
+.StepTime p {
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+}
+
+
+.StepTime ul {
+    list-style-type: none;  
+    margin: 2vh 0;
+    padding: 0;
+    display:flex;
+    justify-content: space-evenly
+}
+
+.StepTime li {
+    flex: 1;
+    display: inline;
+    text-align: center;
+    color: white;
+}
+
+.CurrentStepTime li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: .2vw solid white;
+    border-radius: 1vw;
+    text-align: center;
+    padding: 1vh 1vw;
+    font-size: calc(30px + 2vmin);
+    height: 75vh;
+    width: 20vw;
+    margin: 0 2vw;
+}

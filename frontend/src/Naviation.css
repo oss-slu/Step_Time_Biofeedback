@@ -1,0 +1,24 @@
+.Navigation nav {
+    background-color: white;
+}
+
+.Navigation nav ul{
+    list-style-type: none;  
+    margin: 0;
+    padding: 0;
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.Navigation nav li {
+    flex: 1;
+    display: inline-block;
+    color: black;
+    padding: 1vh 1vw;
+    cursor: pointer;
+    text-align: center;
+}
+
+.Navigation nav li:hover {
+    background-color: grey;
+}
