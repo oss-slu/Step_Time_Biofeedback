@@ -30,3 +30,6 @@ Thumbs.db
 # System files
 *.swp
 *.swo
+
+# Ignore Zone.Identifier files
+*.Zone.Identifier
