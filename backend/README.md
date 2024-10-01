@@ -5,7 +5,11 @@
 This README provides instructions on how to install necessary dependencies, and run the tests for `Step_Time_Calculation.py`
 
 ## Prerequisites
-Before running any code, make sure you have the following installed on your machine:
+Before running any code, make sure you're in your Python virtual environment. Once activated, you can install the required dependencies by running:
+```
+pip install -r requirements.txt
+```
+This will install all the required Python libraries listed in the requirements.txt file.
 
 ### Python Packages
 1) You'll need the Python `pylsl` package to handle the LSL protocol. You can install it using `pip`:
@@ -80,15 +84,16 @@ brew install numpy
 Unit tests are provided to ensure the correctness of the step time calculations. Follow the steps below to run the tests successfully:
 
 1) Navigate to the backend directory.
-2)Run the test file using Python's unittest module:
+2) Run the test file using Python's unittest module:
 ```
 python -m unittest test_step_time.py
 ```
 ### Test Cases
 The tests from `test_step_time` cover:
-Step time calculation for values below the threshold (20N).
-Step time output as a moving average of 2 steps.
-Step time output as a continuous number in the format 00.00.
+
+- Step time calculation for values below the threshold (20N).
+- Step time output as a moving average of 2 steps.
+- Step time output as a continuous number in the format 00.00.
 
 ### Sample Data for Testing
 The function uses sample force data in the format (time, force) to calculate step times. 
