@@ -16,7 +16,7 @@ def calculate_step_time(force_data, threshold=20.0):
 
     for time, force in force_data:
         # Detect heel strike
-        if force > threshold and step_start_time is None:
+        if force >= threshold and step_start_time is None:
             step_start_time = time  # Start timing for a step
 
         # Detect toe-off
@@ -27,20 +27,18 @@ def calculate_step_time(force_data, threshold=20.0):
 
     # Calculate moving average of step times
     moving_averages = []
-    if step_times:
-        for i in range(len(step_times)):
-            if i < 1:
-                moving_averages.append(step_times[i])  # First time is not a moving average
-            else:
-                moving_average = np.mean(step_times[i-1:i+1])  # 2-moving average
-                moving_averages.append(moving_average)
+    
+    for i in range(len(step_times)):
+        if i < 1:
+            moving_averages.append(step_times[i])  # First time is not a moving average
+        else:
+            moving_average = np.mean(step_times[i-1:i+1])  # 2-moving average
+            moving_averages.append(moving_average)
 
         # Format output to two decimal places
-        formatted_step_times = [f"{time:.2f}" for time in step_times]
-        formatted_moving_averages = [f"{avg:.2f}" for avg in moving_averages]
-    else:
-        formatted_step_times = []
-        formatted_moving_averages = []
+    formatted_step_times = [f"{time:.2f}" for time in step_times]
+    formatted_moving_averages = [f"{avg:.2f}" for avg in moving_averages]
+    
 
     return formatted_step_times, formatted_moving_averages
 
