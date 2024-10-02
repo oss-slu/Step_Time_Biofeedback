@@ -1,8 +1,47 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import App from './App';
+import WS from 'jest-websocket-mock';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('WebSocket in App Component', () => {
+  let server;
+
+  beforeEach(() => {
+    server = new WS("ws://localhost:8000/ws");
+  });
+
+  afterEach(() => {
+    WS.clean();
+  });
+
+  test('WebSocket connection messages', async () => {
+    const consoleLogSpy = jest.spyOn(console, 'log');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    await server.connected;
+
+    server.send("Message from backend");
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    });
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend: ", "Message from backend");
+
+    consoleLogSpy.mockRestore();
+  });
+
+  test('Message on WebSocket connection open', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    await server.connected;
+
+    expect(server).toReceiveMessage("Websocket Connected to React");
+  });
 });

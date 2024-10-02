@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+import asyncio
 
 biostepFeedback = FastAPI()
 
@@ -9,6 +10,12 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         await websocket.accept()
         print("Connection accepted")
+    except asyncio.TimeoutError:
+        print("Connection timed out")
+        return
+    except OSError as e:
+        print(f"Network error occurred: {e}")
+        return
     except Exception as e:
         print(f"Error Occurred: {e}")
         return 
@@ -20,6 +27,12 @@ async def websocket_endpoint(websocket: WebSocket):
             print(f"Received and sent back: {data}")
         except WebSocketDisconnect:
             print("Client disconnected")
+            break
+        except asyncio.TimeoutError:
+            print("Timeout during communication")
+            break
+        except OSError as e:
+            print(f"Network error during communication: {e}")
             break
         except Exception as e:
             print(f"Error occurred during communication: {e}")

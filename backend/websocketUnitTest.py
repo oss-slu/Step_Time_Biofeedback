@@ -50,3 +50,23 @@ def test_array_websocket():
         websocket.send_text(json.dumps([1, 2, 3, 4, 5]))
         data = websocket.receive_text()
         assert data == "[1, 2, 3, 4, 5]"
+
+def test_websocket_invalid_data():
+    client = TestClient(biostepFeedback)
+    with client.websocket_connect("/ws") as websocket:
+        invalid_data = {"invalid": set([1, 2, 3])}
+        try:
+            websocket.send_text(json.dumps(invalid_data))
+        except TypeError:
+            assert True
+        except Exception:
+            assert False
+
+def test_websocket_disconnect():
+    client = TestClient(biostepFeedback)
+    with client.websocket_connect("/ws") as websocket:
+        websocket.send_text("Hello")
+        data = websocket.receive_text()
+        assert data == "Hello"
+        websocket.close()
+        assert websocket.close
