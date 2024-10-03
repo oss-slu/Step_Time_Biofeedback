@@ -2,23 +2,27 @@ import "./App.css";
 import { useEffect } from "react";
 
 function App() {
-  var websocket = null;
+  let websocket = null;
+  let websocketConnected = false;
 
   useEffect(() => {
     websocket = new WebSocket("ws://localhost:8000/ws");
 
-    websocket.onopen = () => websocket.send("Websocket Connected to React");
+    websocket.onopen = () => {
+      console.log("WebSocket Connected to React");
+      websocketConnected = true;
+    };
 
     websocket.onmessage = function(event) {
       console.log("Data received from backend: ", event.data);
     };
 
-    return () => {
-      if (websocket) {
-        websocket.close();
-        console.log("WebSocket connection closed");
-      }
+    websocket.onclose = (event) => {
+      console.log("WebSocket connection closed: ", event);
+      websocketConnected = false;
     };
+
+    return () => {};
   }, []);
 
   return (

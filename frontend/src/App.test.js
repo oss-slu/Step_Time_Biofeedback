@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import { act } from 'react';
 import App from './App';
 import WS from 'jest-websocket-mock';
 

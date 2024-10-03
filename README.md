@@ -113,3 +113,22 @@ pip<version> freeze < requirements.txt
 #### .gitignore
 
 Please ensure that you don't remove env/ from the gitignore file so you don't push your local virtual enviornment to the repository.
+
+### Setting Up and Testing Websockets
+## Setting up the Websockets
+1. Make 2 termials, for each termial make sure you are in your virtual env and have the requirments installed (if not look at the section in the README that tells you how to do this)
+2. On one termial cd into backend
+3. In the backend termial run <code>uvicorn main:app —reload</code>
+4. On the other termial cd into frontend
+5. Run <code>npm start</code>
+6. You will see messages in the backend terminal that the react app is connected
+
+## Running Backend Unit Tests in virtual env
+1. Make sure you are in your virtual env and have the requirments installed (if not look at the section in the README that tells you how to do this)
+2. Cd into backed
+3. Run <code>python -m pytest -s -v websocketUnitTests.py</code>
+
+## Running Frontend Unit Tests in virtual env
+1. Make sure you are in your virtual env and have the requirments installed (if not look at the section in the README that tells you how to do this)
+2. Cd into frontend
+3. Run <code>npm test</code>

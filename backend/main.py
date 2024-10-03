@@ -1,9 +1,9 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import asyncio
 
-biostepFeedback = FastAPI()
+app = FastAPI()
 
-@biostepFeedback.websocket("/ws")
+@app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     print("Waiting for Connection")
     
@@ -23,8 +23,8 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         try:
             data = await websocket.receive_text()
-            await websocket.send_text(data)
-            print(f"Received and sent back: {data}")
+            await websocket.send_text(f"Message Received: {data}")
+            print(f"Received from client: {data}")
         except WebSocketDisconnect:
             print("Client disconnected")
             break
