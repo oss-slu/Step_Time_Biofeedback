@@ -5,3 +5,10 @@ distlib==0.3.8
 filelock==3.16.0
 platformdirs==4.3.2
 virtualenv==20.26.4
+uvicorn==0.30.6
+websocket==0.2.1
+fastapi==0.115.0
+pytest==8.3.3
+httpcore==1.0.5
+httpx==0.27.2
+pytest-asyncio==0.24.0
