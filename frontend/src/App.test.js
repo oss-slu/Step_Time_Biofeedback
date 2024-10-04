@@ -33,6 +33,8 @@ describe('WebSocket in App Component', () => {
     expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend: ", "Message from backend");
 
     consoleLogSpy.mockRestore();
+
+    server.close();
   });
 
   test('Message on WebSocket connection open', async () => {
@@ -43,5 +45,22 @@ describe('WebSocket in App Component', () => {
     await server.connected;
 
     expect(server).toReceiveMessage("Websocket Connected to React");
+
+    server.close();
+
+  });
+
+  test("User is notified on WS Close", async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    await server.connected;
+
+    expect(server).toReceiveMessage("Websocket Connected to React");
+
+    server.close();
+
+    expect(server).toReceiveMessage("WebSocket connection closed:");
   });
 });
