@@ -1,9 +1,8 @@
-import React from 'react';
-import "./StepTime.css";
+import "./StepTimeDigits.css";
 
-function StepTime({ stepTime }) {
+function StepTimeDigits({ stepTime }) {
   return (
-    <div className="StepTime">
+    <div data-testid='step-time-digits-view' className="StepTimeDigits">
       <div className="TargetZones">
         <p>Target Zones</p>
         <ul>
@@ -21,4 +20,4 @@ function StepTime({ stepTime }) {
   );
 }
 
-export default StepTime;
+export default StepTimeDigits;

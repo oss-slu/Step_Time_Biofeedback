@@ -1,19 +1,19 @@
 import './App.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navigation from './Navigation';
-import StepTime from './StepTime';
-import Chart from './Chart';
-import Graph from './Graph';
+import StepTimeDigits from './StepTimeDigits';
+import StepTimeChart from './StepTimeChart';
+import StepTimeGraph from './StepTimeGraph';
 import useStepTime from './useStepTime';
 
 function App() {
-  const [currentView, setCurrentView] = useState('step_time');
+  const [currentView, setCurrentView] = useState('StepTimeDigits');
   const stepTime = useStepTime();
 
   const views = {
-    step_time: <StepTime stepTime={stepTime} />,
-    chart: <Chart stepTime={stepTime} />,
-    graph: <Graph stepTime={stepTime} />,
+    StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
+    StepTimeChart: <StepTimeChart stepTime={stepTime} />,
+    StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
   };
 
   return (

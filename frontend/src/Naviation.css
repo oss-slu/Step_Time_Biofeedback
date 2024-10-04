@@ -1,8 +1,8 @@
-.Navigation nav {
+.Navigation {
     background-color: white;
 }
 
-.Navigation nav ul{
+.Navigation ul{
     list-style-type: none;  
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@
     justify-content: space-evenly;
 }
 
-.Navigation nav li {
+.Navigation li {
     flex: 1;
     display: inline-block;
     color: black;
@@ -19,6 +19,6 @@
     text-align: center;
 }
 
-.Navigation nav li:hover {
+.Navigation li:hover {
     background-color: grey;
 }
