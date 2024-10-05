@@ -1,28 +1,34 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function App() {
-  let websocket = null;
+  let websocket = useRef(null);
   let websocketConnected = false;
 
   useEffect(() => {
-    websocket = new WebSocket("ws://localhost:8000/ws");
+    websocket.current = new WebSocket("ws://localhost:8000/ws");
 
-    websocket.onopen = () => {
+    websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
+      websocket.current.send("Websocket Connected to React")
       websocketConnected = true;
     };
 
-    websocket.onmessage = function(event) {
+    websocket.current.onmessage = function(event) {
       console.log("Data received from backend: ", event.data);
     };
 
-    websocket.onclose = (event) => {
+    websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
       websocketConnected = false;
     };
 
-    return () => {};
+    return () => {
+      if (websocket.current) {
+        websocket.current.close();
+        console.log("WebSocket connection closed during cleanup");
+      }
+    };
   }, []);
 
   return (
