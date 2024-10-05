@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from '../App';
 import useStepTime from '../useStepTime';
+import { act } from 'react';
+import WS from 'jest-websocket-mock';
 
 jest.mock('../useStepTime');
 
@@ -54,5 +56,56 @@ describe('Navbar Component', () => {
       fireEvent.click(screen.getByTestId('step-time-digits-nav'));
       expect(screen.getByTestId('step-time-digits-view')).toBeInTheDocument();
     });
+  });
+});
+
+describe('WebSocket in App Component', () => {
+  let server;
+
+  beforeEach(() => {
+    server = new WS("ws://localhost:8000/ws");
+    
+    useStepTime.mockReturnValue({
+      left: 0,
+      right: 0,
+      targetZones: {
+        left: { min: 25, max: 30 },
+        right: { min: 50, max: 45 }
+      } 
+    });
+  });
+
+  afterEach(() => {
+    WS.clean();
+  });
+
+  test('WebSocket connection messages', async () => {
+    const consoleLogSpy = jest.spyOn(console, 'log');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    await server.connected;
+
+    server.send("Message from backend");
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    });
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend: ", "Message from backend");
+
+    consoleLogSpy.mockRestore();
+  });
+
+  test('Message on WebSocket connection open', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    await server.connected;
+
+    expect(server).toReceiveMessage("Websocket Connected to React");
   });
 });
