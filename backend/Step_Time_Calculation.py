@@ -25,5 +25,13 @@ def calculate_step_time(force_data, threshold=20.0):
             step_times.append(step_time)
             step_start_time = None  # Reset for the next step
             
+    moving_averages = []
+    for i in range(len(step_times)):
+        if i == 0:
+            moving_averages.append(step_times[i])  # First step time stays the same
+        else:
+            moving_average = np.mean(step_times[i-1:i+1])  # 2-point moving average
+            moving_averages.append(moving_average)  
+            
     return step_times
 
