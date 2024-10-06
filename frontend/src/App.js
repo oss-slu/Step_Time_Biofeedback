@@ -1,7 +1,21 @@
-import "./App.css";
-import { useEffect, useRef } from "react";
+import './App.css';
+import { useState, useEffect, useRef } from 'react';
+import Navigation from './Navigation';
+import StepTimeDigits from './StepTimeDigits';
+import StepTimeChart from './StepTimeChart';
+import StepTimeGraph from './StepTimeGraph';
+import useStepTime from './useStepTime';
 
 function App() {
+  const [currentView, setCurrentView] = useState('StepTimeDigits');
+  const stepTime = useStepTime();
+
+  const views = {
+    StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
+    StepTimeChart: <StepTimeChart stepTime={stepTime} />,
+    StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
+  };
+
   let websocket = useRef(null);
   let websocketConnected = false;
 
@@ -33,8 +47,9 @@ function App() {
 
   return (
     <div className="App">
+      <Navigation setCurrentView={setCurrentView} />
       <header className="App-header">
-        <p>Hello, World!</p>
+        {views[currentView]}
       </header>
     </div>
   );
