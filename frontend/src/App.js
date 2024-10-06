@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Navigation from './Navigation';
 import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
@@ -16,7 +16,8 @@ function App() {
     StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
   };
 
-  var websocket = null;
+  let websocket = useRef(null);
+  let websocketConnected = false;
 
   useEffect(() => {
     websocket = new WebSocket("ws://localhost:8000/ws");
