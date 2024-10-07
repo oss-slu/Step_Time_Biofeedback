@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Navigation from './Navigation';
 import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
@@ -16,21 +16,31 @@ function App() {
     StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
   };
 
-  var websocket = null;
+  let websocket = useRef(null);
+  let websocketConnected = false;
 
   useEffect(() => {
-    websocket = new WebSocket("ws://localhost:8000/ws");
+    websocket.current = new WebSocket("ws://localhost:8000/ws");
 
-    websocket.onopen = () => websocket.send("Websocket Connected to React");
+    websocket.current.onopen = () => {
+      console.log("WebSocket Connected to React");
+      websocket.current.send("Websocket Connected to React")
+      websocketConnected = true;
+    };
 
-    websocket.onmessage = function(event) {
+    websocket.current.onmessage = function(event) {
       console.log("Data received from backend: ", event.data);
     };
 
+    websocket.current.onclose = (event) => {
+      console.log("WebSocket connection closed: ", event);
+      websocketConnected = false;
+    };
+
     return () => {
-      if (websocket) {
-        websocket.close();
-        console.log("WebSocket connection closed");
+      if (websocket.current) {
+        websocket.current.close();
+        console.log("WebSocket connection closed during cleanup");
       }
     };
   }, []);
