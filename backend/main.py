@@ -23,7 +23,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 print("Client disconnected")
                 break
             except asyncio.TimeoutError:
-                print("Timeout during communication")
+                print("Timeout occurred during communication")
                 break
             except OSError as e:
                 print(f"Network error during communication: {e}")
