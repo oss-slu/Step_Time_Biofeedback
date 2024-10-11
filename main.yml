@@ -3,11 +3,9 @@ name: Step-time Biofeedback Project
 on:
   push:
     branches:  
-      - main
       - feature/*
   pull_request:
-   branches:  
-      - main
+    branches:  
       - feature/*
     
 env:
