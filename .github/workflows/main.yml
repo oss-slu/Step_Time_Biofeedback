@@ -1,0 +1,46 @@
+name: Step-time Biofeedback Project
+
+on:
+  push:
+    branches:  
+      - feature/*
+  pull_request:
+    branches:  
+      - feature/*
+    
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download the virtual environment
+        run: pip install virtualenv
+
+      - name: Create the virtual environment
+        run: virtualenv env
+
+      - name: Activate the virtual environment
+        run: source env/bin/activate
+
+      - name: Download the project requirements
+        run: pip install -r requirements.txt
+
+      - name: Move into the frontend
+        run: cd frontend
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Run the frontend tests
+        run: npm test
+
+      - name: Shutdown the virtual environment
+        run: deactivate
