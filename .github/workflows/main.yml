@@ -37,13 +37,11 @@ jobs:
       - name: Download the project requirements
         run: pip install -r requirements.txt
 
-      - name: Install frontend dependencies
+      - name: Install frontend dependencies and run tests
         run: |
           cd ${{ github.workspace }}/frontend
           npm install
-
-      - name: Run the frontend tests
-        run: npm test
+          npm test
 
       - name: Shutdown the virtual environment
         run: deactivate
