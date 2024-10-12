@@ -8,7 +8,7 @@ on:
     branches:  
       - feature/*
   workflow_dispatch:
-    
+
 env:
   BUILD_TYPE: Release
 
@@ -20,28 +20,52 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Download the virtual environment
-        run: pip install virtualenv
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Create the virtual environment
-        run: virtualenv env
-
-      - name: Activate the virtual environment
-        run: source env/bin/activate
-
-      - name: Move to base of repository
-        run: cd ${{github.workspace}}
-
-      - name: Download the project requirements
-        run: pip install -r requirements.txt
-
-      - name: Install frontend dependencies and run tests
+      - name: Download and cache virtual environment
         run: |
-          cd ${{ github.workspace }}/frontend
-          npm install
-          npm test
+          pip install virtualenv
+          virtualenv env
+          source env/bin/activate
+          pip install -r requirements.txt
 
-      - name: Shutdown the virtual environment
-        run: deactivate
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run frontend tests and lint
+        run: |
+          cd frontend
+          npm test
+          # npm run lint
+  
+  # lint:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: '3.x'
+
+  #     - name: Download and cache virtual environment
+  #       run: |
+  #         pip install virtualenv
+  #         virtualenv env
+  #         source env/bin/activate
+  #         pip install -r requirements.txt
+
+  #     - name: Lint Python Files
+  #       run: |
+  #         cd backend
+  #         pylint *.py || true
