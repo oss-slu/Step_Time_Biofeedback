@@ -32,13 +32,13 @@ jobs:
         run: source env/bin/activate
 
       - name: Move to base of repository
-        run: cd ../..
+        run: cd ${{github.workspace}}
 
       - name: Download the project requirements
         run: pip install -r requirements.txt
 
       - name: Move into the frontend
-        run: cd frontend
+        run: cd ${{github.workspace}}/frontend
 
       - name: Install frontend dependencies
         run: npm install
