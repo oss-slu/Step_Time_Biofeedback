@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:  
       - feature/*
+  workflow_dispatch:
     
 env:
   BUILD_TYPE: Release
@@ -29,6 +30,9 @@ jobs:
 
       - name: Activate the virtual environment
         run: source env/bin/activate
+
+      - name: Move to base of repository
+        run: cd ../..
 
       - name: Download the project requirements
         run: pip install -r requirements.txt
