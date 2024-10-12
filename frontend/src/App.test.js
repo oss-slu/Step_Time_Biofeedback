@@ -40,15 +40,12 @@ describe('WebSocket in App Component', () => {
       render(<App />);
     });
    
-    // Wait for the server connection to be established
     await server.connected; 
   
-    // Wait a bit to ensure the message is sent
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
     });
     
-    // Check if the WebSocket has received the expected message
     expect(server).toHaveReceivedMessages(["Websocket Connected to React"]); 
 
   });
@@ -64,12 +61,10 @@ describe('WebSocket in App Component', () => {
   
     await server.connected;
   
-    // Simulate WebSocket close
     await act(async () => {
       server.close();
     });
   
-    // Check if "WebSocket connection closed" is logged
     expect(consoleLogSpy).toHaveBeenCalledWith("WebSocket connection closed: ", expect.any(Object));
    
     consoleLogSpy.mockRestore();
