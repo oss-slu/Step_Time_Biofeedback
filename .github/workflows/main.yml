@@ -37,11 +37,10 @@ jobs:
       - name: Download the project requirements
         run: pip install -r requirements.txt
 
-      - name: Move into the frontend
-        run: cd ${{github.workspace}}/frontend
-
       - name: Install frontend dependencies
-        run: npm install
+        run: |
+          cd ${{ github.workspace }}/frontend
+          npm install
 
       - name: Run the frontend tests
         run: npm test
