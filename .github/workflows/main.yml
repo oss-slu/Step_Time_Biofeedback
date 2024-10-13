@@ -44,6 +44,7 @@ jobs:
 
       - name: Run backend tests
         run: |
+          source env/bin/activate
           cd ${{github.workspace}}/backend
           pytest -s websocketUnitTest.py
 
