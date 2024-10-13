@@ -17,7 +17,7 @@ function App() {
   };
 
   let websocket = useRef(null);
-  let websocketConnected = false;
+  // let websocketConnected = false;
 
   useEffect(() => {
     websocket.current = new WebSocket("ws://localhost:8000/ws");
@@ -25,7 +25,7 @@ function App() {
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
       websocket.current.send("Websocket Connected to React")
-      websocketConnected = true;
+      // websocketConnected = true;
     };
 
     websocket.current.onmessage = function(event) {
@@ -34,7 +34,7 @@ function App() {
 
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
-      websocketConnected = false;
+      // websocketConnected = false;
     };
 
     return () => {
