@@ -49,26 +49,26 @@ jobs:
           pytest -s websocketUnitTest.py
 
   
-  # lint:
-  #   runs-on: ubuntu-latest
+  lint:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-  #     - name: Download and cache virtual environment
-  #       run: |
-  #         pip install virtualenv
-  #         virtualenv env
-  #         source env/bin/activate
-  #         pip install -r requirements.txt
+      - name: Download and cache virtual environment
+        run: |
+          pip install virtualenv
+          virtualenv env
+          source env/bin/activate
+          pip install -r requirements.txt
 
-  #     - name: Lint Python Files
-  #       run: |
-  #         cd backend
-  #         pylint *.py || true
+      - name: Lint Python Files
+        run: |
+          cd backend
+          pylint *.py || true
