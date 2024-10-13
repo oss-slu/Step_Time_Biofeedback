@@ -40,7 +40,6 @@ jobs:
           cd ${{github.workspace}}/frontend
           npm install
           npm test
-          # npm run lint
 
       - name: Run backend tests
         run: |
@@ -70,5 +69,10 @@ jobs:
 
       - name: Lint Python Files
         run: |
-          cd backend
+          cd ${{github.workspace}}/backend
           pylint *.py || true
+      
+      - name: Lint JavaScript files
+        run: |
+          cd ${{github.workspace}}/frontend
+          npm run lint
