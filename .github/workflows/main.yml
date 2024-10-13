@@ -75,4 +75,5 @@ jobs:
       - name: Lint JavaScript files
         run: |
           cd ${{github.workspace}}/frontend
+          npm install
           npm run lint
