@@ -50,6 +50,12 @@ function App() {
       <Navigation setCurrentView={setCurrentView} />
       <header className="App-header">
         {views[currentView]}
+        <div>
+          <h2>Target Zones</h2>
+          <p>Left Foot: {stepTime.targetZones.left.min} - {stepTimeData.targetZones.left.max}</p>
+          <p>Right Foot: {stepTime.targetZones.right.min} - {stepTimeData.targetZones.right.max}</p>
+          <p>Average Target Zone: {stepTime.targetZones.average}</p>
+          </div>
       </header>
     </div>
   );
