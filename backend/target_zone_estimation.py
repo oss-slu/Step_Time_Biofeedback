@@ -1,10 +1,15 @@
 import asyncio
 import json
+import random
 from Step_Time_Calculation import calculate_step_time  # Ensure you have this imported
 
-threshold = 20.0
-
-async def handle_data(websocket):
+def handle_threshold (threshold =20.0): 
+    return threshold
+    
+async def handle_data(websocket, threshold=None):
+    if threshold is None:
+        threshold = handle_threshold() 
+        
     # Simulate or fetch real-time force data
     force_data_stream = simulate_force_data()
     
@@ -39,11 +44,10 @@ async def handle_data(websocket):
 
 def simulate_force_data():
     """Simulate a generator function for force data."""
-    import random
     time_step = 0
     while True:
-        time_step += 0.1  # Increment time
-        force = random.uniform(0, 50)  # Simulate force values between 0 and 50
+        time_step += 0.1 
+        force = random.uniform(0, 50) 
         yield (time_step, force)
 
 def estimate_target_zone(step_times):
