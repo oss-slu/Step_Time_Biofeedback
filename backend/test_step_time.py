@@ -39,6 +39,3 @@ class TestCalculateStepTime(unittest.TestCase):
         self.assertAlmostEqual(step_time_moving_averages[1], 0.3, places=2)
         self.assertAlmostEqual(step_time_moving_averages[2], 0.233, places=3)
         self.assertAlmostEqual(step_time_moving_averages[2], 0.233, places=3)
-
-if __name__ == "__main__":
-    unittest.main();
