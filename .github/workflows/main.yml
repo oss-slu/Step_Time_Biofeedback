@@ -1,0 +1,79 @@
+name: Step-time Biofeedback Project
+
+on:
+  push:
+    branches:  
+      - feature/*
+  pull_request:
+    branches:  
+      - feature/*
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Download and cache virtual environment
+        run: |
+          pip install virtualenv
+          virtualenv env
+          source env/bin/activate
+          pip install -r requirements.txt
+
+      - name: Install frontend dependencies
+        run: |
+          cd ${{github.workspace}}/frontend
+          npm install
+          npm test
+
+      - name: Run backend tests
+        run: |
+          source env/bin/activate
+          cd ${{github.workspace}}/backend
+          pytest -s websocketUnitTest.py
+
+  
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Download and cache virtual environment
+        run: |
+          pip install virtualenv
+          virtualenv env
+          source env/bin/activate
+          pip install -r requirements.txt
+
+      - name: Lint Python Files
+        run: |
+          cd ${{github.workspace}}/backend
+          pylint *.py || true
+      
+      - name: Lint JavaScript files
+        run: |
+          cd ${{github.workspace}}/frontend
+          npm install
+          npm run lint
