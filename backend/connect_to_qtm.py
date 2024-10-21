@@ -14,7 +14,7 @@ def stream_data (stream_type= 'Force', sleep_time= 0.1):
         return 
         
     # create an inlet to read from the stream
-    inlet= StreamInlet(stream[0])
+    inlet= StreamInlet(streams[0])
 
 # pull and log samples
     try: 
@@ -25,6 +25,6 @@ def stream_data (stream_type= 'Force', sleep_time= 0.1):
     except KeyboardInterrupt:
        print("Streaming stopped by user.")
     
- if __name__ == "__main__":
+if __name__ == "__main__":
     stream_data()
 
