@@ -19,7 +19,7 @@ async def handle_data_streaming(websocket):
     for force_data in real_force_data:
         try:
             # Check if all force values are below the threshold
-            if all(force < threshold for _, force in [force_data]):
+           if force_data[1] < threshold:
                 step_times = [0.0]
             else:
                 step_times = calculate_step_time([force_data], threshold)
@@ -38,7 +38,7 @@ async def handle_data_streaming(websocket):
 
 def estimate_target_zone(step_times):
     """Estimate target zones based on step times."""
-    if not step_times:
+    if not step_times or len(step_times) < 2:
         return {"min": 0.0, "max": 0.0, "average": 0.0}
     return {
         "min": min(step_times),
