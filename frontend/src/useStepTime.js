@@ -6,27 +6,41 @@ function useStepTime() {
     left: 0, 
     right: 0,
     targetZones: {
-      left: { min: 25, max: 30 },
-      right: { min: 50, max: 45 }
+      left: { min: 0, max: 0 },
+      right: { min: 0, max: 0 }
     } 
   });
 
-  // TODO: update to work with WebSocket & take input inside useEffect call
-  const updateStepTimes = () => {
-    setStepTime(prev => ({
-      left: prev.left + 1,
-      right: prev.right + 1,
-      targetZones: prev.targetZones
-    }));
-  };
-
   useEffect(() => {
-    // interval is set in ms
-    const interval = setInterval(updateStepTimes, 1000);
+    // Establish WebSocket connection
+    const websocket = new WebSocket("ws://localhost:8000/ws");
 
-    return () => clearInterval(interval); 
-  }); 
+    websocket.onopen = () => {
+      console.log("WebSocket Connected");
+    };
 
+    websocket.onmessage = (event) => {
+      const data = JSON.parse(event.data); 
+      setStepTime({
+        left: data.step_times[0] ?? 0,  // Assuming data has step_times array
+        right: data.step_times[1] ?? 0, // Adjust indices as per your data structure
+        targetZones: {
+          left: data.target_zone ?? { min: 0, max: 0 },  // Adjust as necessary
+          right: data.target_zone ?? { min: 0, max: 0 }  // Adjust as necessary
+        }
+      });
+    };
+
+    websocket.onclose = () => {
+      console.log("WebSocket connection closed"); 
+    };
+
+    // Cleanup function to close the WebSocket connection when the component unmounts
+    return () => {
+      websocket.close();
+      console.log("WebSocket closed on cleanup");
+    };
+  }, []); // Empty dependency array means this effect runs once on mount
   return stepTime;
 }
 

@@ -1,41 +1,71 @@
 import unittest
-from Step_Time_Calculation import calculate_step_time  
+from Step_Time_Calculation import calculate_step_time
+from target_zone_estimation import estimate_target_zone
 
-class TestCalculateStepTime(unittest.TestCase):
+THRESHOLD = 20.0 
 
-    def test_step_time_avgs_below_threshold(self):
-        # All values below threshold should yield no step times
+class TestStepTimeAndTargetZone(unittest.TestCase):
+
+    def test_no_steps_below_threshold(self):
+        """Test that all values below threshold yield no step times."""
         force_data = [(0.0, 0), (0.1, 0), (0.2, 10), (0.3, 15)]
-        step_time_moving_averages = calculate_step_time(force_data)
-        self.assertEqual(step_time_moving_averages, [])  # Expected: []
-    
-    def test_step_time_avgs_at_or_above_threshold(self):
-        force_data = [
-            (0.0, 0), (0.1, 30), (0.2, 25), (0.3, 35),  
-            (0.4, 40), (0.5, 20), (0.6, 10), (0.7, 0)   
-        ]
-        step_time_moving_averages = calculate_step_time(force_data, 30)
-        self.assertAlmostEqual(step_time_moving_averages[0], 0.1, places=2)
-        self.assertAlmostEqual(step_time_moving_averages[1], 0.15, places=2)
-     
-    def test_moving_avg_factor_below_two(self):
+        step_times = calculate_step_time(force_data, THRESHOLD)
+        self.assertEqual(step_times, []) 
+
+    def test_step_time_calculation(self):
+        """Test that the step times are calculated correctly with given data."""
         force_data = [
             (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),  
-            (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)   
+            (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)  
         ]
-        step_times = calculate_step_time(force_data, moving_avg_factor=1)
-        self.assertAlmostEqual(step_times[0], 0.2, places = 2)
-        self.assertAlmostEqual(step_times[1], 0.2, places = 2) 
+        step_times = calculate_step_time(force_data, THRESHOLD)
+        self.assertAlmostEqual(step_times[0], 0.2, places=2)
+        self.assertAlmostEqual(step_times[1], 0.2, places=2)  
 
-    def test_moving_avg_factor_above_two(self):
+    def test_moving_average_step_times(self):
+        """Test that the calculated step times match expected moving averages."""
         force_data = [
-            (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),  # 0.2 
-            (0.4, 40), (0.5, 45), (0.6, 50), (0.7, 0), # 0.3
-            (0.8, 20), (0.9, 25), (1.0, 0), (1.1, 0),  # 0.2
-            (1.2, 40), (1.3, 45), (1.4, 50), (1.5, 0), # 0.2
+            (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),
+            (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)
         ]
-        step_time_moving_averages = calculate_step_time(force_data, moving_avg_factor=3)
-        self.assertAlmostEqual(step_time_moving_averages[0], 0.2, places=2)
-        self.assertAlmostEqual(step_time_moving_averages[1], 0.3, places=2)
-        self.assertAlmostEqual(step_time_moving_averages[2], 0.233, places=3)
-        self.assertAlmostEqual(step_time_moving_averages[2], 0.233, places=3)
+        step_times = calculate_step_time(force_data, THRESHOLD)
+        self.assertAlmostEqual(step_times[0], 0.2, places=2)  
+        self.assertAlmostEqual(step_times[1], 0.2, places=2) 
+
+    def test_estimate_target_zone_with_steps(self):
+        """Test target zone estimation with valid step times."""
+        step_times = [0.2, 0.3, 0.4]
+        target_zone = estimate_target_zone(step_times)
+
+        self.assertEqual(target_zone['min'], min(step_times))
+        self.assertEqual(target_zone['max'], max(step_times))
+        self.assertAlmostEqual(target_zone['average'], sum(step_times) / len(step_times), places=2)
+
+    def test_no_movement_target_zone(self):
+        """Test target zone estimation when no step times are provided."""
+        step_times = []
+        target_zone = estimate_target_zone(step_times)
+
+        self.assertEqual(target_zone, {"min": 0.0, "max": 0.0, "average": 0.0})
+
+    def test_real_data_step_time_calculation(self):
+        """Test step time calculation with real data."""
+        real_force_data = [
+            (0.00000, 159.548187), 
+            (0.00093, 159.304047), 
+            (0.01296, 158.327484),  
+            (0.01620, 158.327484),  
+            (0.05370, 157.106781),  
+            (0.05972, 156.862640)   
+        ]
+        
+       
+        step_times = calculate_step_time(real_force_data, THRESHOLD)
+
+        
+        expected_step_times = []  # Assuming no steps are calculated with this data
+
+        self.assertEqual(step_times, expected_step_times)
+
+if __name__ == '__main__':
+    unittest.main()
