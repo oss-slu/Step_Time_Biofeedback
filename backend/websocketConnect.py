@@ -22,8 +22,8 @@ async def websocket_endpoint(websocket: WebSocket):
 
     while True:
         try:
-            data = await websocket.receive_text()
-            await websocket.send_text(data)
+            data = await websocket.receive_text() 
+            await websocket.send_text()
             print(f"Received and sent back: {data}")
         except WebSocketDisconnect:
             print("Client disconnected")
