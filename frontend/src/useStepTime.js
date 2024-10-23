@@ -20,20 +20,19 @@ function useStepTime() {
     };
 
     websocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      // Update step time and target zones
+      const data = JSON.parse(event.data); 
       setStepTime({
-        left: data.step_times[0] || 0,  // Assuming data has step_times array
-        right: data.step_times[1] || 0, // Adjust indices as per your data structure
+        left: data.step_times[0] ?? 0,  // Assuming data has step_times array
+        right: data.step_times[1] ?? 0, // Adjust indices as per your data structure
         targetZones: {
-          left: data.target_zone || { min: 0, max: 0 },  // Adjust as necessary
-          right: data.target_zone || { min: 0, max: 0 }  // Adjust as necessary
+          left: data.target_zone ?? { min: 0, max: 0 },  // Adjust as necessary
+          right: data.target_zone ?? { min: 0, max: 0 }  // Adjust as necessary
         }
       });
     };
 
     websocket.onclose = () => {
-      console.log("WebSocket connection closed");
+      console.log("WebSocket connection closed"); 
     };
 
     // Cleanup function to close the WebSocket connection when the component unmounts
