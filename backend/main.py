@@ -1,5 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import asyncio
+from target_zone_estimation import handle_data_streaming
 
 app = FastAPI()
 connectedClients = set()
@@ -15,10 +16,11 @@ async def websocket_endpoint(websocket: WebSocket):
         
         while True:
             try:
-                data = await websocket.receive_text()
-                print(f"Received from client: {data}")
-                for client in connectedClients:
-                    await client.send_text(f"Message Received: {data}")
+                await handle_data_streaming(websocket)
+                # data = await websocket.receive_text()
+                # print(f"Received from client: {data}")
+                # for client in connectedClients:
+                #     await client.send_text(f"Message Received: {data}")
             except WebSocketDisconnect:
                 print("Client disconnected")
                 break
@@ -35,4 +37,3 @@ async def websocket_endpoint(websocket: WebSocket):
         connectedClients.remove(websocket)
         await websocket.close()
         print("Connection closed")
-
