@@ -5,7 +5,7 @@ Series of tests that test the backend websocket functionality
 import json
 import pytest
 from fastapi.testclient import TestClient
-from backend.websocket_connect import biostepFeedback
+from websocket_connect import biostepFeedback
 
 @pytest.mark.asyncio
 async def test_string_websocket():
