@@ -74,7 +74,7 @@ jobs:
       - name: Lint Python Files
         run: |
           cd ${{github.workspace}}/backend
-          pylint *.py || true"      
+          pylint *.py || true
 
       - name: Lint JavaScript files
         run: |
