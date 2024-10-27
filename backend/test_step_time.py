@@ -1,8 +1,10 @@
 import unittest
 from Step_Time_Calculation import calculate_step_time
 from target_zone_estimation import estimate_target_zone
+import os
 
 THRESHOLD = 20.0 
+DATA_FILE_PATH = os.path.join(os.path.dirname(__file__), "tied belt OSS_f_1.tsv")
 
 class TestStepTimeAndTargetZone(unittest.TestCase):
 
@@ -49,23 +51,29 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
         self.assertEqual(target_zone, {"min": 0.0, "max": 0.0, "average": 0.0})
 
     def test_real_data_step_time_calculation(self):
-        """Test step time calculation with real data."""
-        real_force_data = [
-            (0.00000, 159.548187), 
-            (0.00093, 159.304047), 
-            (0.01296, 158.327484),  
-            (0.01620, 158.327484),  
-            (0.05370, 157.106781),  
-            (0.05972, 156.862640)   
-        ]
-        
-       
-        step_times = calculate_step_time(real_force_data, THRESHOLD)
+        """Test step time calculation with real data from the sample file."""
 
-        
-        expected_step_times = []  # Assuming no steps are calculated with this data
+        real_force_data = []
+        try:
+            with open(DATA_FILE_PATH, 'r') as file:
+                for line in file:
+                    if line.startswith("SAMPLE") or line.strip() == "":
+                        continue
+                    parts = line.strip().split("\t")
 
-        self.assertEqual(step_times, expected_step_times)
+                    if len(parts) > 3:
+                        try:
+                            time = float(parts[1])   
+                            force_z = float(parts[3])  
+                            real_force_data.append((time, force_z))
+                        except ValueError:
+                            print(f"Skipping invalid line: {line.strip()}")
+        except FileNotFoundError:
+            self.fail(f"Data file not found: {DATA_FILE_PATH}")
+
+        step_times = calculate_step_time(real_force_data, THRESHOLD) 
+        
+        self.assertTrue(len(step_times) > 0, "Step times were not calculated as expected")
 
 if __name__ == '__main__':
     unittest.main()
