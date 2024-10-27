@@ -1,20 +1,10 @@
 import json
 import asyncio
 from Step_Time_Calculation import calculate_step_time
-
-real_force_data = [
-    (0.00000, 159.548187),  
-    (0.00093, 159.304047),  
-    (0.01296, 10.327484),   
-    (0.01620, 159.327484),  
-    (0.02000, 5.106781),    
-    (0.03000, 158.862640),  
-    (0.04000, 4.862640),    
-    (0.05000, 160.000000), 
-    (0.06000, 6.000000),   
-]
+import os
 
 threshold = 20.0
+data_file_path = os.path.join(os.path.dirname(__file__), "tied belt OSS_f_1.tsv")
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
@@ -43,6 +33,17 @@ async def handle_data_streaming(websocket):
             await asyncio.sleep(1)
         except Exception as e:
             print(f"Error occurred during data handling: {e}")
+async def load_data_from_file(file_path):
+    """Load force data from a TSV file."""
+    with open(file_path, "r") as file:
+        # Skip headers if present
+        for line in file:
+            if line.startswith("SAMPLE") or line.strip() == "":
+                continue
+            parts = line.strip().split("\t")
+            time = float(parts[1])  # Time is in the second column
+            force_z = float(parts[3])  # Vertical force is in the fourth column
+            yield (time, force_z)
 
 def estimate_target_zone(step_times):
     """Estimate target zones based on step times."""
