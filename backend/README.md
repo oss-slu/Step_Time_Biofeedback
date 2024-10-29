@@ -2,7 +2,7 @@
 # Step-Time Biofeedback Backend
 
 ## Description
-This README provides instructions on how to install necessary dependencies, and run the tests for `Step_Time_Calculation.py`
+This README provides instructions on how to install necessary dependencies, and run the tests for `Step_Time_Calculation.py` and `target_zone_estimationn.py`.
 
 ## Prerequisites
 Before running any code, make sure you're in your Python virtual environment. Once activated, you can install the required dependencies by running:
@@ -81,7 +81,7 @@ brew install numpy
 ## Running Unit Tests
 
 ### How to run the test
-Unit tests are provided to ensure the correctness of the step time calculations. Follow the steps below to run the tests successfully:
+The unit tests verify the accuracy of the step time calculations and target zone estimations. Follow the steps below to run the tests successfully:
 
 1) Navigate to the backend directory.
 2) Run the test file using Python's unittest module:
@@ -94,6 +94,8 @@ The tests from `test_step_time` cover:
 - Step time calculation for values below the threshold (20N).
 - Step time output as a moving average of 2 steps.
 - Step time output as a continuous number in the format 00.00.
+- Target zone estimation based on calculated step times.
+- Real data validation using sample data provided in tied belt OSS_f_1.tsv.
 
 ### Sample Data for Testing
-The function uses sample force data in the format (time, force) to calculate step times. 
+Sample data should be in the format (time, force), where time is the time point, and force represents the force measurement. The calculate_step_time function calculates step times from this data.
