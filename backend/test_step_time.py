@@ -11,7 +11,7 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
     def test_no_steps_below_threshold(self):
         """Test that all values below threshold yield no step times."""
         force_data = [(0.0, 0), (0.1, 0), (0.2, 10), (0.3, 15)]
-        step_times = calculate_step_time(force_data, THRESHOLD)
+        step_times = calculate_step_time(force_data)
         self.assertEqual(step_times, []) 
 
     def test_step_time_calculation(self):
@@ -20,7 +20,7 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
             (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),  
             (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)  
         ]
-        step_times = calculate_step_time(force_data, THRESHOLD)
+        step_times = calculate_step_time(force_data)
         self.assertAlmostEqual(step_times[0], 0.2, places=2)
         self.assertAlmostEqual(step_times[1], 0.2, places=2)  
 
@@ -30,7 +30,7 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
             (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),
             (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)
         ]
-        step_times = calculate_step_time(force_data, THRESHOLD)
+        step_times = calculate_step_time(force_data)
         self.assertAlmostEqual(step_times[0], 0.2, places=2)  
         self.assertAlmostEqual(step_times[1], 0.2, places=2) 
 
@@ -52,28 +52,11 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
 
     def test_real_data_step_time_calculation(self):
         """Test step time calculation with real data from the sample file."""
+        real_force_data = asyncio.run(self.async_load_data_from_file())
+        step_times = calculate_step_time(real_force_data, THRESHOLD)
 
-        real_force_data = []
-        try:
-            with open(DATA_FILE_PATH, 'r') as file:
-                for line in file:
-                    if line.startswith("SAMPLE") or line.strip() == "":
-                        continue
-                    parts = line.strip().split("\t")
-
-                    if len(parts) > 3:
-                        try:
-                            time = float(parts[1])   
-                            force_z = float(parts[3])  
-                            real_force_data.append((time, force_z))
-                        except ValueError:
-                            print(f"Skipping invalid line: {line.strip()}")
-        except FileNotFoundError:
-            self.fail(f"Data file not found: {DATA_FILE_PATH}")
-
-        step_times = calculate_step_time(real_force_data, THRESHOLD) 
-        
         self.assertTrue(len(step_times) > 0, "Step times were not calculated as expected")
 
-if __name__ == '__main__':
-    unittest.main()
+    async def async_load_data_from_file(self):
+        """Asynchronous helper to load data from the file."""
+        return [data async for data in load_data_from_file(DATA_FILE_PATH)]
