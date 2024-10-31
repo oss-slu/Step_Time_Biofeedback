@@ -81,11 +81,7 @@ brew install numpy
 ## Running Unit Tests
 
 ### How to run the test
-<<<<<<< HEAD
 The unit tests verify the accuracy of the step time calculations and target zone estimations. Follow these steps to run the tests successfully:
-=======
-The unit tests verify the accuracy of the step time calculations and target zone estimations. Follow the steps below to run the tests successfully:
->>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
 
 1) Navigate to the backend directory.
 2) Run the test file using Python's unittest module:
@@ -95,18 +91,10 @@ python -m unittest test_step_time.py
 ### Test Cases
 The test_step_time.py tests cover the following scenarios:
 
-<<<<<<< HEAD
 Step time calculation when values are below the threshold (20N).
 Step time output as a moving average of two steps.
 Target zone estimation based on calculated step times.
-Real data validation using sample data provided in tied belt OSS_f_1.tsv.
-=======
-- Step time calculation for values below the threshold (20N).
-- Step time output as a moving average of 2 steps.
-- Step time output as a continuous number in the format 00.00.
-- Target zone estimation based on calculated step times.
-- Real data validation using sample data provided in tied belt OSS_f_1.tsv.
->>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
+Real data validation using sample data provided in tied_belt_OSS_f_1.tsv.
 
 ### Sample Data for Testing
 Sample data should be in the format (time, force), where time is the time point, and force represents the force measurement. The calculate_step_time function calculates step times from this data.
