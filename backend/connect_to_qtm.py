@@ -25,6 +25,6 @@ def stream_data (stream_type= 'Force', sleep_time= 0.1):
     except KeyboardInterrupt:
        print("Streaming stopped by user.")
     
- if __name__ == "__main__":
-    stream_data()
+    if __name__ == "__main__":
+     stream_data()
 
