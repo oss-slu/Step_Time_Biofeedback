@@ -1,10 +1,12 @@
 import unittest
 from Step_Time_Calculation import calculate_step_time
 from target_zone_estimation import estimate_target_zone
+from target_zone_estimation import load_data_from_file
 import os
+import asyncio
 
 THRESHOLD = 20.0 
-DATA_FILE_PATH = os.path.join(os.path.dirname(__file__), "tied belt OSS_f_1.tsv")
+DATA_FILE_PATH = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
 
 class TestStepTimeAndTargetZone(unittest.TestCase):
 
@@ -53,7 +55,7 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
     def test_real_data_step_time_calculation(self):
         """Test step time calculation with real data from the sample file."""
         real_force_data = asyncio.run(self.async_load_data_from_file())
-        step_times = calculate_step_time(real_force_data, THRESHOLD)
+        step_times = calculate_step_time(real_force_data)
 
         self.assertTrue(len(step_times) > 0, "Step times were not calculated as expected")
 
