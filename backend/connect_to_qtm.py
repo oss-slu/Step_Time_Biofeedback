@@ -25,14 +25,7 @@ def stream_data (stream_type= 'Force', sleep_time= 0.1):
             print(f"Timestamp: {timestamp}, Sample: {sample}")
             time.sleep(sleep_time)
     except KeyboardInterrupt:
-<<<<<<< HEAD
-       print("Streaming stopped by user.")
-    
-    if __name__ == "__main__":
-     stream_data()
-=======
         print("Streaming stopped by user.")
->>>>>>> origin/main
 
 if __name__ == "__main__":
     stream_data()
