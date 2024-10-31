@@ -1,24 +1,31 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+"""
+This modual is for testing how the websockets connect from the frontend to backend
+"""
+
 import asyncio
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 biostepFeedback = FastAPI()
 
 @biostepFeedback.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    """
+    Awaits for the message from the frontend to unsure connection is there
+    """
     print("Waiting for Connection")
-    
+
     try:
         await websocket.accept()
         print("Connection accepted")
     except asyncio.TimeoutError:
         print("Connection timed out")
         return
-    except OSError as e:
-        print(f"Network error occurred: {e}")
+    except OSError as error:
+        print(f"Network error occurred: {error}")
         return
-    except Exception as e:
-        print(f"Error Occurred: {e}")
-        return 
+    except ValueError as error:
+        print(f"Value error occurred: {error}")
+        return
 
     while True:
         try:
@@ -31,9 +38,6 @@ async def websocket_endpoint(websocket: WebSocket):
         except asyncio.TimeoutError:
             print("Timeout during communication")
             break
-        except OSError as e:
-            print(f"Network error during communication: {e}")
-            break
-        except Exception as e:
-            print(f"Error occurred during communication: {e}")
+        except OSError as error:
+            print(f"Network error during communication: {error}")
             break

@@ -17,30 +17,30 @@ function App() {
   };
 
   let websocket = useRef(null);
-  let websocketConnected = false;
+  // let websocketConnected = false;
 
   useEffect(() => {
     websocket.current = new WebSocket("ws://localhost:8000/ws");
 
-    websocket.current.onopen = () => {
+    websocket.current.onopen = () => { 
       console.log("WebSocket Connected to React");
       websocket.current.send("Websocket Connected to React")
-      websocketConnected = true;
+      // websocketConnected = true;
     };
 
     websocket.current.onmessage = function(event) {
-      console.log("Data received from backend: ", event.data);
+       console.log("Data received from backend: ", event.data);
     };
 
     websocket.current.onclose = (event) => {
-      console.log("WebSocket connection closed: ", event);
-      websocketConnected = false;
+      console.log("WebSocket connection closed: ", event); 
+      // websocketConnected = false;
     };
 
     return () => {
       if (websocket.current) {
         websocket.current.close();
-        console.log("WebSocket connection closed during cleanup");
+        console.log("WebSocket connection closed during cleanup");  
       }
     };
   }, []);
@@ -52,8 +52,13 @@ function App() {
         {views[currentView]}
         <div>
           <h2>Target Zones</h2>
+<<<<<<< HEAD
           <p>Left Foot: {stepTime.targetZones.left.min} - {stepTimeData.targetZones.left.max}</p>
           <p>Right Foot: {stepTime.targetZones.right.min} - {stepTimeData.targetZones.right.max}</p>
+=======
+          <p>Left Foot: {stepTime.targetZones.left.min} - {stepTime.targetZones.left.max}</p>
+          <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
+>>>>>>> origin/main
           <p>Average Target Zone: {stepTime.targetZones.average}</p>
           </div>
       </header>
