@@ -8,9 +8,12 @@ import asyncio
 <<<<<<< HEAD
 THRESHOLD = 20.0 
 DATA_FILE_PATH = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
+<<<<<<< HEAD
 =======
 THRESHOLD = 20.0
 >>>>>>> origin/main
+=======
+>>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
 
 class TestStepTimeAndTargetZone(unittest.TestCase):
 
@@ -18,6 +21,9 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
         """Test that all values below threshold yield no step times."""
         force_data = [(0.0, 0), (0.1, 0), (0.2, 10), (0.3, 15)]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
         step_times = calculate_step_time(force_data)
         self.assertEqual(step_times, []) 
 
@@ -60,9 +66,15 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
             (0.0, 0), (0.1, 25), (0.2, 30), (0.3, 0),
             (0.4, 0), (0.5, 25), (0.6, 30), (0.7, 0)
         ]
+<<<<<<< HEAD
         step_times = calculate_step_time(force_data, THRESHOLD)
         self.assertAlmostEqual(step_times[0], 0.2, places=2)
         self.assertAlmostEqual(step_times[1], 0.2, places=2)
+=======
+        step_times = calculate_step_time(force_data)
+        self.assertAlmostEqual(step_times[0], 0.2, places=2)  
+        self.assertAlmostEqual(step_times[1], 0.2, places=2) 
+>>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
 
 >>>>>>> origin/main
     def test_estimate_target_zone_with_steps(self):
@@ -82,6 +94,7 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
         self.assertEqual(target_zone, {"min": 0.0, "max": 0.0, "average": 0.0})
 
     def test_real_data_step_time_calculation(self):
+<<<<<<< HEAD
 <<<<<<< HEAD
         """Test step time calculation with real data from the sample file."""
         real_force_data = asyncio.run(self.async_load_data_from_file())
@@ -112,3 +125,14 @@ class TestStepTimeAndTargetZone(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 >>>>>>> origin/main
+=======
+        """Test step time calculation with real data from the sample file."""
+        real_force_data = asyncio.run(self.async_load_data_from_file())
+        step_times = calculate_step_time(real_force_data)
+
+        self.assertTrue(len(step_times) > 0, "Step times were not calculated as expected")
+
+    async def async_load_data_from_file(self):
+        """Asynchronous helper to load data from the file."""
+        return [data async for data in load_data_from_file(DATA_FILE_PATH)]
+>>>>>>> d734243782d49b7addb01e6caa5917d13e6d7434
