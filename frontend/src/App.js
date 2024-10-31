@@ -52,13 +52,8 @@ function App() {
         {views[currentView]}
         <div>
           <h2>Target Zones</h2>
-<<<<<<< HEAD
-          <p>Left Foot: {stepTime.targetZones.left.min} - {stepTimeData.targetZones.left.max}</p>
-          <p>Right Foot: {stepTime.targetZones.right.min} - {stepTimeData.targetZones.right.max}</p>
-=======
           <p>Left Foot: {stepTime.targetZones.left.min} - {stepTime.targetZones.left.max}</p>
           <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
->>>>>>> origin/main
           <p>Average Target Zone: {stepTime.targetZones.average}</p>
           </div>
       </header>
