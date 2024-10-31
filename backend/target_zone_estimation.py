@@ -4,7 +4,7 @@ from Step_Time_Calculation import calculate_step_time
 import os
 
 threshold = 20.0
-data_file_path = os.path.join(os.path.dirname(__file__), "tied belt OSS_f_1.tsv")
+data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
