@@ -8,11 +8,16 @@ data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv"
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
-    accumulated_data = [] # To accumulate force data over time
+    accumulated_data = []  # To accumulate force data over time
 
-    for force_data in load_data_from_file(data_file_path):
+    async for force_data in load_data_from_file(data_file_path):
         try:
-            print(f"Force Data: {force_data}")  # Debug print to inspect the input data
+            # data manipulation to yield step time. This is to be removed.
+            time = force_data[0]
+            force = force_data[1] * 2.4
+            force_data = (time, force) 
+            print(f"Force Data: {force_data}")# Debug print to inspect the input data
+            
             # Accumulate force data over time
             accumulated_data.append(force_data)
 
@@ -29,29 +34,32 @@ async def handle_data_streaming(websocket):
                 }
                 await websocket.send_text(json.dumps(message))
 
-                await asyncio.sleep(1) 
-            await asyncio.sleep(1)
+            # Control message streaming rate
+            await asyncio.sleep(1)  
         except Exception as e:
             print(f"Error occurred during data handling: {e}")
-            break  
+            break
 
 async def load_data_from_file(file_path):
-    """Load force data from a TSV file."""
-    with open(file_path, "r") as file:
-        # Skip headers
-        for line in file:
-            if line.startswith("SAMPLE") or line.strip() == "":
-                continue
-            parts = line.strip().split("\t")
-            if len(parts) < 4: 
-                continue
+    """Load force data from a TSV file asynchronously."""
+    try:
+        with open(file_path, "r") as file:
+            # Skip headers
+            for line in file:
+                if line.startswith("SAMPLE") or line.strip() == "":
+                    continue
+                parts = line.strip().split("\t")
+                if len(parts) < 4:
+                    continue
 
-            try: 
-                time = float(parts[1])  # Time is in the second column
-                force_z = float(parts[3])  # Vertical force is in the fourth column
-                yield (time, force_z)
-            except ValueError:
-                print(f"Skipping invalid line: {line.strip()}")
+                try: 
+                    time = float(parts[1])  # Time is in the second column
+                    force_z = float(parts[3])  # Vertical force is in the fourth column
+                    yield (time, force_z)
+                except ValueError:
+                    print(f"Skipping invalid line: {line.strip()}")
+    except FileNotFoundError:
+        print(f"File not found at path: {file_path}")
 
 def estimate_target_zone(step_times):
     """Estimate target zones based on step times."""
