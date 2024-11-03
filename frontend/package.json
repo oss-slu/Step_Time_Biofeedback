@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -16,6 +15,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ."
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!@adobe/css-tools)"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -36,6 +43,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/react": "^16.0.1",
     "eslint": "^8.57.1",
     "jest": "^27.5.1",

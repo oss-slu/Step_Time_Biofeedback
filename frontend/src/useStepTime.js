@@ -20,6 +20,7 @@ function useStepTime() {
     };
 
     websocket.onmessage = (event) => {
+
       const data = JSON.parse(event.data); 
       setStepTime({
         left: data.step_times[0] ?? 0,  // Assuming data has step_times array
