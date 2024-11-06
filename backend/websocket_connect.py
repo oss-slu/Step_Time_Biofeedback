@@ -30,10 +30,23 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         try:
             data = await websocket.receive_text()
-            await websocket.send_text(data)
-            print(f"Received and sent back: {data}")
+            if websocket.client_state == WebSocket.OPEN:
+                await websocket.send_text(data)
+                print(f"Received and sent back: {data}")
+            else:
+                print("WebSocket is not in a connected state; stopping data streaming.")
+                
         except WebSocketDisconnect:
             print("Client disconnected")
+            try:
+                # Try sending a disconnection message to the client
+                await websocket.send_text("Disconnected: Connection closed")
+            except Exception:
+                # Handle any issues with sending the disconnection message
+                print("Failed to send disconnection message to the client.")
+            finally:
+                # Ensure the connection is cleaned up
+                print("Closing connection and cleaning up.")
             break
         except asyncio.TimeoutError:
             print("Timeout during communication")
@@ -41,3 +54,9 @@ async def websocket_endpoint(websocket: WebSocket):
         except OSError as error:
             print(f"Network error during communication: {error}")
             break
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            break
+
+    # Additional cleanup
+    print("Connection closed.")
