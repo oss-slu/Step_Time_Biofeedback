@@ -92,4 +92,12 @@ def test_websocket_disconnect():
         data = websocket.receive_text()
         assert data == "Hello"
         websocket.close()
-        assert websocket.close
+        #assert websocket.close
+        assert websocket.client_state == "CLOSED"
+        
+        # Try to receive a message after the connection is closed
+        try:
+            disconnection_message = websocket.receive_text()
+            assert disconnection_message == "Disconnected: Connection closed"
+        except Exception as e:
+            pytest.fail(f"Expected disconnection message not received. Error: {e}")
