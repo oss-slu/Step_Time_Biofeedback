@@ -100,3 +100,8 @@ def test_websocket_disconnect():
             print("WebSocket closed successfully.")
         except Exception as e:
             print(f"Expected closure but got an error: {e}")
+
+            disconnection_message = websocket.receive_text(timeout=5)  # Adding a timeout
+            assert disconnection_message == "Disconnected: Connection closed"
+        except Exception as e:
+            print(f"Expected disconnection message not received. Error: {e}")
