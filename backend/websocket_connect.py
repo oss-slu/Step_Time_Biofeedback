@@ -59,8 +59,4 @@ async def websocket_endpoint(websocket: WebSocket):
             break
 
     # Additional cleanup
-<<<<<<< HEAD
     print("Connection closed.")
-=======
-    print("Connection closed.")
->>>>>>> b3dc15d (Fix WebSocket tests and prevent infinite loop on disconnect)
