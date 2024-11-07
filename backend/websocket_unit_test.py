@@ -98,6 +98,7 @@ def test_websocket_disconnect():
             # Attempt to check the closed status or handle if an exception occurs on send/receive
             assert websocket.application_state == websocket.CLOSED
             print("WebSocket closed successfully.")
+
         except Exception as e:
             print(f"Expected closure but got an error: {e}")
 
@@ -105,3 +106,6 @@ def test_websocket_disconnect():
             assert disconnection_message == "Disconnected: Connection closed"
         except Exception as e:
             print(f"Expected disconnection message not received. Error: {e}")
+
+        except Exception as e:
+            print(f"Expected closure but got an error: {e}")
