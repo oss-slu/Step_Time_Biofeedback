@@ -1,16 +1,12 @@
-"""
-Series of tests that test the backend websocket functionality
-"""
-
 import json
 import pytest
 from fastapi.testclient import TestClient
 from websocket_connect import biostepFeedback
+import asyncio
 
-@pytest.mark.asyncio
-async def test_string_websocket():
+def test_string_websocket():
     """
-    Websocket receving string
+    Websocket receiving string
     """
     client = TestClient(biostepFeedback)
     with client.websocket_connect("/ws") as websocket:
@@ -20,7 +16,7 @@ async def test_string_websocket():
 
 def test_number_websocket():
     """
-    Websocket receving int
+    Websocket receiving int
     """
     client = TestClient(biostepFeedback)
     with client.websocket_connect("/ws") as websocket:
@@ -30,7 +26,7 @@ def test_number_websocket():
 
 def test_float_websocket():
     """
-    Websocket receving float
+    Websocket receiving float
     """
     client = TestClient(biostepFeedback)
     with client.websocket_connect("/ws") as websocket:
@@ -40,7 +36,7 @@ def test_float_websocket():
 
 def test_boolean_websocket():
     """
-    Websocket receving bool
+    Websocket receiving bool
     """
     client = TestClient(biostepFeedback)
     with client.websocket_connect("/ws") as websocket:
@@ -60,7 +56,7 @@ def test_error_websocket():
 
 def test_array_websocket():
     """
-    Websocket receving array of ints
+    Websocket receiving array of ints
     """
     client = TestClient(biostepFeedback)
     with client.websocket_connect("/ws") as websocket:
@@ -100,3 +96,6 @@ def test_websocket_disconnect():
             print("WebSocket closed successfully.")
         except Exception as e:
             print(f"Expected closure but got an error: {e}")
+        
+        # Add a small delay to ensure proper test completion
+        asyncio.sleep(0.5)
