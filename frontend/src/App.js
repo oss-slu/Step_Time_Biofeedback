@@ -8,9 +8,10 @@ import useStepTime from './useStepTime';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
-  const [connectionStatus, setConnectionStatus] = useState('Connected'); // Track WebSocket connection status
   const stepTime = useStepTime();
-  const websocket = useRef(null);
+
+  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); // WebSocket connection state
+  const [webSocketError, setWebSocketError] = useState(null); // For displaying errors to the user
 
   const views = {
     StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
@@ -18,57 +19,40 @@ function App() {
     StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
   };
 
+  let websocket = useRef(null);
+
   useEffect(() => {
-    // Create WebSocket connection
     websocket.current = new WebSocket("ws://localhost:8000/ws");
 
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
-      setConnectionStatus('Connected');
-      websocket.current.send("WebSocket Connected to React");
+      setIsWebSocketConnected(true);  // Update state when connected
+      websocket.current.send("Websocket Connected to React");
     };
 
-    websocket.current.onmessage = (event) => {
+    websocket.current.onmessage = function (event) {
       console.log("Data received from backend: ", event.data);
-      // Assuming the backend sends updated step time data
-      // Update the state based on the message received
-      // If event.data is a JSON string, you might want to parse it
-      try {
-        const data = JSON.parse(event.data);
-        // Update the stepTime data here (assuming it's in the right format)
-        // Example: setStepTime(data); if using a state setter in useStepTime hook
-      } catch (error) {
-        console.error('Error parsing data: ', error);
-      }
+      // Your logic for processing the received data
     };
 
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
-      setConnectionStatus('Disconnected');
+      setIsWebSocketConnected(false); // Update state when closed
+      setWebSocketError("WebSocket connection closed. Data streaming stopped.");
     };
 
-    websocket.current.onerror = (error) => {
-      console.error("WebSocket error: ", error);
-      setConnectionStatus('Error');
+    websocket.current.onerror = (event) => {
+      console.log("WebSocket error: ", event);
+      setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
     };
 
     return () => {
-      // Cleanup WebSocket connection on component unmount
       if (websocket.current) {
         websocket.current.close();
         console.log("WebSocket connection closed during cleanup");
       }
     };
   }, []);
-
-  // Send data only if WebSocket is connected
-  const handleSendData = (data) => {
-    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-      websocket.current.send(data);
-    } else {
-      console.log("Cannot send data. WebSocket is not open.");
-    }
-  };
 
   return (
     <div className="App">
@@ -81,10 +65,22 @@ function App() {
           <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
           <p>Average Target Zone: {stepTime.targetZones.average}</p>
         </div>
-        {/* Display WebSocket connection status */}
+
+        {/* Show WebSocket connection status or error */}
         <div>
-          <h3>WebSocket Status: {connectionStatus}</h3>
+          {isWebSocketConnected ? (
+            <p style={{ color: 'green' }}>WebSocket Connected</p>
+          ) : (
+            <p style={{ color: 'red' }}>{webSocketError || "Waiting for WebSocket connection..."}</p>
+          )}
         </div>
+
+        {/* You can disable streaming or show message based on connection */}
+        {!isWebSocketConnected && (
+          <div>
+            <p style={{ color: 'orange' }}>Streaming stopped. Please check your WebSocket connection.</p>
+          </div>
+        )}
       </header>
     </div>
   );
