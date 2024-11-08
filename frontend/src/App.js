@@ -8,6 +8,7 @@ import useStepTime from './useStepTime';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
+  const [connectionStatus, setConnectionStatus] = useState('Connected'); // Track WebSocket connection status
   const stepTime = useStepTime();
 
   const views = {
@@ -17,24 +18,28 @@ function App() {
   };
 
   let websocket = useRef(null);
-  // let websocketConnected = false;
 
   useEffect(() => {
     websocket.current = new WebSocket("ws://localhost:8000/ws");
 
     websocket.current.onopen = () => { 
       console.log("WebSocket Connected to React");
-      websocket.current.send("Websocket Connected to React")
-      // websocketConnected = true;
+      setConnectionStatus('Connected'); // Update connection status
+      websocket.current.send("WebSocket Connected to React");
     };
 
     websocket.current.onmessage = function(event) {
-       console.log("Data received from backend: ", event.data);
+      console.log("Data received from backend: ", event.data);
     };
 
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event); 
-      // websocketConnected = false;
+      setConnectionStatus('Disconnected'); // Update connection status
+    };
+
+    websocket.current.onerror = (error) => {
+      console.error("WebSocket error: ", error);
+      setConnectionStatus('Error'); // Update connection status in case of an error
     };
 
     return () => {
@@ -44,6 +49,15 @@ function App() {
       }
     };
   }, []);
+
+  // Send data only if WebSocket is connected
+  const handleSendData = (data) => {
+    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+      websocket.current.send(data);
+    } else {
+      console.log("Cannot send data. WebSocket is not open.");
+    }
+  };
 
   return (
     <div className="App">
@@ -55,7 +69,11 @@ function App() {
           <p>Left Foot: {stepTime.targetZones.left.min} - {stepTime.targetZones.left.max}</p>
           <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
           <p>Average Target Zone: {stepTime.targetZones.average}</p>
-          </div>
+        </div>
+        {/* Display WebSocket connection status */}
+        <div>
+          <h3>WebSocket Status: {connectionStatus}</h3>
+        </div>
       </header>
     </div>
   );
