@@ -1,16 +1,13 @@
-"""
-This modual is for testing how the websockets connect from the frontend to backend
-"""
-
 import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.websockets import WebSocketState
 
 biostepFeedback = FastAPI()
 
 @biostepFeedback.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """
-    Awaits for the message from the frontend to unsure connection is there
+    Waits for the message from the frontend to ensure the connection is there.
     """
     print("Waiting for Connection")
 
@@ -30,23 +27,16 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         try:
             data = await websocket.receive_text()
-            if websocket.client_state == WebSocket.OPEN:
+
+            # Check if WebSocket is still connected before sending data
+            if websocket.client_state == WebSocketState.CONNECTED:
                 await websocket.send_text(data)
                 print(f"Received and sent back: {data}")
             else:
-                print("WebSocket is not in a connected state; stopping data streaming.")
-                
+                print("WebSocket is no longer connected, stopping data streaming.")
+                break  # Stop streaming if not connected
         except WebSocketDisconnect:
             print("Client disconnected")
-            try:
-                # Try sending a disconnection message to the client
-                await websocket.send_text("Disconnected: Connection closed")
-            except Exception:
-                # Handle any issues with sending the disconnection message
-                print("Failed to send disconnection message to the client.")
-            finally:
-                # Ensure the connection is cleaned up
-                print("Closing connection and cleaning up.")
             break
         except asyncio.TimeoutError:
             print("Timeout during communication")
