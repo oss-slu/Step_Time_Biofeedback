@@ -81,13 +81,12 @@ describe("WebSocket in App Component", () => {
   test("WebSocket connection messages", async () => {
     const consoleLogSpy = jest.spyOn(console, "log");
 
-    render(<App />); // Removed act wrapper
+    render(<App />);
 
     await server.connected;
 
     server.send("Message from backend");
 
-    // Await for the effects of the message
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
@@ -99,7 +98,7 @@ describe("WebSocket in App Component", () => {
   });
 
   test("Message on WebSocket connection open", async () => {
-    render(<App />); // Removed act wrapper
+    render(<App />);
 
     await server.connected;
 
@@ -109,11 +108,11 @@ describe("WebSocket in App Component", () => {
   test("User is notified on WS Close", async () => {
     const consoleLogSpy = jest.spyOn(console, "log");
 
-    render(<App />); // Removed act wrapper
+    render(<App />);
 
     await server.connected;
 
-    server.close(); // Removed act wrapper
+    server.close();
 
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "WebSocket connection closed: ",
