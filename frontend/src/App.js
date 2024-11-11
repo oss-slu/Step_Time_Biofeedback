@@ -5,6 +5,7 @@ import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
 import StepTimeGraph from './StepTimeGraph';
 import useStepTime from './useStepTime';
+import StepTimeTredmill from './StepTimeTreadmil';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
@@ -14,6 +15,7 @@ function App() {
     StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
     StepTimeChart: <StepTimeChart stepTime={stepTime} />,
     StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
+    StepTimeTredmill: <StepTimeTredmill stepTime={stepTime} />
   };
 
   let websocket = useRef(null);

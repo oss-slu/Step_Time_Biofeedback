@@ -1,0 +1,18 @@
+.Treadmill {
+    width: 70vw;
+    height: 85vh;
+    margin: 5vh 0;
+    background-color: grey;
+}
+
+.Treadmill line {
+    stroke-width: .02vw;
+}
+
+.TargetZones line {
+    stroke: orange;
+}
+
+.StepTimeValues line {
+    stroke: black;
+}

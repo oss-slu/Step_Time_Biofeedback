@@ -49,6 +49,12 @@ describe("Navbar Component", () => {
       expect(screen.getByTestId("step-time-graph-view")).toBeInTheDocument();
     });
 
+    test("Navbar swap renders StepTimeTreadmill view", () => {
+      render(<App />);
+      fireEvent.click(screen.getByTestId("step-time-treadmill-nav"));
+      expect(screen.getByTestId("step-time-treadmill-view")).toBeInTheDocument();
+    });
+
     test("Navbar swap renders StepTimeDigits view", () => {
       render(<App />);
       fireEvent.click(screen.getByTestId("step-time-graph-nav"));
