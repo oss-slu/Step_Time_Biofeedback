@@ -24,7 +24,7 @@ function useStepTime() {
   
     const elements = document.querySelectorAll(".CurrentStepTime li");
     elements.forEach(element => {
-      element.style.background = color;
+      element.style.borderColor = color;
     });
   }
 
