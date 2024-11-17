@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 function useStepTime() {
   // TODO: update default values, check w/ line 14 comment
   const [stepTime, setStepTime] = useState({
-    left: 27, 
-    right: 30,
+    left: 0, 
+    right: 0,
     targetZones: {
-      left: { min: 25, max: 35 },
-      right: { min: 25, max: 35 }
+      left: { min: 0, max: 0 },
+      right: { min: 0, max: 0 }
     } 
   });
 
