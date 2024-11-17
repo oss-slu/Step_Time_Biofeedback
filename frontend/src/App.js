@@ -54,10 +54,30 @@ function App() {
     };
   }, []);
 
-  return (
+return (
     <div className="App">
+      {/* WebSocket Status Banner */}
+      <div
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: isWebSocketConnected ? 'green' : 'red',
+          color: 'white',
+          textAlign: 'center',
+          position: 'fixed', // Ensure it stays at the top
+          top: 0,
+          left: 0,
+          zIndex: 1000,
+        }}
+      >
+        {isWebSocketConnected
+          ? "WebSocket Connected"
+          : webSocketError || "Waiting for WebSocket connection..."}
+      </div>
+  
+      {/* Page Content */}
       <Navigation setCurrentView={setCurrentView} />
-      <header className="App-header">
+      <header className="App-header" style={{ marginTop: '50px' }}>
         {views[currentView]}
         <div>
           <h2>Target Zones</h2>
@@ -65,22 +85,6 @@ function App() {
           <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
           <p>Average Target Zone: {stepTime.targetZones.average}</p>
         </div>
-
-        {/* Show WebSocket connection status or error */}
-        <div>
-          {isWebSocketConnected ? (
-            <p style={{ color: 'green' }}>WebSocket Connected</p>
-          ) : (
-            <p style={{ color: 'red' }}>{webSocketError || "Waiting for WebSocket connection..."}</p>
-          )}
-        </div>
-
-        {/* You can disable streaming or show message based on connection */}
-        {!isWebSocketConnected && (
-          <div>
-            <p style={{ color: 'orange' }}>Streaming stopped. Please check your WebSocket connection.</p>
-          </div>
-        )}
       </header>
     </div>
   );
