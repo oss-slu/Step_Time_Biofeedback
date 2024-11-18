@@ -15,8 +15,14 @@ async def handle_data_streaming(websocket):
             # data manipulation to yield step time. This is to be removed.
             time = force_data[0]
             force = force_data[1] * 2.4
-            force_data = (time, force) 
+            force_data = (time, force)
+            force_message = {
+                "message_type": "Force Data",
+                "time": time,
+                "force": force
+            } 
             print(f"Force Data: {force_data}")# Debug print to inspect the input data
+            await websocket.send_text(json.dumps(force_message))
             
             # Accumulate force data over time
             accumulated_data.append(force_data)
@@ -29,6 +35,7 @@ async def handle_data_streaming(websocket):
                 # Estimate the target zone based on step times
                 target_zone = estimate_target_zone(step_times)
                 message = {
+                    "message_type": "Target Zone",
                     "step_times": step_times,
                     "target_zone": target_zone
                 }
