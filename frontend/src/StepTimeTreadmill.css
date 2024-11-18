@@ -1,0 +1,46 @@
+.Treadmill {
+    width: 70vw;
+    height: 80vh;
+    margin: 1vh 0;
+    border-color: darkgray;
+    border-style: solid;
+    border-width: .25vw;
+    background-color: gray;
+}
+
+.Treadmill line {
+    stroke-width: .02vw;
+}
+
+.TargetZones .max-zone {
+    stroke: blue;
+}
+
+.TargetZones .min-zone {
+    stroke: orange;
+}
+
+.StepTimeValues line {
+    stroke: black;
+}
+
+.visual-key {
+    margin-top: 1vh;
+    padding: 0 0;
+    border-radius: 1vh;
+    border-color: white;
+}
+  
+.visual-key ul {
+    margin-top: .5vh;
+    list-style-type: none;  
+    padding: .25vh .25vw;     
+    margin: 0;   
+}
+  
+.visual-key ul li {
+    font-size: 1vw; 
+    padding: .25vh 0;
+    text-align:left;
+}
+  
