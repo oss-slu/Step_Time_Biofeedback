@@ -1,66 +1,100 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import App from "../App";
-import useStepTime from "../useStepTime";
 import WS from "jest-websocket-mock";
 
-jest.mock("../useStepTime");
-
-test("Step Time Component is rendered on screen", () => {
-  useStepTime.mockReturnValue({
-    left: 0,
-    right: 0,
-    targetZones: {
-      left: { min: 25, max: 30 },
-      right: { min: 50, max: 45 },
-    },
-  });
-
+test("Navbar is rendered on screen", () => {
   render(<App />);
-  expect(screen.getByTestId("step-time-digits-view")).toBeInTheDocument();
+  expect(screen.getByRole("navigation")).toBeInTheDocument();
 });
 
-describe("Navbar Component", () => {
+describe("Steptime view changes", () => {
+  let server;
+
   beforeEach(() => {
-    useStepTime.mockReturnValue({
-      left: 0,
-      right: 0,
-      targetZones: {
-        left: { min: 25, max: 30 },
-        right: { min: 50, max: 45 },
-      },
-    });
+    server = new WS("ws://localhost:8000/ws");
   });
 
-  test("Navbar is rendered on screen", () => {
+  afterEach(() => {
+    WS.clean();
+  });
+
+  test("Force Threshold Green Test", () => {
     render(<App />);
-    expect(screen.getByRole("navigation")).toBeInTheDocument();
+
+    server.send(
+      JSON.stringify({
+        message_type: "Force Data",
+        time: 0.00093,
+        force: 21.4233408,
+      })
+    );
+
+    const elements = document.querySelectorAll(".CurrentStepTime li");
+    elements.forEach(element => {
+      expect(element.style.borderColor = "green");
+    });;
   });
 
-  describe("View Swapping", () => {
-    test("Navbar swap renders StepTimeChart view", () => {
-      render(<App />);
-      fireEvent.click(screen.getByTestId("step-time-chart-nav"));
-      expect(screen.getByTestId("step-time-chart-view")).toBeInTheDocument();
-    });
+  test("Force Threshold Yellow Test", () => {
+    render(<App />);
 
-    test("Navbar swap renders StepTimeGraph view", () => {
-      render(<App />);
-      fireEvent.click(screen.getByTestId("step-time-graph-nav"));
-      expect(screen.getByTestId("step-time-graph-view")).toBeInTheDocument();
-    });
+    server.send(
+      JSON.stringify({
+        message_type: "Force Data",
+        time: 0.00093,
+        force: 18.500,
+      })
+    );
 
-    test("Navbar swap renders StepTimeTreadmill view", () => {
-      render(<App />);
-      fireEvent.click(screen.getByTestId("step-time-treadmill-nav"));
-      expect(screen.getByTestId("step-time-treadmill-view")).toBeInTheDocument();
+    const elements = document.querySelectorAll(".CurrentStepTime li");
+    elements.forEach(element => {
+      expect(element.style.borderColor = "yellow");
     });
+  });
 
-    test("Navbar swap renders StepTimeDigits view", () => {
-      render(<App />);
-      fireEvent.click(screen.getByTestId("step-time-graph-nav"));
-      fireEvent.click(screen.getByTestId("step-time-digits-nav"));
-      expect(screen.getByTestId("step-time-digits-view")).toBeInTheDocument();
+  test("Force Threshold Red Test", () => {
+    render(<App />);
+
+    server.send(
+      JSON.stringify({
+        message_type: "Force Data",
+        time: 0.00093,
+        force: 1.4233408,
+      })
+    );
+
+    const elements = document.querySelectorAll(".CurrentStepTime li");
+    elements.forEach(element => {
+      expect(element.style.borderColor = "red");
     });
+  });
+
+});
+
+describe("View Swapping", () => {
+  test("Navbar swap renders StepTimeChart view", () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId("step-time-chart-nav"));
+    expect(screen.getByTestId("step-time-chart-view")).toBeInTheDocument();
+  });
+
+  test("Navbar swap renders StepTimeGraph view", () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId("step-time-graph-nav"));
+    expect(screen.getByTestId("step-time-graph-view")).toBeInTheDocument();
+  });
+
+  test("Navbar swap renders StepTimeTreadmill view", () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId("step-time-treadmill-nav"));
+    expect(screen.getByTestId("step-time-treadmill-view")).toBeInTheDocument();
+  });
+
+  test("Navbar swap renders StepTimeDigits view", () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId("step-time-graph-nav"));
+    fireEvent.click(screen.getByTestId("step-time-digits-nav"));
+    expect(screen.getByTestId("step-time-digits-view")).toBeInTheDocument();
   });
 });
 
@@ -69,15 +103,6 @@ describe("WebSocket in App Component", () => {
 
   beforeEach(() => {
     server = new WS("ws://localhost:8000/ws");
-
-    useStepTime.mockReturnValue({
-      left: 0,
-      right: 0,
-      targetZones: {
-        left: { min: 25, max: 30 },
-        right: { min: 50, max: 45 },
-      },
-    });
   });
 
   afterEach(() => {
@@ -91,14 +116,17 @@ describe("WebSocket in App Component", () => {
 
     await server.connected;
 
-    server.send("Message from backend");
+    server.send(
+      JSON.stringify({
+        message_type: "Force Data",
+        time: 0.00093,
+        force: 21.4233408,
+      })
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      "Data received from backend: ",
-      "Message from backend"
-    );
+    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend");
 
     consoleLogSpy.mockRestore();
   });
