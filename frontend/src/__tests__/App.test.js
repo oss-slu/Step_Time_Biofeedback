@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import App from "../App";
 import WS from "jest-websocket-mock";
 
@@ -18,7 +18,7 @@ describe("Steptime view changes", () => {
     WS.clean();
   });
 
-  test("Force Threshold Green Test", () => {
+  test("Force Threshold Green Test", async () => {
     render(<App />);
 
     server.send(
@@ -29,30 +29,36 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = document.querySelectorAll(".CurrentStepTime li");
-    elements.forEach(element => {
-      expect(element.style.borderColor = "green");
-    });;
+    const elements = await screen.findAllByRole("listitem", {
+      name: /CurrentStepTime/i,
+    });
+
+    elements.forEach((element) => {
+      expect(element).toHaveStyle("border-color: green");
+    });
   });
 
-  test("Force Threshold Yellow Test", () => {
+  test("Force Threshold Yellow Test", async () => {
     render(<App />);
 
     server.send(
       JSON.stringify({
         message_type: "Force Data",
         time: 0.00093,
-        force: 18.500,
+        force: 18.5,
       })
     );
 
-    const elements = document.querySelectorAll(".CurrentStepTime li");
-    elements.forEach(element => {
-      expect(element.style.borderColor = "yellow");
+    const elements = await screen.findAllByRole("listitem", {
+      name: /CurrentStepTime/i,
+    });
+
+    elements.forEach((element) => {
+      expect(element).toHaveStyle("border-color: yellow");
     });
   });
 
-  test("Force Threshold Red Test", () => {
+  test("Force Threshold Red Test", async () => {
     render(<App />);
 
     server.send(
@@ -63,12 +69,14 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = document.querySelectorAll(".CurrentStepTime li");
-    elements.forEach(element => {
-      expect(element.style.borderColor = "red");
+    const elements = await screen.findAllByRole("listitem", {
+      name: /CurrentStepTime/i,
+    });
+
+    elements.forEach((element) => {
+      expect(element).toHaveStyle("border-color: red");
     });
   });
-
 });
 
 describe("View Swapping", () => {
@@ -124,9 +132,9 @@ describe("WebSocket in App Component", () => {
       })
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend");
+    await waitFor(() =>
+      expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend")
+    );
 
     consoleLogSpy.mockRestore();
   });
@@ -136,7 +144,9 @@ describe("WebSocket in App Component", () => {
 
     await server.connected;
 
-    expect(server).toReceiveMessage("Websocket Connected to React");
+    await waitFor(() => {
+      expect(server).toReceiveMessage("Websocket Connected to React");
+    });
   });
 
   test("User is notified on WS Close", async () => {
@@ -148,9 +158,11 @@ describe("WebSocket in App Component", () => {
 
     server.close();
 
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      "WebSocket connection closed: ",
-      expect.any(Object)
+    await waitFor(() =>
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        "WebSocket connection closed: ",
+        expect.any(Object)
+      )
     );
 
     consoleLogSpy.mockRestore();
