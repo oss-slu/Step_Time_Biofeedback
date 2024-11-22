@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import App from "../App";
 import WS from "jest-websocket-mock";
 
@@ -29,9 +29,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByRole("listitem", {
-      name: /CurrentStepTime/i,
-    });
+    const elements = await screen.findAllByTestId(/current-step-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: green");
@@ -49,9 +47,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByRole("listitem", {
-      name: /CurrentStepTime/i,
-    });
+    const elements = await screen.findAllByTestId(/current-step-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: yellow");
@@ -69,9 +65,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByRole("listitem", {
-      name: /CurrentStepTime/i,
-    });
+    const elements = await screen.findAllByTestId(/current-step-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: red");
@@ -132,9 +126,9 @@ describe("WebSocket in App Component", () => {
       })
     );
 
-    await waitFor(() =>
-      expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend")
-    );
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend");
 
     consoleLogSpy.mockRestore();
   });
@@ -144,9 +138,7 @@ describe("WebSocket in App Component", () => {
 
     await server.connected;
 
-    await waitFor(() => {
-      expect(server).toReceiveMessage("Websocket Connected to React");
-    });
+    expect(server).toReceiveMessage("Websocket Connected to React");
   });
 
   test("User is notified on WS Close", async () => {
@@ -158,11 +150,9 @@ describe("WebSocket in App Component", () => {
 
     server.close();
 
-    await waitFor(() =>
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        "WebSocket connection closed: ",
-        expect.any(Object)
-      )
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "WebSocket connection closed: ",
+      expect.any(Object)
     );
 
     consoleLogSpy.mockRestore();
