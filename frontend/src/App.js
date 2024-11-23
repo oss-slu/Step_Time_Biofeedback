@@ -59,34 +59,16 @@ function App() {
 return (
     <div className="App">
       {/* WebSocket Status Banner */}
-      <div
-        style={{
-          width: '100%',
-          padding: '10px',
-          backgroundColor: isWebSocketConnected ? 'green' : 'red',
-          color: 'white',
-          textAlign: 'center',
-          position: 'fixed', // Ensure it stays at the top
-          top: 0,
-          left: 0,
-          zIndex: 1000,
-        }}
-      >
+      <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
         {isWebSocketConnected
-          ? "WebSocket Connected"
+          ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
       </div>
   
       {/* Page Content */}
-      <Navigation setCurrentView={setCurrentView} />
-      <header className="App-header" style={{ marginTop: '50px' }}>
+      <Navigation setCurrentView={setCurrentView}/>
+      <header className="App-header">
         {views[currentView]}
-        <div>
-          <h2>Target Zones</h2>
-          <p>Left Foot: {stepTime.targetZones.left.min} - {stepTime.targetZones.left.max}</p>
-          <p>Right Foot: {stepTime.targetZones.right.min} - {stepTime.targetZones.right.max}</p>
-          <p>Average Target Zone: {stepTime.targetZones.average}</p>
-        </div>
       </header>
     </div>
   );

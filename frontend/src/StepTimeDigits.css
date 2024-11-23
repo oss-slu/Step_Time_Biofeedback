@@ -25,8 +25,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: .2vw solid white;
+    border: .2vw solid #FFFDD0;
     border-radius: 1vw;
+    transition: border-color .3s linear;
     text-align: center;
     padding: 1vh 1vw;
     font-size: calc(30px + 2vmin);

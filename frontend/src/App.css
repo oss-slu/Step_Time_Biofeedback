@@ -15,13 +15,31 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.WebSocketBanner {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.WebSocketBanner.connected {
+  background-color: green;
+}
+
+.WebSocketBanner.disconnected {
+  background-color: red;
 }
 
 .App-link {
