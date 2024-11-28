@@ -43,8 +43,8 @@ describe("Step Time Data", () => {
 
     test("Initial Target Zones correctly rendered", () => {
         render(<StepTimeDigits stepTime={testStepTime}/>);
-        expect(screen.getByTestId('target-zones-left').textContent).toBe('5-10');
-        expect(screen.getByTestId('target-zones-right').textContent).toBe('3-20');
+        expect(screen.getByTestId('target-zones-left').textContent).toBe('5.0000-10.0000');
+        expect(screen.getByTestId('target-zones-right').textContent).toBe('3.0000-20.0000');
     });
 
     test("Initial Current Step Time Values correctly rendered", () => {
