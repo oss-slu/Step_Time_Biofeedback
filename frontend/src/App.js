@@ -58,34 +58,34 @@ function App() {
     });
   }
 
-  let websocket = useRef(null);
-
-  useEffect(() => {
+  const reconnectWebsocket = () => {
+    if (websocket.current) {
+      websocket.current.close();  // Close the existing WebSocket connection
+      console.log("WebSocket connection closed manually.");
+    }
+    // Reopen a new WebSocket connection
     websocket.current = new WebSocket("ws://localhost:8000/ws");
 
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
-      setIsWebSocketConnected(true);  // Update state when connected
+      setIsWebSocketConnected(true);
       websocket.current.send("Websocket Connected to React");
     };
 
-    websocket.current.onmessage = function (event) {
+    websocket.current.onmessage = (event) => {
       console.log("Data received from backend");
-      // Your logic for processing the received data
+      const data = JSON.parse(event.data);
 
-      const data = JSON.parse(event.data); 
-
-      if(data.message_type === "Force Data"){
+      if (data.message_type === "Force Data") {
         updateVisualThreshold(data.force);
-      }
-      else if(data.message_type === "Target Zone"){
+      } else if (data.message_type === "Target Zone") {
         updateTargetZones(data);
       }
     };
 
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
-      setIsWebSocketConnected(false); // Update state when closed
+      setIsWebSocketConnected(false);
       setWebSocketError("WebSocket connection closed. Data streaming stopped.");
     };
 
@@ -93,6 +93,12 @@ function App() {
       console.log("WebSocket error: ", event);
       setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
     };
+  };
+
+  let websocket = useRef(null);
+
+  useEffect(() => {
+    reconnectWebsocket();  // Open the initial WebSocket connection
 
     return () => {
       if (websocket.current) {
@@ -109,7 +115,7 @@ return (
         {isWebSocketConnected
           ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
-        {!isWebSocketConnected && <button>Reconnect</button>}
+        {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
   
       {/* Page Content */}
