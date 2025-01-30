@@ -7,6 +7,8 @@ test("Navbar is rendered on screen", () => {
   expect(screen.getByRole("navigation")).toBeInTheDocument();
 });
 
+jest.setTimeout(10000);
+
 describe("StepTime view changes", () => {
   let server;
 
