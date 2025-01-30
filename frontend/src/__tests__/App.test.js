@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import App from "../App";
 import WS from "jest-websocket-mock";
 
@@ -31,8 +31,10 @@ describe("Steptime view changes", () => {
 
     const elements = await screen.findAllByTestId(/current-step-time-left/);
 
-    elements.forEach((element) => {
-      expect(element).toHaveStyle("border-color: green");
+    await waitFor(() => {
+      elements.forEach((element) => {
+        expect(element).toHaveStyle("border-color: green");
+      });
     });
   });
 
@@ -49,8 +51,10 @@ describe("Steptime view changes", () => {
 
     const elements = await screen.findAllByTestId(/current-step-time-left/);
 
-    elements.forEach((element) => {
-      expect(element).toHaveStyle("border-color: yellow");
+    await waitFor(() => {
+      elements.forEach((element) => {
+        expect(element).toHaveStyle("border-color: yellow");
+      });
     });
   });
 
@@ -67,8 +71,10 @@ describe("Steptime view changes", () => {
 
     const elements = await screen.findAllByTestId(/current-step-time-left/);
 
-    elements.forEach((element) => {
-      expect(element).toHaveStyle("border-color: red");
+    await waitFor(() => {
+      elements.forEach((element) => {
+        expect(element).toHaveStyle("border-color: red");
+      });
     });
   });
 });
@@ -126,9 +132,9 @@ describe("WebSocket in App Component", () => {
       })
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend");
+    await waitFor(() => {
+      expect(consoleLogSpy).toHaveBeenCalledWith("Data received from backend");
+    });
 
     consoleLogSpy.mockRestore();
   });
