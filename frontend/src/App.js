@@ -109,6 +109,7 @@ return (
         {isWebSocketConnected
           ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
+        {!isWebSocketConnected && <button>Reconnect</button>}
       </div>
   
       {/* Page Content */}
