@@ -8,6 +8,7 @@ import StepTimeTredmill from './StepTimeTreadmil';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
+
   const [stepTime, setStepTime] = useState({
     left: 0, 
     right: 0,
@@ -16,17 +17,16 @@ function App() {
       right: { min: 0, max: 0 }
     } 
   });
-  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); 
-  const [webSocketError, setWebSocketError] = useState(null);
-  const [shouldReconnect, setShouldReconnect] = useState(false);  // state to trigger reconnect
+
+  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); // WebSocket connection state
+  const [webSocketError, setWebSocketError] = useState(null); // For displaying errors to the user
+
   const views = {
     StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
     StepTimeChart: <StepTimeChart stepTime={stepTime} />,
     StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
     StepTimeTredmill: <StepTimeTredmill stepTime={stepTime} />
   };
-
-  let websocket = useRef(null);
 
   function updateVisualThreshold(forceData) {
     let color = null;
@@ -58,60 +58,57 @@ function App() {
     });
   }
 
-  function reconnectWebsocket() {
-    setShouldReconnect(true); // Trigger reconnection by changing state
-  }
+  let websocket = useRef(null);
 
   useEffect(() => {
-    if (shouldReconnect) {
-      if (websocket.current) {
-        websocket.current.close();  // Close existing connection
+    websocket.current = new WebSocket("ws://localhost:8000/ws");
+
+    websocket.current.onopen = () => {
+      console.log("WebSocket Connected to React");
+      setIsWebSocketConnected(true);  // Update state when connected
+      websocket.current.send("Websocket Connected to React");
+    };
+
+    websocket.current.onmessage = function (event) {
+      console.log("Data received from backend");
+      // Your logic for processing the received data
+
+      const data = JSON.parse(event.data); 
+
+      if(data.message_type === "Force Data"){
+        updateVisualThreshold(data.force);
       }
+      else if(data.message_type === "Target Zone"){
+        updateTargetZones(data);
+      }
+    };
 
-      setWebSocketError(null);  // Clear previous errors
-      setIsWebSocketConnected(false);  // Reset connection state
-      setShouldReconnect(false); // Reset trigger state after reconnecting
+    websocket.current.onclose = (event) => {
+      console.log("WebSocket connection closed: ", event);
+      setIsWebSocketConnected(false); // Update state when closed
+      setWebSocketError("WebSocket connection closed. Data streaming stopped.");
+    };
 
-      websocket.current = new WebSocket("ws://localhost:8000/ws");
+    websocket.current.onerror = (event) => {
+      console.log("WebSocket error: ", event);
+      setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
+    };
 
-      websocket.current.onopen = () => {
-        console.log("WebSocket Reconnected to React");
-        setIsWebSocketConnected(true);
-        websocket.current.send("WebSocket Reconnected to React");
-      };
+    return () => {
+      if (websocket.current) {
+        websocket.current.close();
+        console.log("WebSocket connection closed during cleanup");
+      }
+    };
+  }, []);
 
-      websocket.current.onmessage = function (event) {
-        console.log("Data received from backend");
-        const data = JSON.parse(event.data);
-
-        if (data.message_type === "Force Data") {
-          updateVisualThreshold(data.force);
-        } else if (data.message_type === "Target Zone") {
-          updateTargetZones(data);
-        }
-      };
-
-      websocket.current.onclose = (event) => {
-        console.log("WebSocket connection closed: ", event);
-        setIsWebSocketConnected(false);
-        setWebSocketError("WebSocket connection closed. Data streaming stopped.");
-      };
-
-      websocket.current.onerror = (event) => {
-        console.log("WebSocket error: ", event);
-        setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
-      };
-    }
-  }, [shouldReconnect]);  // Only rerun effect when `shouldReconnect` changes
-
-  return (
+return (
     <div className="App">
       {/* WebSocket Status Banner */}
       <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
         {isWebSocketConnected
           ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
-        {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
   
       {/* Page Content */}
