@@ -7,11 +7,12 @@ test("Navbar is rendered on screen", () => {
   expect(screen.getByRole("navigation")).toBeInTheDocument();
 });
 
-describe("Steptime view changes", () => {
+describe("StepTime view changes", () => {
   let server;
 
-  beforeEach(() => {
-    server = new WS("ws://localhost:8000/ws");
+  beforeEach(async () => {
+    server = new WS("ws://localhost:8000/ws", { jsonProtocol: true });
+    await server.connected; // Ensure connection before sending messages
   });
 
   afterEach(() => {
@@ -20,16 +21,15 @@ describe("Steptime view changes", () => {
 
   test("Force Threshold Green Test", async () => {
     render(<App />);
+    await server.connected;
 
-    server.send(
-      JSON.stringify({
-        message_type: "Force Data",
-        time: 0.00093,
-        force: 21.4233408,
-      })
-    );
+    await server.send({
+      message_type: "Force Data",
+      time: 0.00093,
+      force: 21.4233408,
+    });
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId("current-step-time-left");
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: green");
@@ -38,16 +38,15 @@ describe("Steptime view changes", () => {
 
   test("Force Threshold Yellow Test", async () => {
     render(<App />);
+    await server.connected;
 
-    server.send(
-      JSON.stringify({
-        message_type: "Force Data",
-        time: 0.00093,
-        force: 18.5,
-      })
-    );
+    await server.send({
+      message_type: "Force Data",
+      time: 0.00093,
+      force: 18.5,
+    });
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId("current-step-time-left");
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: yellow");
@@ -56,16 +55,15 @@ describe("Steptime view changes", () => {
 
   test("Force Threshold Red Test", async () => {
     render(<App />);
+    await server.connected;
 
-    server.send(
-      JSON.stringify({
-        message_type: "Force Data",
-        time: 0.00093,
-        force: 1.4233408,
-      })
-    );
+    await server.send({
+      message_type: "Force Data",
+      time: 0.00093,
+      force: 1.4233408,
+    });
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId("current-step-time-left");
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: red");
@@ -103,8 +101,9 @@ describe("View Swapping", () => {
 describe("WebSocket in App Component", () => {
   let server;
 
-  beforeEach(() => {
-    server = new WS("ws://localhost:8000/ws");
+  beforeEach(async () => {
+    server = new WS("ws://localhost:8000/ws", { jsonProtocol: true });
+    await server.connected;
   });
 
   afterEach(() => {
@@ -113,18 +112,14 @@ describe("WebSocket in App Component", () => {
 
   test("WebSocket connection messages", async () => {
     const consoleLogSpy = jest.spyOn(console, "log");
-
     render(<App />);
-
     await server.connected;
 
-    server.send(
-      JSON.stringify({
-        message_type: "Force Data",
-        time: 0.00093,
-        force: 21.4233408,
-      })
-    );
+    await server.send({
+      message_type: "Force Data",
+      time: 0.00093,
+      force: 21.4233408,
+    });
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -135,17 +130,14 @@ describe("WebSocket in App Component", () => {
 
   test("Message on WebSocket connection open", async () => {
     render(<App />);
-
     await server.connected;
-
-    expect(server).toReceiveMessage("Websocket Connected to React");
+    await expect(server).toReceiveMessage("Websocket Connected to React");
   });
 
   test("User is notified on WS Close", async () => {
     const consoleLogSpy = jest.spyOn(console, "log");
 
     render(<App />);
-
     await server.connected;
 
     server.close();
