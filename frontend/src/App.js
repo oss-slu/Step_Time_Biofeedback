@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from './Navigation';
 import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
@@ -58,55 +58,55 @@ function App() {
     });
   }
 
-  const reconnectWebsocket = () => {
+  const reconnectWebsocket = useCallback(() => {
     if (websocket.current) {
-      websocket.current.close();  // Close the existing WebSocket connection
+      websocket.current.close();
       console.log("WebSocket connection closed manually.");
     }
-    // Reopen a new WebSocket connection
+  
     websocket.current = new WebSocket("ws://localhost:8000/ws");
-
+  
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
       setIsWebSocketConnected(true);
       websocket.current.send("Websocket Connected to React");
     };
-
+  
     websocket.current.onmessage = (event) => {
       console.log("Data received from backend");
       const data = JSON.parse(event.data);
-
+  
       if (data.message_type === "Force Data") {
         updateVisualThreshold(data.force);
       } else if (data.message_type === "Target Zone") {
         updateTargetZones(data);
       }
     };
-
+  
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
       setIsWebSocketConnected(false);
       setWebSocketError("WebSocket connection closed. Data streaming stopped.");
     };
-
+  
     websocket.current.onerror = (event) => {
       console.log("WebSocket error: ", event);
       setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
     };
-  };
+  }, []);
 
   let websocket = useRef(null);
 
   useEffect(() => {
-    reconnectWebsocket();  // Open the initial WebSocket connection
-
+    reconnectWebsocket();
+  
     return () => {
       if (websocket.current) {
         websocket.current.close();
         console.log("WebSocket connection closed during cleanup");
       }
     };
-  }, []);
+  }, [reconnectWebsocket]);
 
 return (
     <div className="App">
