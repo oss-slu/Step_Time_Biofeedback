@@ -7,7 +7,7 @@ test("Navbar is rendered on screen", () => {
   expect(screen.getByRole("navigation")).toBeInTheDocument();
 });
 
-describe("Steptime view changes", () => {
+describe("Stancetime view changes", () => {
   let server;
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId(/current-stance-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: green");
@@ -47,7 +47,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId(/current-stance-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: yellow");
@@ -65,7 +65,7 @@ describe("Steptime view changes", () => {
       })
     );
 
-    const elements = await screen.findAllByTestId(/current-step-time-left/);
+    const elements = await screen.findAllByTestId(/current-stance-time-left/);
 
     elements.forEach((element) => {
       expect(element).toHaveStyle("border-color: red");
@@ -74,29 +74,29 @@ describe("Steptime view changes", () => {
 });
 
 describe("View Swapping", () => {
-  test("Navbar swap renders StepTimeChart view", () => {
+  test("Navbar swap renders StanceTimeChart view", () => {
     render(<App />);
-    fireEvent.click(screen.getByTestId("step-time-chart-nav"));
-    expect(screen.getByTestId("step-time-chart-view")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("stance-time-chart-nav"));
+    expect(screen.getByTestId("stance-time-chart-view")).toBeInTheDocument();
   });
 
-  test("Navbar swap renders StepTimeGraph view", () => {
+  test("Navbar swap renders StanceTimeGraph view", () => {
     render(<App />);
-    fireEvent.click(screen.getByTestId("step-time-graph-nav"));
-    expect(screen.getByTestId("step-time-graph-view")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("stance-time-graph-nav"));
+    expect(screen.getByTestId("stance-time-graph-view")).toBeInTheDocument();
   });
 
-  test("Navbar swap renders StepTimeTreadmill view", () => {
+  test("Navbar swap renders StanceTimeTreadmill view", () => {
     render(<App />);
-    fireEvent.click(screen.getByTestId("step-time-treadmill-nav"));
-    expect(screen.getByTestId("step-time-treadmill-view")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("stance-time-treadmill-nav"));
+    expect(screen.getByTestId("stance-time-treadmill-view")).toBeInTheDocument();
   });
 
-  test("Navbar swap renders StepTimeDigits view", () => {
+  test("Navbar swap renders StanceTimeDigits view", () => {
     render(<App />);
-    fireEvent.click(screen.getByTestId("step-time-graph-nav"));
-    fireEvent.click(screen.getByTestId("step-time-digits-nav"));
-    expect(screen.getByTestId("step-time-digits-view")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("stance-time-graph-nav"));
+    fireEvent.click(screen.getByTestId("stance-time-digits-nav"));
+    expect(screen.getByTestId("stance-time-digits-view")).toBeInTheDocument();
   });
 });
 
