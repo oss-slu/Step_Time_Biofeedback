@@ -12,7 +12,7 @@ describe("Stance Time View Structure", () => {
     };
 
     test("Target Zone Structure Correctly Rendered", () => {
-        render(<stancetimeDigits stanceTime={testStanceTime} />);
+        render(<StanceTimeDigits stanceTime={testStanceTime} />);
         expect(screen.getByTestId('target-zones-values')).toBeInTheDocument();
         expect(screen.getByTestId('target-zones-title')).toBeInTheDocument();
         expect(screen.getByTestId('target-zones-left')).toBeInTheDocument();
