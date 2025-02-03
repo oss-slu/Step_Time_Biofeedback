@@ -1,15 +1,15 @@
 import './App.css';
 import { useState, useEffect, useRef } from 'react';
 import Navigation from './Navigation';
-import StepTimeDigits from './StepTimeDigits';
-import StepTimeChart from './StepTimeChart';
-import StepTimeGraph from './StepTimeGraph';
-import StepTimeTredmill from './StepTimeTreadmil';
+import StanceTimeDigits from './StanceTimeDigits';
+import StanceTimeChart from './StanceTimeChart';
+import StanceTimeGraph from './StanceTimeGraph';
+import StanceTimeTredmill from './StanceTimeTreadmil';
 
 function App() {
-  const [currentView, setCurrentView] = useState('StepTimeDigits');
+  const [currentView, setCurrentView] = useState('StanceTimeDigits');
 
-  const [stepTime, setStepTime] = useState({
+  const [stanceTime, setStanceTime] = useState({
     left: 0, 
     right: 0,
     targetZones: {
@@ -22,10 +22,10 @@ function App() {
   const [webSocketError, setWebSocketError] = useState(null); // For displaying errors to the user
 
   const views = {
-    StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
-    StepTimeChart: <StepTimeChart stepTime={stepTime} />,
-    StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
-    StepTimeTredmill: <StepTimeTredmill stepTime={stepTime} />
+    StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
+    StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
+    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} />,
+    StanceTimeTredmill: <StanceTimeTredmill stanceTime={stanceTime} />
   };
 
   function updateVisualThreshold(forceData) {
@@ -41,16 +41,16 @@ function App() {
 
     console.log(color);
   
-    const elements = document.querySelectorAll(".CurrentStepTime li");
+    const elements = document.querySelectorAll(".CurrentStanceTime li");
     elements.forEach(element => {
       element.style.borderColor = color;
     });
   }
 
   function updateTargetZones(data) {
-    setStepTime({
-      left: data.step_times?.[0] ?? 0,
-      right: data.step_times?.[1] ?? 0,
+    setStanceTime({
+      left: data.stance_times?.[0] ?? 0,
+      right: data.stance_times?.[1] ?? 0,
       targetZones: {
         left: data.target_zone ?? { min: 0, max: 0 },
         right: data.target_zone ?? { min: 0, max: 0 }
