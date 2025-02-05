@@ -68,7 +68,7 @@ function App() {
   
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
-      setIsWebSocketConnected(true);
+      setIsWebSocketConnected(true); // Update state when connected
       websocket.current.send("Websocket Connected to React");
     };
   
@@ -85,7 +85,7 @@ function App() {
   
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
-      setIsWebSocketConnected(false);
+      setIsWebSocketConnected(false); // Update state when connected
       setWebSocketError("WebSocket connection closed. Data streaming stopped.");
     };
   
