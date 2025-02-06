@@ -1,3 +1,4 @@
+import './ResearcherToolbar.css';
 
 function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold }) {
   return (
