@@ -5,7 +5,7 @@ import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
 import StepTimeGraph from './StepTimeGraph';
 import StepTimeTredmill from './StepTimeTreadmil';
-import ResearcherToolbar from './ResearcherToolbar';
+import ResearcherToolbar from './components/ResearcherToolbar';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
@@ -21,8 +21,8 @@ function App() {
   const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
   const [webSocketError, setWebSocketError] = useState(null);
 
-  const [movingAverageFactor, setMovingAverageFactor] = useState(0);
-  const [threshold, setThreshold] = useState(0);
+  const [movingAverageFactor, setMovingAverageFactor] = useState();
+  const [threshold, setThreshold] = useState();
 
   const views = {
     StepTimeDigits: <StepTimeDigits stepTime={stepTime} />, 
@@ -106,15 +106,21 @@ return (
           : webSocketError || "Waiting for WebSocket connection..."}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
-      <ResearcherToolbar 
-        movingAverageFactor={movingAverageFactor} 
-        setMovingAverageFactor={setMovingAverageFactor}
-        threshold={threshold} 
-        setThreshold={setThreshold}
-      />
-      <header className="App-header">
-        {views[currentView]}
-      </header>
+      <div className= "main-layout">
+        <div className= "sidebar">
+          <ResearcherToolbar 
+          movingAverageFactor={movingAverageFactor} 
+          setMovingAverageFactor={setMovingAverageFactor}
+          threshold={threshold} 
+          setThreshold={setThreshold}
+        />
+        </div>
+        <div className= "main-view">
+          <header className="App-header">
+          {views[currentView]}
+          </header>
+        </div>
+      </div>
     </div>
   );
 }
