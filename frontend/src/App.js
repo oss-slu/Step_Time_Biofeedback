@@ -5,10 +5,10 @@ import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
 import StepTimeGraph from './StepTimeGraph';
 import StepTimeTredmill from './StepTimeTreadmil';
+import ResearcherToolbar from './components/ResearcherToolbar';
 
 function App() {
   const [currentView, setCurrentView] = useState('StepTimeDigits');
-
   const [stepTime, setStepTime] = useState({
     left: 0, 
     right: 0,
@@ -18,19 +18,21 @@ function App() {
     } 
   });
 
-  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false); // WebSocket connection state
-  const [webSocketError, setWebSocketError] = useState(null); // For displaying errors to the user
+  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
+  const [webSocketError, setWebSocketError] = useState(null);
+
+  const [movingAverageFactor, setMovingAverageFactor] = useState();
+  const [threshold, setThreshold] = useState();
 
   const views = {
-    StepTimeDigits: <StepTimeDigits stepTime={stepTime} />,
-    StepTimeChart: <StepTimeChart stepTime={stepTime} />,
-    StepTimeGraph: <StepTimeGraph stepTime={stepTime} />,
+    StepTimeDigits: <StepTimeDigits stepTime={stepTime} />, 
+    StepTimeChart: <StepTimeChart stepTime={stepTime} />, 
+    StepTimeGraph: <StepTimeGraph stepTime={stepTime} />, 
     StepTimeTredmill: <StepTimeTredmill stepTime={stepTime} />
   };
 
   function updateVisualThreshold(forceData) {
     let color = null;
-
     if (forceData <= 19.00 && forceData >= 18.00) {
       color = "yellow";
     } else if (forceData < 18.00) {
@@ -38,9 +40,7 @@ function App() {
     } else {
       color = "green";
     }
-
     console.log(color);
-  
     const elements = document.querySelectorAll(".CurrentStepTime li");
     elements.forEach(element => {
       element.style.borderColor = color;
@@ -75,10 +75,9 @@ function App() {
     websocket.current.onmessage = (event) => {
       console.log("Data received from backend");
       const data = JSON.parse(event.data);
-  
-      if (data.message_type === "Force Data") {
+      if(data.message_type === "Force Data"){
         updateVisualThreshold(data.force);
-      } else if (data.message_type === "Target Zone") {
+      } else if(data.message_type === "Target Zone"){
         updateTargetZones(data);
       }
     };
@@ -110,19 +109,28 @@ function App() {
 
 return (
     <div className="App">
-      {/* WebSocket Status Banner */}
       <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
         {isWebSocketConnected
           ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
-  
-      {/* Page Content */}
       <Navigation setCurrentView={setCurrentView}/>
-      <header className="App-header">
-        {views[currentView]}
-      </header>
+      <div className= "main-layout">
+        <div className= "sidebar">
+          <ResearcherToolbar 
+          movingAverageFactor={movingAverageFactor} 
+          setMovingAverageFactor={setMovingAverageFactor}
+          threshold={threshold} 
+          setThreshold={setThreshold}
+        />
+        </div>
+        <div className= "main-view">
+          <header className="App-header">
+          {views[currentView]}
+          </header>
+        </div>
+      </div>
     </div>
   );
 }
