@@ -1,8 +1,8 @@
 
-# Step-Time Biofeedback Backend
+# Stance-Time Biofeedback Backend
 
 ## Description
-This README provides instructions on how to install necessary dependencies, and run the tests for `Step_Time_Calculation.py` and `target_zone_estimationn.py`.
+This README provides instructions on how to install necessary dependencies, and run the tests for `Stance_Time_Calculation.py` and `target_zone_estimationn.py`.
 
 ## Prerequisites
 Before running any code, make sure you're in your Python virtual environment. Once activated, you can install the required dependencies by running:
@@ -16,7 +16,7 @@ This will install all the required Python libraries listed in the requirements.t
 ```
 pip install pylsl
 ```
-2) You'll also need the Python `numpy` package that is required for performing calculations like the moving average for step times.
+2) You'll also need the Python `numpy` package that is required for performing calculations like the moving average for stance times.
 
 Install it using:
 ```
@@ -81,20 +81,20 @@ brew install numpy
 ## Running Unit Tests
 
 ### How to run the test
-The unit tests verify the accuracy of the step time calculations and target zone estimations. Follow these steps to run the tests successfully:
+The unit tests verify the accuracy of the stance time calculations and target zone estimations. Follow these steps to run the tests successfully:
 
 1) Navigate to the backend directory.
 2) Run the test file using Python's unittest module:
 ```
-python -m unittest test_step_time.py
+python -m unittest test_stance_time.py
 ```
 ### Test Cases
-The test_step_time.py tests cover the following scenarios:
+The test_stance_time.py tests cover the following scenarios:
 
-Step time calculation when values are below the threshold (20N).
-Step time output as a moving average of two steps.
-Target zone estimation based on calculated step times.
+Stance time calculation when values are below the threshold (20N).
+Stance time output as a moving average of two steps.
+Target zone estimation based on calculated stance times.
 Real data validation using sample data provided in tied_belt_OSS_f_1.tsv.
 
 ### Sample Data for Testing
-Sample data should be in the format (time, force), where time is the time point, and force represents the force measurement. The calculate_step_time function calculates step times from this data.
+Sample data should be in the format (time, force), where time is the time point, and force represents the force measurement. The calculate_stance_time function calculates stance times from this data.
