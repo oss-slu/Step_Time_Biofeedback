@@ -21,7 +21,7 @@ function StanceTimeTreadmill({ stanceTime }) {
         <ul>
           <li><strong><u>Key</u></strong></li>
           <li><strong>Vertical Lines:</strong> The blue line represents the upper echlon of the target zone and the orange line represents the bottom line of the target zone for left and right target zones respectively.</li>
-          <li><strong>X's:</strong> The left and right x's represent the left and right current step time respectively.</li>
+          <li><strong>X's:</strong> The left and right x's represent the left and right current stance time respectively.</li>
         </ul>
       </div>
       <svg data-testid="treadmill-svg" className="Treadmill" viewBox="0 0 100 100" preserveAspectRatio='none'>

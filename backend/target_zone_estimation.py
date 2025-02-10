@@ -1,7 +1,7 @@
 import json
 import asyncio
 import os
-from Step_Time_Calculation import calculate_step_time
+from Stance_Time_Calculation import calculate_stance_time
 
 threshold = 20.0
 data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
@@ -12,7 +12,7 @@ async def handle_data_streaming(websocket):
 
     async for force_data in load_data_from_file(data_file_path):
         try:
-            # data manipulation to yield step time. This is to be removed.
+            # data manipulation to yield stance time. This is to be removed.
             time = force_data[0]
             force = force_data[1] * 2.4
             force_data = (time, force)
@@ -29,14 +29,14 @@ async def handle_data_streaming(websocket):
 
             # Only process once we have multiple data points
             if len(accumulated_data) > 1:
-                step_times = calculate_step_time(accumulated_data, threshold)
-                print(f"Calculated step times: {step_times}")
+                stance_times = calculate_stance_time(accumulated_data, threshold)
+                print(f"Calculated stance times: {stance_times}")
 
-                # Estimate the target zone based on step times
-                target_zone = estimate_target_zone(step_times)
+                # Estimate the target zone based on stance times
+                target_zone = estimate_target_zone(stance_times)
                 message = {
                     "message_type": "Target Zone",
-                    "step_times": step_times,
+                    "stance_times": stance_times,
                     "target_zone": target_zone
                 }
                 await websocket.send_text(json.dumps(message))
@@ -68,12 +68,12 @@ async def load_data_from_file(file_path):
     except FileNotFoundError:
         print(f"File not found at path: {file_path}")
 
-def estimate_target_zone(step_times):
-    """Estimate target zones based on step times."""
-    if not step_times or len(step_times) < 2:
+def estimate_target_zone(stance_times):
+    """Estimate target zones based on stance times."""
+    if not stance_times or len(stance_times) < 2:
         return {"min": 0.0, "max": 0.0, "average": 0.0}
     return {
-        "min": min(step_times),
-        "max": max(step_times),
-        "average": sum(step_times) / len(step_times),
+        "min": min(stance_times),
+        "max": max(stance_times),
+        "average": sum(stance_times) / len(stance_times),
     }
