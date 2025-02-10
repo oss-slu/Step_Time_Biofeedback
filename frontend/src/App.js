@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from './Navigation';
 import StepTimeDigits from './StepTimeDigits';
 import StepTimeChart from './StepTimeChart';
@@ -58,49 +58,55 @@ function App() {
     });
   }
 
-  let websocket = useRef(null);
-
-  useEffect(() => {
+  const reconnectWebsocket = useCallback(() => {
+    if (websocket.current) {
+      websocket.current.close();
+      console.log("WebSocket connection closed manually.");
+    }
+  
     websocket.current = new WebSocket("ws://localhost:8000/ws");
-
+  
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
-      setIsWebSocketConnected(true);  // Update state when connected
+      setIsWebSocketConnected(true); // Update state when connected
       websocket.current.send("Websocket Connected to React");
     };
-
-    websocket.current.onmessage = function (event) {
+  
+    websocket.current.onmessage = (event) => {
       console.log("Data received from backend");
-      // Your logic for processing the received data
-
-      const data = JSON.parse(event.data); 
-
-      if(data.message_type === "Force Data"){
+      const data = JSON.parse(event.data);
+  
+      if (data.message_type === "Force Data") {
         updateVisualThreshold(data.force);
-      }
-      else if(data.message_type === "Target Zone"){
+      } else if (data.message_type === "Target Zone") {
         updateTargetZones(data);
       }
     };
-
+  
     websocket.current.onclose = (event) => {
       console.log("WebSocket connection closed: ", event);
-      setIsWebSocketConnected(false); // Update state when closed
+      setIsWebSocketConnected(false); // Update state when connected
       setWebSocketError("WebSocket connection closed. Data streaming stopped.");
     };
-
+  
     websocket.current.onerror = (event) => {
       console.log("WebSocket error: ", event);
       setWebSocketError("WebSocket encountered an error. Data streaming stopped.");
     };
+  }, []);
 
+  let websocket = useRef(null);
+
+  useEffect(() => {
+    reconnectWebsocket();
+  
     return () => {
       if (websocket.current) {
         websocket.current.close();
         console.log("WebSocket connection closed during cleanup");
       }
     };
-  }, []);
+  }, [reconnectWebsocket]);
 
 return (
     <div className="App">
@@ -109,6 +115,7 @@ return (
         {isWebSocketConnected
           ? "Connection established"
           : webSocketError || "Waiting for WebSocket connection..."}
+        {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
   
       {/* Page Content */}
