@@ -1,11 +1,11 @@
-.StepTimeDigits p {
+.StanceTimeDigits p {
     padding: 0;
     margin: 0;
     text-decoration: underline;
 }
 
 
-.StepTimeDigits ul {
+.StanceTimeDigits ul {
     list-style-type: none;  
     margin: 2vh 0;
     padding: 0;
@@ -13,14 +13,14 @@
     justify-content: space-evenly
 }
 
-.StepTimeDigits li {
+.StanceTimeDigits li {
     flex: 1;
     display: inline;
     text-align: center;
     color: white;
 }
 
-.CurrentStepTime li {
+.CurrentStanceTime li {
     display: flex;
     flex-direction: column;
     justify-content: center;

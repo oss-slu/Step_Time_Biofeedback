@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import StepTimeDigits from "../StepTimeDigits";
+import StanceTimeDigits from "../StanceTimeDigits";
 
-describe("Step Time View Structure", () => {
-    const testStepTime = {
+describe("Stance Time View Structure", () => {
+    const testStanceTime = {
         left: 0,
         right: 0, 
         targetZones: {
@@ -12,26 +12,26 @@ describe("Step Time View Structure", () => {
     };
 
     test("Target Zone Structure Correctly Rendered", () => {
-        render(<StepTimeDigits stepTime={testStepTime} />);
+        render(<StanceTimeDigits stanceTime={testStanceTime} />);
         expect(screen.getByTestId('target-zones-values')).toBeInTheDocument();
         expect(screen.getByTestId('target-zones-title')).toBeInTheDocument();
         expect(screen.getByTestId('target-zones-left')).toBeInTheDocument();
         expect(screen.getByTestId('target-zones-right')).toBeInTheDocument();
     });
 
-    test("Step Time Value Structure Correctly Rendered", () => {
-        render(<StepTimeDigits stepTime={testStepTime} />);
-        expect(screen.getByTestId('current-step-time-values')).toBeInTheDocument();
-        expect(screen.getByTestId('current-step-time-left')).toBeInTheDocument();
-        expect(screen.getByTestId('current-step-time-right')).toBeInTheDocument();
+    test("Stance Time Value Structure Correctly Rendered", () => {
+        render(<StanceTimeDigits stanceTime={testStanceTime} />);
+        expect(screen.getByTestId('current-stance-time-values')).toBeInTheDocument();
+        expect(screen.getByTestId('current-stance-time-left')).toBeInTheDocument();
+        expect(screen.getByTestId('current-stance-time-right')).toBeInTheDocument();
     });
 }); 
 
-describe("Step Time Data", () => {
-    let testStepTime;
+describe("Stance Time Data", () => {
+    let testStanceTime;
 
     beforeEach(() => {
-        testStepTime = {
+        testStanceTime = {
             left: 12,
             right: 27,
             targetZones: {
@@ -42,14 +42,14 @@ describe("Step Time Data", () => {
     });
 
     test("Initial Target Zones correctly rendered", () => {
-        render(<StepTimeDigits stepTime={testStepTime}/>);
+        render(<StanceTimeDigits stanceTime={testStanceTime}/>);
         expect(screen.getByTestId('target-zones-left').textContent).toBe('5.0000-10.0000');
         expect(screen.getByTestId('target-zones-right').textContent).toBe('3.0000-20.0000');
     });
 
-    test("Initial Current Step Time Values correctly rendered", () => {
-        render(<StepTimeDigits stepTime={testStepTime}/>);
-        expect(screen.getByTestId('current-step-time-left').textContent).toBe('12');
-        expect(screen.getByTestId('current-step-time-right').textContent).toBe('27');
+    test("Initial Current Stance Time Values correctly rendered", () => {
+        render(<StanceTimeDigits stanceTime={testStanceTime}/>);
+        expect(screen.getByTestId('current-stance-time-left').textContent).toBe('12');
+        expect(screen.getByTestId('current-stance-time-right').textContent).toBe('27');
     });
 }); 
