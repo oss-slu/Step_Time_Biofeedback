@@ -3,20 +3,22 @@ import StanceTimeDigits from './StanceTimeDigits';
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-function ClientView({ borderColor, stanceTime }) {
+function ClientView({ borderColor, stanceTime, closeCallback }) {
   const newWindowRef = useRef(null);
 	const [container, setContainer] = useState(null);
+
+  if (newWindowRef.current && newWindowRef.current.closed) closeCallback();
 
 	useEffect(() => {
 		newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
 
 		if (newWindowRef.current) {
-      let newWindow = newWindowRef.current.document;
+      let newWindow = newWindowRef.current;
 
-      // copies css from parent window to child
-      newWindow.head.innerHTML = window.document.head.innerHTML;
+      // Copies CSS from the parent window to the child window
+      newWindow.document.head.innerHTML = window.document.head.innerHTML;
 
-      setContainer(newWindow.body);
+      setContainer(newWindow.document.body);
 
       // when the ClientView component is unloaded this runs to close the popup
 			return () => {

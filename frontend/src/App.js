@@ -127,7 +127,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
-      {clientIsOpen && <ClientView stanceTime={stanceTime} borderColor={borderColor}/>}
+      {clientIsOpen && <ClientView stanceTime={stanceTime} borderColor={borderColor} closeCallback={closeClientView}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
