@@ -11,8 +11,9 @@ function ClientView({ borderColor, stanceTime }) {
 		newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
 
 		if (newWindowRef.current) {
-      // copies css from parent window to child
       let newWindow = newWindowRef.current.document;
+
+      // copies css from parent window to child
       newWindow.head.innerHTML = window.document.head.innerHTML;
 
       setContainer(newWindow.body);
@@ -36,7 +37,7 @@ function ClientView({ borderColor, stanceTime }) {
 	if (!container) return null;
 
 	return ReactDOM.createPortal(
-    <header className="App-header">
+    <header className="App-header" style={{minHeight:"100vh"}}>
       <StanceTimeDigits stanceTime={stanceTime}/>
     </header>,
 		container
