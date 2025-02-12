@@ -1,9 +1,12 @@
+.StanceTimeDigits {
+    text-align: center;
+}
+
 .StanceTimeDigits p {
     padding: 0;
     margin: 0;
     text-decoration: underline;
 }
-
 
 .StanceTimeDigits ul {
     list-style-type: none;  
@@ -16,7 +19,6 @@
 .StanceTimeDigits li {
     flex: 1;
     display: inline;
-    text-align: center;
     color: white;
 }
 
@@ -28,7 +30,6 @@
     border: .2vw solid #FFFDD0;
     border-radius: 1vw;
     transition: border-color .3s linear;
-    text-align: center;
     padding: 1vh 1vw;
     font-size: calc(30px + 2vmin);
     height: 75vh;
