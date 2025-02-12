@@ -46,6 +46,16 @@
   color: #61dafb;
 }
 
+#popout-icon {
+  cursor: pointer;
+  text-align: center;
+  background-color: white;
+  position: absolute;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

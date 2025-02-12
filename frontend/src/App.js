@@ -6,6 +6,7 @@ import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
 import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
+import ClientView from './ClientView';
 
 function App() {
   const [currentView, setCurrentView] = useState('StanceTimeDigits');
@@ -24,6 +25,8 @@ function App() {
 
   const [movingAverageFactor, setMovingAverageFactor] = useState();
   const [threshold, setThreshold] = useState();
+  const [borderColor, setBorderColor] = useState("green");
+  const [clientIsOpen, setClientOpen] = useState(false);
 
   const views = {
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
@@ -41,6 +44,7 @@ function App() {
     } else {
       color = "green";
     }
+    setBorderColor(color);
     console.log(color);
   
     const elements = document.querySelectorAll(".CurrentStanceTime li");
@@ -109,6 +113,10 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
+  
+  const openClientView = () => setClientOpen(true);
+  const closeClientView = () => setClientOpen(false);
+
 return (
     <div className="App">
       <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
@@ -118,6 +126,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
+      {clientIsOpen && <ClientView stanceTime={stanceTime} borderColor={borderColor}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
@@ -128,6 +137,7 @@ return (
         />
         </div>
         <div className= "main-view">
+          <img data-testid='client-view-popout-toggle' id='popout-icon' title="Toggle client view" onClick={clientIsOpen ? closeClientView : openClientView} alt='pop-out icon' src='/new-window.png'></img>
           <header className="App-header">
           {views[currentView]}
           </header>
