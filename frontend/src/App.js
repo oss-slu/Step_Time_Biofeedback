@@ -25,6 +25,7 @@ function App() {
 
   const [movingAverageFactor, setMovingAverageFactor] = useState();
   const [threshold, setThreshold] = useState();
+
   const [borderColor, setBorderColor] = useState("green");
   const [clientIsOpen, setClientOpen] = useState(false);
 
@@ -137,7 +138,12 @@ return (
         />
         </div>
         <div className= "main-view">
-          <img data-testid='client-view-popout-toggle' id='popout-icon' title="Toggle client view" onClick={clientIsOpen ? closeClientView : openClientView} alt='pop-out icon' src='/new-window.png'></img>
+          <img data-testid='client-view-popout-toggle' id='popout-icon' 
+            title="Toggle client view"
+            onClick={clientIsOpen ? closeClientView : openClientView}
+            alt='pop-out icon'
+            src='/pop-out.png'
+            style={{transform: `rotate(${clientIsOpen ? "180deg" : "0deg"})`}}></img>
           <header className="App-header">
           {views[currentView]}
           </header>
