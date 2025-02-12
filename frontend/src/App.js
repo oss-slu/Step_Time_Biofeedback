@@ -139,10 +139,8 @@ return (
         </div>
         <div className= "main-view">
           <img data-testid='client-view-popout-toggle' id='popout-icon' 
-            title="Toggle client view"
+            title="Toggle client view" alt='pop-out icon' src='/pop-out.png'
             onClick={clientIsOpen ? closeClientView : openClientView}
-            alt='pop-out icon'
-            src='/pop-out.png'
             style={{transform: `rotate(${clientIsOpen ? "180deg" : "0deg"})`}}></img>
           <header className="App-header">
           {views[currentView]}
