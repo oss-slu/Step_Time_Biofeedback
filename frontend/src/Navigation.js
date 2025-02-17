@@ -8,6 +8,7 @@ function Naviation({ setCurrentView }) {
                 <li data-testid='stance-time-chart-nav' onClick={() => setCurrentView('StanceTimeChart')}>Stance Time Chart</li>
                 <li data-testid='stance-time-graph-nav' onClick={() => setCurrentView('StanceTimeGraph')}>Stance Time Graph</li>
                 <li data-testid='stance-time-treadmill-nav' onClick={() => setCurrentView('StanceTimeTredmill')}>Stance Time Treadmill</li>
+                <li data-testid='researcher-view-nav' onClick={() => setCurrentView('ResearcherView')}>Researcher View</li>
             </ul>
         </nav>
     );
