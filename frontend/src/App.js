@@ -6,7 +6,7 @@ import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
 import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
-import ClientView from './ClientView';
+import PatientView from './PatientView';
 
 function App() {
   const [currentView, setCurrentView] = useState('StanceTimeDigits');
@@ -27,7 +27,7 @@ function App() {
   const [threshold, setThreshold] = useState();
 
   const [borderColor, setBorderColor] = useState("green");
-  const [clientIsOpen, setClientOpen] = useState(false);
+  const [patientIsOpen, setPatientOpen] = useState(false);
 
   const views = {
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
@@ -115,8 +115,8 @@ function App() {
   }, [reconnectWebsocket]);
 
   
-  const openClientView = () => setClientOpen(true);
-  const closeClientView = () => setClientOpen(false);
+  const openPatientView = () => setPatientOpen(true);
+  const closePatientView = () => setPatientOpen(false);
 
 return (
     <div className="App">
@@ -127,7 +127,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
-      {clientIsOpen && <ClientView stanceTime={stanceTime} borderColor={borderColor} closeCallback={closeClientView}/>}
+      {patientIsOpen && <PatientView stanceTime={stanceTime} borderColor={borderColor} closeCallback={closePatientView}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
@@ -138,10 +138,10 @@ return (
         />
         </div>
         <div className= "main-view">
-          <img data-testid='client-view-popout-toggle' id='popout-icon' 
-            title="Toggle client view" alt='pop-out icon' src='/pop-out.png'
-            onClick={clientIsOpen ? closeClientView : openClientView}
-            style={{transform: `rotate(${clientIsOpen ? "180deg" : "0deg"})`}}></img>
+          <img data-testid='patient-view-popout-toggle' id='popout-icon' 
+            title="Toggle patient view" alt='pop-out icon' src='/pop-out.png'
+            onClick={patientIsOpen ? closePatientView : openPatientView}
+            style={{transform: `rotate(${patientIsOpen ? "180deg" : "0deg"})`}}></img>
           <header className="App-header">
           {views[currentView]}
           </header>

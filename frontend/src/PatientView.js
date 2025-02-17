@@ -24,8 +24,11 @@ function ClientView({ borderColor, stanceTime, closeCallback }) {
 			return () => {
 				newWindowRef.current.close();
 			};
-		}
-	}, []);
+		} else {
+      alert("Please Allow Pop-ups in this window");
+      closeCallback();
+    }
+	}, [closeCallback]);
 
   useEffect(() => {
     if (container) {
