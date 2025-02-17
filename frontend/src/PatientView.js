@@ -26,9 +26,8 @@ function PatientView({ borderColor, stanceTime, closeCallback }) {
 			};
 		} else {
       alert("Please Allow Pop-ups in this window");
-      closeCallback();
     }
-	}, [closeCallback]);
+	}, []);
 
   useEffect(() => {
     if (container) {
