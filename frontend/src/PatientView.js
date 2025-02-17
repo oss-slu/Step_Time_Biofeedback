@@ -3,7 +3,7 @@ import StanceTimeDigits from './StanceTimeDigits';
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-function ClientView({ borderColor, stanceTime, closeCallback }) {
+function PatientView({ borderColor, stanceTime, closeCallback }) {
   const newWindowRef = useRef(null);
 	const [container, setContainer] = useState(null);
 
@@ -20,7 +20,7 @@ function ClientView({ borderColor, stanceTime, closeCallback }) {
 
       setContainer(newWindow.document.body);
 
-      // when the ClientView component is unloaded this runs to close the popup
+      // when the component is unloaded this runs to close the popup
 			return () => {
 				newWindowRef.current.close();
 			};
@@ -49,4 +49,4 @@ function ClientView({ borderColor, stanceTime, closeCallback }) {
 	);
 }
 
-export default ClientView;
+export default PatientView;
