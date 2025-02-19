@@ -10,15 +10,12 @@ function PatientView({ borderColor, stanceTime, closeCallback }) {
   if (newWindowRef.current && newWindowRef.current.closed) closeCallback();
 
 	useEffect(() => {
-		newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
+    newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
 
 		if (newWindowRef.current) {
-      let newWindow = newWindowRef.current;
-
       // Copies CSS from the parent window to the child window
-      newWindow.document.head.innerHTML = window.document.head.innerHTML;
-
-      setContainer(newWindow.document.body);
+      newWindowRef.current.document.head.innerHTML = window.document.head.innerHTML;
+      setContainer(newWindowRef.current.document.body);
 
       // when the component is unloaded this runs to close the popup
 			return () => {
@@ -30,7 +27,7 @@ function PatientView({ borderColor, stanceTime, closeCallback }) {
 	}, []);
 
   useEffect(() => {
-    if (container) {
+    if (container && !container.closed) {
       const elements = container.querySelectorAll(".CurrentStanceTime li");
       elements.forEach(element => {
         element.style.borderColor = borderColor;
