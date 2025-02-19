@@ -19,6 +19,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUILD_TYPE: Release
+      REACT_APP_WEBSOCKET_URL: ${{ secrets.REACT_APP_WEBSOCKET_URL }}
     strategy:
       matrix:
         node-version: [20.x]

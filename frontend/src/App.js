@@ -66,8 +66,8 @@ function App() {
       console.log("WebSocket connection closed manually.");
     }
   
-    websocket.current = new WebSocket("ws://localhost:8000/ws");
-  
+    const websocketURL = process.env.REACT_APP_WEBSOCKET_URL;
+    websocket.current = new WebSocket(websocketURL);
     websocket.current.onopen = () => {
       console.log("WebSocket Connected to React");
       setIsWebSocketConnected(true); // Update state when connected
