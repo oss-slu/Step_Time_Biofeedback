@@ -8,6 +8,10 @@
     background-color: white;
 }
 
+.Treadmill-text {
+    background-color: #292c33;
+}
+
 .Treadmill line {
     stroke-width: .02vw;
 }

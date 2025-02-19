@@ -14,8 +14,10 @@ function StanceTimeTreadmill({ stanceTime }) {
   let leftMinPosition = Math.min(scaleFactor + leftOffsetMax, 100);
   let rightMaxPosition = Math.max(scaleFactor - rightOffsetMin, 0);
   let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 100);
-  let leftCurrent = stanceTime.left * leftScaleFactor;
-  let rightCurrent = stanceTime.right * rightScaleFactor;
+  // let leftCurrent = stanceTime.left * leftScaleFactor;
+  // let rightCurrent = stanceTime.right * rightScaleFactor;
+  let leftCurrent = Math.floor(Math.random() * 80);
+  let rightCurrent = Math.floor(Math.random() * 80);
 
   console.log("leftCurrent:", leftCurrent, "leftMinPosition:", leftMinPosition);
   console.log("rightCurrent:", leftCurrent, "rightMinPosition:", leftMinPosition);
@@ -53,12 +55,12 @@ function StanceTimeTreadmill({ stanceTime }) {
           <g data-testid="baseline" className="YAxis">
             <line x1="5" x2="5" y1="0" y2="100" />
           </g>
-          <g>
+          {/* <g>
             <text x="29" y="95" textAnchor="middle" fontSize="4"> Left</text>
           </g>
           <g>
             <text x="79" y="95" textAnchor="middle" fontSize="4"> Right</text>
-          </g>
+          </g> */}
           <g data-testid="left-target-zones" className="LeftTargetZones">
             <rect
               className="max-zone"
@@ -103,6 +105,10 @@ function StanceTimeTreadmill({ stanceTime }) {
             )}
           </g>
         </g>
+      </svg>
+      <svg data-testid="treadmill-text-svg" className="Treadmill-text" viewBox="0 0 100 10" preserveAspectRatio="none">
+        <text x="29" y="5" textAnchor="middle" fontSize="5" fill="white">Left</text>
+        <text x="79" y="5" textAnchor="middle" fontSize="5" fill="white">Right</text>
       </svg>
     </div>
   );
