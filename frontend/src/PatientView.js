@@ -12,7 +12,7 @@ function PatientView({ borderColor, stanceTime, closeCallback }) {
 	useEffect(() => {
     newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
 
-		if (newWindowRef.current) {
+		if (newWindowRef.current && newWindowRef.current.document.readyState === 'complete') {
       // Copies CSS from the parent window to the child window
       newWindowRef.current.document.head.innerHTML = window.document.head.innerHTML;
       setContainer(newWindowRef.current.document.body);
@@ -22,6 +22,8 @@ function PatientView({ borderColor, stanceTime, closeCallback }) {
 				newWindowRef.current.close();
 			};
 		} else {
+      if (newWindowRef.current) newWindowRef.current.close();
+
       alert("Please Allow Pop-ups in this window");
     }
 	}, []);
