@@ -6,6 +6,7 @@ import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
 import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
+import ResearcherView from './ResearcherView';
 
 function App() {
   const [currentView, setCurrentView] = useState('StanceTimeDigits');
@@ -29,7 +30,8 @@ function App() {
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
     StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
     StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} />,
-    StanceTimeTredmill: <StanceTimeTredmill stanceTime={stanceTime} />
+    StanceTimeTredmill: <StanceTimeTredmill stanceTime={stanceTime} />,
+    ResearcherView: <ResearcherView />
   };
 
   function updateVisualThreshold(forceData) {
