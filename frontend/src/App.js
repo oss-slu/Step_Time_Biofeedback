@@ -6,6 +6,7 @@ import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
 import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
+import PatientView from './PatientView';
 
 function App() {
   const [currentView, setCurrentView] = useState('StanceTimeDigits');
@@ -25,6 +26,9 @@ function App() {
   const [movingAverageFactor, setMovingAverageFactor] = useState();
   const [threshold, setThreshold] = useState();
 
+  const [borderColor, setBorderColor] = useState("green");
+  const [patientIsOpen, setPatientOpen] = useState(false);
+
   const views = {
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
     StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
@@ -41,6 +45,7 @@ function App() {
     } else {
       color = "green";
     }
+    setBorderColor(color);
     console.log(color);
   
     const elements = document.querySelectorAll(".CurrentStanceTime li");
@@ -109,6 +114,10 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
+  
+  const openPatientView = () => setPatientOpen(true);
+  const closePatientView = () => setPatientOpen(false);
+
 return (
     <div className="App">
       <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
@@ -118,6 +127,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
+      {patientIsOpen && <PatientView stanceTime={stanceTime} borderColor={borderColor} closeCallback={closePatientView}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
@@ -128,6 +138,10 @@ return (
         />
         </div>
         <div className= "main-view">
+          <img data-testid='patient-view-popout-toggle' id='popout-icon' 
+            title="Toggle patient view" alt='pop-out icon' src='/pop-out.png'
+            onClick={patientIsOpen ? closePatientView : openPatientView}
+            style={{transform: `rotate(${patientIsOpen ? "180deg" : "0deg"})`}}></img>
           <header className="App-header">
           {views[currentView]}
           </header>
