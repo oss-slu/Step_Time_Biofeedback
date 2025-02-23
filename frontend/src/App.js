@@ -27,7 +27,7 @@ function App() {
   const [threshold, setThreshold] = useState();
 
   const [borderColor, setBorderColor] = useState("green");
-  const [patientIsOpen, setPatientOpen] = useState(false);
+  const [patientView, setPatientView] = useState(false);
 
   const views = {
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
@@ -114,9 +114,14 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
-  
-  const openPatientView = () => setPatientOpen(true);
-  const closePatientView = () => setPatientOpen(false);
+	const openPatientView = () => {
+		setPatientView(window.open('', '_blank', 'width=800px,height=600px'));
+	};
+
+	const closePatientView = () => {
+    // closing is possible without initialization if a duplicate tab is opened 
+    if (patientView) patientView.close();
+  }
 
 return (
     <div className="App">
@@ -127,7 +132,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
-      {patientIsOpen && <PatientView stanceTime={stanceTime} borderColor={borderColor} closeCallback={closePatientView}/>}
+      {patientView && <PatientView stanceTime={stanceTime} borderColor={borderColor} view={patientView}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
@@ -138,10 +143,11 @@ return (
         />
         </div>
         <div className= "main-view">
-          <img data-testid='patient-view-popout-toggle' id='popout-icon' 
-            title="Toggle patient view" alt='pop-out icon' src='/pop-out.png'
-            onClick={patientIsOpen ? closePatientView : openPatientView}
-            style={{transform: `rotate(${patientIsOpen ? "180deg" : "0deg"})`}}></img>
+        <img data-testid='patient-view-popout-toggle'
+						id='popout-icon' title='Toggle patient view'
+						alt='pop-out icon' src='/pop-out.png'
+						onClick={patientView && !patientView.closed ? closePatientView : openPatientView}
+						style={{ transform: `rotate(${patientView && !patientView.closed ? '180deg' : '0deg'})` }}></img>
           <header className="App-header">
           {views[currentView]}
           </header>

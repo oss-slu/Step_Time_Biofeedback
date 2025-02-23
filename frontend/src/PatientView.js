@@ -1,32 +1,22 @@
 import StanceTimeDigits from './StanceTimeDigits';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-function PatientView({ borderColor, stanceTime, closeCallback }) {
-  const newWindowRef = useRef(null);
+function PatientView({ borderColor, stanceTime, view }) {
 	const [container, setContainer] = useState(null);
 
-  if (newWindowRef.current && newWindowRef.current.closed) closeCallback();
-
 	useEffect(() => {
-    newWindowRef.current = window.open('', '_blank', 'width=800px,height=600px');
-
-		if (newWindowRef.current && newWindowRef.current.document.readyState === 'complete') {
+		if (view && view.document.readyState === 'complete') {
       // Copies CSS from the parent window to the child window
-      newWindowRef.current.document.head.innerHTML = window.document.head.innerHTML;
-      setContainer(newWindowRef.current.document.body);
-
-      // when the component is unloaded this runs to close the popup
-			return () => {
-				newWindowRef.current.close();
-			};
+      view.document.head.innerHTML = window.document.head.innerHTML;
+      setContainer(view.document.body);
 		} else {
-      if (newWindowRef.current) newWindowRef.current.close();
+      if (view) view.close();
 
       alert("Please Allow Pop-ups in this window");
     }
-	}, []);
+	}, [view]);
 
   useEffect(() => {
     if (container && !container.closed) {
