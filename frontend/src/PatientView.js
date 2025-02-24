@@ -17,7 +17,7 @@ function PatientView({ borderColor, stanceTime, view }) {
 	}, [view]);
 
   useEffect(() => {
-    if (container && !container.closed) {
+    if (container) {
       const elements = container.querySelectorAll(".CurrentStanceTime li");
       elements.forEach(element => {
         element.style.borderColor = borderColor;
