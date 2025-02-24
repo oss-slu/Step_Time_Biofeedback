@@ -7,7 +7,7 @@ function PatientView({ borderColor, stanceTime, view }) {
 	const [container, setContainer] = useState(null);
 
 	useEffect(() => {
-		if (view && view.document.readyState === 'complete') {
+		if (view) {
       // Copies CSS from the parent window to the child window
       view.document.head.innerHTML = window.document.head.innerHTML;
       setContainer(view.document.body);
