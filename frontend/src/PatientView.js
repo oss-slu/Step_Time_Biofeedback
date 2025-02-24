@@ -12,8 +12,6 @@ function PatientView({ borderColor, stanceTime, view }) {
       view.document.head.innerHTML = window.document.head.innerHTML;
       setContainer(view.document.body);
 		} else {
-      if (view) view.close();
-
       alert("Please Allow Pop-ups in this window");
     }
 	}, [view]);
