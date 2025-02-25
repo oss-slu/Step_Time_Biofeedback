@@ -124,6 +124,7 @@ function App() {
         setCurrentPatientView(currentView);
       }
     } else {
+      setCurrentPatientView(currentView);
       setPatientWindow(window.open('', '_blank', 'width=800px,height=600px'));
     }
   }
