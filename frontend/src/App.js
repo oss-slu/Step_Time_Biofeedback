@@ -9,7 +9,7 @@ import ResearcherToolbar from './components/ResearcherToolbar';
 import PatientView from './PatientView';
 
 function App() {
-  const [currentView, setCurrentView] = useState('StanceTimeDigits');
+  const [currentView, setCurrentView] = useState('StanceTimeTredmill');
 
   const [stanceTime, setStanceTime] = useState({
     left: 0, 
