@@ -19,7 +19,7 @@ function StanceTimeTreadmill({ stanceTime }) {
     <div data-testid='stance-time-treadmill-view' className="StanceTimeTreadmill">
       <div className='visual-key'>
         <ul>
-          <li><strong><u>Key</u></strong></li>
+          <li><strong><u>Key:</u></strong></li>
           <li><strong>Vertical Lines:</strong> The blue line represents the upper echlon of the target zone and the orange line represents the bottom line of the target zone for left and right target zones respectively.</li>
           <li><strong>X's:</strong> The left and right x's represent the left and right current stance time respectively.</li>
         </ul>
