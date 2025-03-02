@@ -8,7 +8,7 @@ function StanceTimeDigits({ stanceTime }) {
   return (
     <div data-testid='stance-time-digits-view' className="StanceTimeDigits">
       <div data-testid='target-zones-values' className="TargetZones">
-        <p data-testid='target-zones-title'>Target Zones</p>
+        <p data-testid='target-zones-title'><strong><u>Target Zones</u></strong></p>
         <ul>
           <li data-testid='target-zones-left'>{minTargetZoneLeft.toFixed(4)}-{maxTargetZoneLeft.toFixed(4)}</li>
           <li data-testid='target-zones-right'>{minTargetZoneRight.toFixed(4)}-{maxTargetZoneRight.toFixed(4)}</li>
