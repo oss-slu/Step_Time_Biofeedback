@@ -5,7 +5,11 @@
     border-color: darkgray;
     border-style: solid;
     border-width: .25vw;
-    background-color: gray;
+    background-color: white;
+}
+
+.Treadmill-text {
+    background-color: #292c33;
 }
 
 .Treadmill line {
@@ -13,7 +17,8 @@
 }
 
 .TargetZones .max-zone {
-    stroke: blue;
+    border: 0;
+    fill:  #A3BED4;
 }
 
 .TargetZones .min-zone {
@@ -21,6 +26,15 @@
 }
 
 .StanceTimeValues line {
+    stroke: black;
+}
+
+.Baseline {
+    stroke: black;
+    stroke-dasharray: .005cm;
+}
+
+.YAxis {
     stroke: black;
 }
 
