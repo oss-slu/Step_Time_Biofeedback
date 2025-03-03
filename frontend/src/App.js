@@ -30,11 +30,12 @@ function App() {
   const [patientView, setPatientView] = useState(false);
 
   const views = {
-    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} />,
-    StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
-    StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
-    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} /> 
+    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} data-testid="stance-time-treadmill-view" />,
+    StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} data-testid="stance-time-digits-view" />,
+    StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} data-testid="stance-time-chart-view" />,
+    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} data-testid="stance-time-graph-view" />
   };
+
 
   function updateVisualThreshold(forceData) {
     let color = null;
