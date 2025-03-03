@@ -1,15 +1,15 @@
 import './App.css';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from './Navigation';
+import StanceTimeTreadmill from './StanceTimeTreadmill';
 import StanceTimeDigits from './StanceTimeDigits';
 import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
-import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
 import PatientView from './PatientView';
 
 function App() {
-  const [currentView, setCurrentView] = useState('StanceTimeTredmill');
+  const [currentView, setCurrentView] = useState('StanceTimeTreadmill');
 
   const [stanceTime, setStanceTime] = useState({
     left: 0, 
@@ -30,10 +30,10 @@ function App() {
   const [patientView, setPatientView] = useState(false);
 
   const views = {
+    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} />,
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
     StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
-    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} />,
-    StanceTimeTredmill: <StanceTimeTredmill stanceTime={stanceTime} />
+    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} /> 
   };
 
   function updateVisualThreshold(forceData) {
