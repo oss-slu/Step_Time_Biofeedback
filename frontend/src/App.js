@@ -27,7 +27,9 @@ function App() {
   const [threshold, setThreshold] = useState();
 
   const [borderColor, setBorderColor] = useState("green");
-  const [patientView, setPatientView] = useState(false);
+
+  const [patientWindow, setPatientWindow] = useState(false);
+  const [currentPatientView, setCurrentPatientView] = useState("StanceTimeDigits");
 
   const views = {
     StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} data-testid="stance-time-treadmill-view" />,
@@ -115,13 +117,17 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
-	const openPatientView = () => {
-		setPatientView(window.open('', '_blank', 'width=800px,height=600px'));
-	};
-
-	const closePatientView = () => {
-    // closing is possible without initialization if a duplicate tab is opened 
-    if (patientView) patientView.close();
+  const toggle = () => {
+    if (patientWindow && !patientWindow.closed) {
+      if (currentPatientView === currentView) {
+        patientWindow.close();
+      } else {
+        setCurrentPatientView(currentView);
+      }
+    } else {
+      setCurrentPatientView(currentView);
+      setPatientWindow(window.open('', '_blank', 'width=800px,height=600px'));
+    }
   }
 
 return (
@@ -133,7 +139,7 @@ return (
         {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
       </div>
       <Navigation setCurrentView={setCurrentView}/>
-      {patientView && <PatientView stanceTime={stanceTime} borderColor={borderColor} view={patientView}/>}
+      {patientWindow && <PatientView borderColor={borderColor} patientWindow={patientWindow} view={views[currentPatientView]}/>}
       <div className= "main-layout">
         <div className= "sidebar">
           <ResearcherToolbar 
@@ -144,11 +150,16 @@ return (
         />
         </div>
         <div className= "main-view">
-        <img data-testid='patient-view-popout-toggle'
+          <img
+            data-testid='patient-view-popout-toggle'
 						id='popout-icon' title='Toggle patient view'
 						alt='pop-out icon' src='/pop-out.png'
-						onClick={patientView && !patientView.closed ? closePatientView : openPatientView}
-						style={{ transform: `rotate(${patientView && !patientView.closed ? '180deg' : '0deg'})` }}></img>
+            onClick={toggle}
+						style={{ transform: `rotate(${
+              patientWindow && !patientWindow.closed && currentPatientView === currentView
+              ? '180deg' : '0deg'})`
+          }}>
+          </img>
           <header className="App-header">
           {views[currentView]}
           </header>
