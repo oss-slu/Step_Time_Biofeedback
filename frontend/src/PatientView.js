@@ -1,20 +1,18 @@
-import StanceTimeDigits from './StanceTimeDigits';
-
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-function PatientView({ borderColor, stanceTime, view }) {
+function PatientView({ borderColor, patientWindow, view }) {
 	const [container, setContainer] = useState(null);
 
 	useEffect(() => {
-		if (view) {
+		if (patientWindow) {
       // Copies CSS from the parent window to the child window
-      view.document.head.innerHTML = window.document.head.innerHTML;
-      setContainer(view.document.body);
+      patientWindow.document.head.innerHTML = window.document.head.innerHTML;
+      setContainer(patientWindow.document.body);
 		} else {
       alert("Please Allow Pop-ups in this window");
     }
-	}, [view]);
+	}, [patientWindow]);
 
   useEffect(() => {
     if (container) {
@@ -29,7 +27,7 @@ function PatientView({ borderColor, stanceTime, view }) {
 
 	return ReactDOM.createPortal(
     <header className="App-header" style={{minHeight:"100vh"}}>
-      <StanceTimeDigits stanceTime={stanceTime}/>
+      {view}
     </header>,
 		container
 	);
