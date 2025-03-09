@@ -20,7 +20,7 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
 
       {/* Threshold Input */}
       <div className="tool">
-        <label className="tool-label">Threshold:            </label>
+        <label className="tool-label">Threshold:</label>
         <input
           type="number"
           value={threshold}

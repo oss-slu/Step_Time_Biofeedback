@@ -1,28 +1,29 @@
 
 .sidebar {
-    position: absolute; 
-    top: 101px;
+    top: 77.5px;
     left: 0;
-    width: 240px;
-    height: calc(100vh - 87px);
+    width: 250px;
     background-color: #333;
     padding: 15px;
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    vertical-align: top;
+    
   }
   
   .main-layout {
+    position: relative;
     display: flex;
-    margin-left: 250px;
-    width: calc(100% - 250px);
+    align-items: stretch;
+    width: 100%;
   }
   
   /* Main View (Takes Remaining Space) */
   .main-view {
     flex-grow: 1;
     padding: 20px;
-    background-color: white;
+    background-color: #333;
   }
   
