@@ -1,5 +1,5 @@
 .Navigation {
-    background-color: white;
+    background-color: #333;
 }
 
 .Navigation ul{
@@ -13,12 +13,12 @@
 .Navigation li {
     flex: 1;
     display: inline-block;
-    color: black;
+    color: white;
     padding: 1vh 1vw;
     cursor: pointer;
     text-align: center;
 }
 
 .Navigation li:hover {
-    background-color: grey;
+    background-color: rgb(178, 176, 176);
 }
