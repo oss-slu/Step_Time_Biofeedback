@@ -20,7 +20,7 @@ describe("Stancetime view changes", () => {
 
   test("Force Threshold Green Test", async () => {
     render(<App />);
-
+    fireEvent.click(screen.getByTestId("stance-time-digits-nav"));
     server.send(
       JSON.stringify({
         message_type: "Force Data",
@@ -38,7 +38,7 @@ describe("Stancetime view changes", () => {
 
   test("Force Threshold Yellow Test", async () => {
     render(<App />);
-
+    fireEvent.click(screen.getByTestId("stance-time-digits-nav"));
     server.send(
       JSON.stringify({
         message_type: "Force Data",
@@ -56,7 +56,7 @@ describe("Stancetime view changes", () => {
 
   test("Force Threshold Red Test", async () => {
     render(<App />);
-
+    fireEvent.click(screen.getByTestId("stance-time-digits-nav"));
     server.send(
       JSON.stringify({
         message_type: "Force Data",
