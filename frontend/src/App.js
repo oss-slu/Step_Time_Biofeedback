@@ -1,15 +1,15 @@
 import './App.css';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from './Navigation';
+import StanceTimeTreadmill from './StanceTimeTreadmill';
 import StanceTimeDigits from './StanceTimeDigits';
 import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
-import StanceTimeTredmill from './StanceTimeTreadmil';
 import ResearcherToolbar from './components/ResearcherToolbar';
 import PatientView from './PatientView';
 
 function App() {
-  const [currentView, setCurrentView] = useState('StanceTimeDigits');
+  const [currentView, setCurrentView] = useState('StanceTimeTreadmill');
 
   const [stanceTime, setStanceTime] = useState({
     left: 0, 
@@ -32,11 +32,12 @@ function App() {
   const [currentPatientView, setCurrentPatientView] = useState("StanceTimeDigits");
 
   const views = {
-    StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} />,
-    StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} />,
-    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} />,
-    StanceTimeTredmill: <StanceTimeTredmill stanceTime={stanceTime} />
+    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} data-testid="stance-time-treadmill-view" />,
+    StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} data-testid="stance-time-digits-view" />,
+    StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} data-testid="stance-time-chart-view" />,
+    StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} data-testid="stance-time-graph-view" />
   };
+
 
   function updateVisualThreshold(forceData) {
     let color = null;
