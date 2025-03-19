@@ -1,11 +1,12 @@
-import './ResearcherToolbar.css';
+import { useState } from "react";
+import "./ResearcherToolbar.css";
 
-function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold }) {
+function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold, sendThresholdToBackend }) {
+
   return (
     <div className="researcher-toolbar">
       <h3 className="toolbar-header">Researcher Toolbar</h3>
 
-      {/* Moving Average Factor Input */}
       <div className="tool">
         <label className="tool-label">Moving Average Factor:</label>
         <input
@@ -13,12 +14,12 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
           value={movingAverageFactor}
           onChange={(e) => setMovingAverageFactor(Number(e.target.value))}
           className="tool-input"
+          data-testid="moving-average-input"
         />
       </div>
 
       <br />
 
-      {/* Threshold Input */}
       <div className="tool">
         <label className="tool-label">Threshold:</label>
         <input
@@ -26,11 +27,13 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
           value={threshold}
           onChange={(e) => setThreshold(Number(e.target.value))}
           className="tool-input"
+          data-testid="threshold-input"
         />
       </div>
 
-      {/* Submit Button */}
-      <button className="toolbar-button">Submit</button>
+      <button className="toolbar-button" onClick={sendThresholdToBackend}  data-testid="threshold-btn">
+        Submit
+      </button>
     </div>
   );
 }

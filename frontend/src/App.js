@@ -23,8 +23,8 @@ function App() {
   const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
   const [webSocketError, setWebSocketError] = useState(null);
 
-  const [movingAverageFactor, setMovingAverageFactor] = useState();
-  const [threshold, setThreshold] = useState();
+  const [movingAverageFactor, setMovingAverageFactor] = useState(0);
+  const [threshold, setThreshold] = useState(0);
 
   const [borderColor, setBorderColor] = useState("green");
 
@@ -117,6 +117,17 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
+  function sendThresholdToBackend() {
+    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+      const data = { threshold };
+      console.log("Sending to backend: ", data);
+      websocket.current.send(JSON.stringify(data));
+      console.log("Threshold sent to backend:", data);
+    } else {
+      console.error("WebSocket is not open");
+    }
+  }
+
   const toggle = () => {
     if (patientWindow && !patientWindow.closed) {
       if (currentPatientView === currentView) {
@@ -130,7 +141,7 @@ function App() {
     }
   }
 
-return (
+  return (
     <div className="App">
       <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
         {isWebSocketConnected
@@ -140,22 +151,23 @@ return (
       </div>
       <Navigation setCurrentView={setCurrentView}/>
       {patientWindow && <PatientView borderColor={borderColor} patientWindow={patientWindow} view={views[currentPatientView]}/>}
-      <div className= "main-layout">
-        <div className= "sidebar">
+      <div className="main-layout">
+        <div className="sidebar">
           <ResearcherToolbar 
-          movingAverageFactor={movingAverageFactor} 
-          setMovingAverageFactor={setMovingAverageFactor}
-          threshold={threshold} 
-          setThreshold={setThreshold}
-        />
+            movingAverageFactor={movingAverageFactor} 
+            setMovingAverageFactor={setMovingAverageFactor}
+            threshold={threshold} 
+            setThreshold={setThreshold}
+            sendThresholdToBackend={sendThresholdToBackend}
+          />
         </div>
-        <div className= "main-view">
+        <div className="main-view">
           <img
             data-testid='patient-view-popout-toggle'
-						id='popout-icon' title='Toggle patient view'
-						alt='pop-out icon' src='/pop-out.png'
+            id='popout-icon' title='Toggle patient view'
+            alt='pop-out icon' src='/pop-out.png'
             onClick={toggle}
-						style={{ transform: `rotate(${
+            style={{ transform: `rotate(${
               patientWindow && !patientWindow.closed && currentPatientView === currentView
               ? '180deg' : '0deg'})`
           }}>

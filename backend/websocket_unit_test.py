@@ -99,3 +99,18 @@ def test_websocket_disconnect():
         
         # Add a small delay to ensure proper test completion
         asyncio.sleep(0.5)
+        
+def test_threshold_update():
+    """
+    Ensure threshold is correctly updated when received via WebSocket.
+    """
+    client = TestClient(biostepFeedback)
+    
+    with client.websocket_connect("/ws") as websocket:
+        test_threshold = 30.5
+        websocket.send_text(json.dumps({"threshold": test_threshold}))
+
+        response = websocket.receive_text()
+        response_data = json.loads(response)
+        
+        assert response_data["threshold"] == test_threshold, "Threshold was not updated correctly"
