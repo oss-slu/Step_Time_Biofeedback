@@ -1,6 +1,6 @@
 import numpy as np
 
-def calculate_stance_time(force_data, threshold=20.0, moving_avg_factor=2):
+def calculate_stance_time(force_data, threshold, moving_avg_factor=2):
     """
     Calculate stance time from force data collected from a Bertec treadmill.
 
