@@ -31,12 +31,13 @@ function StanceTimeTreadmill({ stanceTime }) {
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
       <div className="stance-time-treadmill-container">
-      <button 
+      <div 
+        className="help-icon-container"
         onClick={() => setShowHelpText(true)}
-        className="help-button"
+        title="Show help"
       >
-        Show Help
-      </button>
+        ❓ {/* Emoji as the help icon */}
+      </div>
 
       {showHelpText && (
         <div className="popup-overlay">
