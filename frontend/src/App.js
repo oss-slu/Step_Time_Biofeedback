@@ -31,13 +31,14 @@ function App() {
   const [patientWindow, setPatientWindow] = useState(false);
   const [currentPatientView, setCurrentPatientView] = useState("StanceTimeDigits");
 
+  const [showHelpText, setShowHelpText] = useState(false);
+
   const views = {
-    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} data-testid="stance-time-treadmill-view" />,
+    StanceTimeTreadmill: <StanceTimeTreadmill stanceTime={stanceTime} showHelpText={showHelpText} setShowHelpText={setShowHelpText} data-testid="stance-time-treadmill-view" />,
     StanceTimeDigits: <StanceTimeDigits stanceTime={stanceTime} data-testid="stance-time-digits-view" />,
     StanceTimeChart: <StanceTimeChart stanceTime={stanceTime} data-testid="stance-time-chart-view" />,
     StanceTimeGraph: <StanceTimeGraph stanceTime={stanceTime} data-testid="stance-time-graph-view" />
   };
-
 
   function updateVisualThreshold(forceData) {
     let color = null;

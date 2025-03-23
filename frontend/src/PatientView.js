@@ -6,9 +6,16 @@ function PatientView({ borderColor, patientWindow, view }) {
 
 	useEffect(() => {
 		if (patientWindow) {
+      const patientDoc = patientWindow.document;
+
       // Copies CSS from the parent window to the child window
-      patientWindow.document.head.innerHTML = window.document.head.innerHTML;
-      setContainer(patientWindow.document.body);
+      patientDoc.head.innerHTML = document.head.innerHTML;
+      setContainer(patientDoc.body);
+
+      document.querySelectorAll('link[rel="stylesheet"], style').forEach((style) => {
+        patientDoc.head.appendChild(style.cloneNode(true));
+      });
+
 		} else {
       alert("Please Allow Pop-ups in this window");
     }

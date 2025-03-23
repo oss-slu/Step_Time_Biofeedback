@@ -1,9 +1,6 @@
-import { useState } from "react";
 import "./StanceTimeTreadmill.css";
 
-function StanceTimeTreadmill({ stanceTime }) {
-  const [showHelpText, setShowHelpText] = useState(false);
-
+function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
   const scaleFactor = 50;
   const leftScaleFactor = scaleFactor / stanceTime.left;
   const rightScaleFactor = scaleFactor / stanceTime.right;
@@ -74,23 +71,35 @@ function StanceTimeTreadmill({ stanceTime }) {
           </g>
         </g>
         <g data-testid="stance-time-values" className="StanceTimeValues">
-          <g data-testid="left-step-mark" className="LeftStep">
+          <g
+            data-testid="left-step-mark" className="LeftStep"
+            style={{
+              transform: `translate(0, ${leftCurrent}px)`,
+              transition: 'transform 0.25s ease-in-out',
+            }}
+          >
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
-              <circle cx="29" cy={leftCurrent} r="1.5" fill="green" />
+              <circle cx="29" cy="0" r="1.5" fill="green" />
             ) : (
               <>
-                <line x1="27" y1={leftCurrent - 1.5} x2="31" y2={leftCurrent + 1.5} stroke="red" strokeWidth="2" />
-                <line x1="27" y1={leftCurrent + 1.5} x2="31" y2={leftCurrent - 1.5} stroke="red" strokeWidth="2" />
+                <line x1="27" y1="-1.5" x2="31" y2="1.5" stroke="red" strokeWidth="2" />
+                <line x1="27" y1="1.5" x2="31" y2="-1.5" stroke="red" strokeWidth="2" />
               </>
             )}
           </g>
-          <g data-testid="right-step-mark" className="RightStep">
+          <g
+            data-testid="right-step-mark" className="RightStep"
+            style={{
+              transform: `translate(0, ${rightCurrent}px)`,
+              transition: 'transform 0.25s ease-in-out',
+            }}
+          >
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
-              <circle cx="79" cy={rightCurrent} r="1.5" fill="green" />
+              <circle cx="79" cy="0" r="1.5" fill="green" />
             ) : (
               <>
-                <line x1="77" y1={rightCurrent - 1.5} x2="81" y2={rightCurrent + 1.5} stroke="red" strokeWidth="2" />
-                <line x1="77" y1={rightCurrent + 1.5} x2="81" y2={rightCurrent - 1.5} stroke="red" strokeWidth="2" />
+                <line x1="77" y1="-1.5" x2="81" y2="1.5" stroke="red" strokeWidth="2" />
+                <line x1="77" y1="1.5" x2="81" y2="-1.5" stroke="red" strokeWidth="2" />
               </>
             )}
           </g>

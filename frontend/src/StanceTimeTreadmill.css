@@ -19,6 +19,7 @@
 .TargetZones .max-zone {
   border: 0;
   fill: #a3bed4;
+  transition: height 1s ease-in-out, y 1s ease-in-out;
 }
 
 .TargetZones .min-zone {
@@ -126,4 +127,8 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.LeftStep, .RightStep {
+  transition: transform 0.25s ease-in-out;
 }
