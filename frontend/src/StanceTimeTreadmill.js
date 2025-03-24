@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./StanceTimeTreadmill.css";
+import { HelpCircle } from "lucide-react"; 
 
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
@@ -31,12 +32,13 @@ function StanceTimeTreadmill({ stanceTime }) {
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
       <div className="stance-time-treadmill-container">
-      <button 
+      <div 
+        className="help-icon-container"
         onClick={() => setShowHelpText(true)}
-        className="help-button"
+        title="Show help"
       >
-        Show Help
-      </button>
+        <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={20} />
+      </div>
 
       {showHelpText && (
         <div className="popup-overlay">
