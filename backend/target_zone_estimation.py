@@ -4,14 +4,29 @@ import os
 from Stance_Time_Calculation import calculate_stance_time
 
 threshold = 20.0
+
 data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
+    global moving_avg_factor
     accumulated_data = []  # To accumulate force data over time
 
     async for force_data in load_data_from_file(data_file_path):
         try:
+            try:
+                data = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
+                parsed_data = json.loads(data)
+                threshold = list(parsed_data.values())[0]
+                print(f"First value received: {threshold}")
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                print("Received invalid JSON data")  # Handle invalid JSON format
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+
+
             # data manipulation to yield stance time. This is to be removed.
             time = force_data[0]
             force = force_data[1] * 2.4

@@ -1,6 +1,6 @@
 import './ResearcherToolbar.css';
 
-function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold }) {
+function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold, sendMovingAverageFactortoBackend }) {
   return (
     <div className="researcher-toolbar">
       <h3 className="toolbar-header">Researcher Toolbar</h3>
@@ -30,7 +30,9 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
       </div>
 
       {/* Submit Button */}
-      <button className="toolbar-button">Submit</button>
+      <button className="toolbar-button" onClick={sendMovingAverageFactortoBackend}>
+        Submit
+      </button>
     </div>
   );
 }
