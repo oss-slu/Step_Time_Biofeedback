@@ -23,8 +23,8 @@ function App() {
   const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
   const [webSocketError, setWebSocketError] = useState(null);
 
-  const [movingAverageFactor, setMovingAverageFactor] = useState();
-  const [threshold, setThreshold] = useState();
+  const [movingAverageFactor, setMovingAverageFactor] = useState(0);
+  const [threshold, setThreshold] = useState(0);
 
   const [borderColor, setBorderColor] = useState("green");
 
@@ -117,6 +117,16 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
+
+  function sendMovingAverageFactorToBackend() {
+    if (websocket.current?.readyState === WebSocket.OPEN) {
+      const data = { movingAverageFactor };
+      websocket.current.send(JSON.stringify(data));
+    } else {
+      console.error("WebSocket is not open");
+    }
+  }
+
   const toggle = () => {
     if (patientWindow && !patientWindow.closed) {
       if (currentPatientView === currentView) {
@@ -147,6 +157,7 @@ return (
           setMovingAverageFactor={setMovingAverageFactor}
           threshold={threshold} 
           setThreshold={setThreshold}
+          sendMovingAverageFactorToBackend={sendMovingAverageFactorToBackend}
         />
         </div>
         <div className= "main-view">
