@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./StanceTimeTreadmill.css";
+import { HelpCircle } from "lucide-react"; 
 
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
@@ -36,7 +37,7 @@ function StanceTimeTreadmill({ stanceTime }) {
         onClick={() => setShowHelpText(true)}
         title="Show help"
       >
-        ❓ {/* Emoji as the help icon */}
+        <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={20} />
       </div>
 
       {showHelpText && (

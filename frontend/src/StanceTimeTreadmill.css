@@ -67,20 +67,31 @@
 
 .help-icon-container {
   position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
+  top:-20px;
+  right: 10px;
   z-index: 10;
-  cursor: pointer;
-  font-size: 24px; /* Adjust size as needed */
-  color: #007bff; /* Blue color for the icon */
-  background-color: transparent;
-  border: none;
-  padding: 0;
 }
 
-.help-icon-container:hover {
-  color: #0056b3; /* Darker blue on hover */
+.help-icon-container svg {
+  cursor: pointer;
+  color: #e8e3e3; /* Subtle color for the icon */
+  transition: color 0.3s;
+}
+
+.help-icon-container svg:hover {
+  color: #333;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
 }
 
 .popup-overlay {
@@ -109,20 +120,20 @@
 .popup-content h2 {
   margin-top: 0;
   color: #333;
-  font-size: 1.5rem; /* Larger font size for the heading */
+  font-size: 1.5rem;
 }
 
 .popup-content ul {
   list-style: none;
   padding: 0;
   color: #555;
-  font-size: 1rem; /* Comfortable font size for readability */
+  font-size: 1rem;
 }
 
 .popup-content ul li {
   margin: 15px 0;
   text-align: left;
-  line-height: 1.5; /* Better line spacing */
+  line-height: 1.5;
 }
 
 .close-button {
@@ -137,5 +148,5 @@
 }
 
 .close-button:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
 }
