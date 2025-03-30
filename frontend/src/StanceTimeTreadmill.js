@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./StanceTimeTreadmill.css";
-import { HelpCircle } from "lucide-react"; 
+import { HelpCircle } from "lucide-react";
+import { MinusSquare } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
+import { Ruler } from "lucide-react";
 
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
@@ -28,36 +31,51 @@ function StanceTimeTreadmill({ stanceTime }) {
       setShowHelpText(false);
     }
   }
-  
+
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
       <div className="stance-time-treadmill-container">
-      <div 
-        className="help-icon-container"
-        onClick={() => setShowHelpText(true)}
-        title="Show help"
-      >
-        <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={20} />
-      </div>
-
-      {showHelpText && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>Help Guide</h2>
-            <ul>
-              <li><strong>Stance Time Range:</strong> The blue rectangles represent the stance time range bounds for the left and right foot.</li>
-              <li><strong>X's and O's:</strong> A circle appears if the step is within range; otherwise, an X shows the step was out of range.</li>
-              <li><strong>Baseline:</strong> The horizontal line represents the normal stance time position.</li>
-            </ul>
-            <button 
-              onClick={() => setShowHelpText(false)}
-              className="close-button"
-            >
-              Close
-            </button>
-          </div>
+        <div
+          className="help-icon-container"
+          onClick={() => setShowHelpText(true)}
+          title="Show help"
+        >
+          <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={20} />
         </div>
-      )}
+
+        {showHelpText && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <h2>Help Guide</h2>
+              <ul>
+                <li>
+                  <strong>Stance Time Range:</strong>
+                  The blue rectangles represent the stance time range bounds for the left and right foot.
+                  <span className="inline-icon"><Ruler size={16} color="blue" /></span>
+                </li>
+
+                <li>
+                  <strong>X's and O's:</strong>
+                  A <span className="inline-icon"><CheckCircle size={16} color="green" /></span> appears if the step is within range;
+                  otherwise, an <span className="inline-icon"><XCircle size={16} color="red" /></span> shows the step was out of range.
+                </li>
+
+                <li>
+                  <strong>Baseline:</strong>
+                  The horizontal dashed line represents the normal stance time position.
+                  <span className="inline-icon"><MinusSquare size={16} color="gray" /></span>
+                </li>
+
+              </ul>
+              <button
+                onClick={() => setShowHelpText(false)}
+                className="close-button"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <svg data-testid="treadmill-svg" className="Treadmill" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -78,23 +96,19 @@ function StanceTimeTreadmill({ stanceTime }) {
         <g data-testid="stance-time-values" className="StanceTimeValues">
           <g data-testid="left-step-mark" className="LeftStep">
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
-              <circle cx="29" cy={leftCurrent} r="1.5" fill="green" />
+              <circle cx="29" cy={leftCurrent} r="2" fill="green" />
             ) : (
-              <>
-                <line x1="27" y1={leftCurrent - 1.5} x2="31" y2={leftCurrent + 1.5} stroke="red" strokeWidth="2" />
-                <line x1="27" y1={leftCurrent + 1.5} x2="31" y2={leftCurrent - 1.5} stroke="red" strokeWidth="2" />
-              </>
+              <text x="29" y={leftCurrent} fontSize="4" textAnchor="middle" fill="red">x</text>
             )}
+
           </g>
           <g data-testid="right-step-mark" className="RightStep">
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
-              <circle cx="79" cy={rightCurrent} r="1.5" fill="green" />
+              <circle cx="79" cy={rightCurrent} r="2" fill="green" />
             ) : (
-              <>
-                <line x1="77" y1={rightCurrent - 1.5} x2="81" y2={rightCurrent + 1.5} stroke="red" strokeWidth="2" />
-                <line x1="77" y1={rightCurrent + 1.5} x2="81" y2={rightCurrent - 1.5} stroke="red" strokeWidth="2" />
-              </>
+              <text x="79" y={rightCurrent} fontSize="4" textAnchor="middle" fill="red">x</text>
             )}
+
           </g>
         </g>
       </svg>

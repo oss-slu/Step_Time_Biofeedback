@@ -29,14 +29,18 @@
   stroke: black;
 }
 
-.Baseline {
+.Baseline line {
   stroke: black;
-  stroke-dasharray: 0.005cm;
+  stroke-dasharray: 4;
+  stroke-width: 0.5;
 }
 
-.YAxis {
+
+.YAxis line {
   stroke: black;
+  stroke-width: 0.5;
 }
+
 
 .visual-key {
   margin-top: 1vh;
@@ -81,17 +85,14 @@
 .help-icon-container svg:hover {
   color: #333;
 }
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
+
+.inline-icon {
+  display: inline-flex;
   align-items: center;
-  z-index: 20;
+  justify-content: center;
+  margin-left: 6px;
+  height: 1em;
+  vertical-align: middle;
 }
 
 .popup-overlay {
