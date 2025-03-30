@@ -7,22 +7,22 @@ data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv"
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
-    # global threshold = 20
-    accumulated_data = []  # To accumulate force data over time
+    accumulated_data = []
+    threshold = 20
 
     async for force_data in load_data_from_file(data_file_path):
         try:
-            # try:
-            #     data = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
-            #     parsed_data = json.loads(data)
-            #     threshold = list(parsed_data.values())[0]
-            #     print(f"First value received: {threshold}")
-            # except asyncio.TimeoutError:
-            #     pass
-            # except json.JSONDecodeError:
-            #     print("Received invalid JSON data")  # Handle invalid JSON format
-            # except Exception as e:
-            #     print(f"Unexpected error: {e}")
+            try:
+                data = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
+                parsed_data = json.loads(data)
+                threshold = list(parsed_data.values())[0]
+                print(f"First value received: {threshold}")
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                print("Received invalid JSON data")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
                 
             # Data manipulation to yield stance time (this part remains unchanged)
             time = force_data[0]
@@ -41,7 +41,7 @@ async def handle_data_streaming(websocket):
 
             # Only process once we have multiple data points
             if len(accumulated_data) > 1:
-                stance_times = calculate_stance_time(accumulated_data, 20)
+                stance_times = calculate_stance_time(accumulated_data, threshold)
                 print(f"Calculated stance times: {stance_times}")
 
                 # Estimate the target zone based on stance times
