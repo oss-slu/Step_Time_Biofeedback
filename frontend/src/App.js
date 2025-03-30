@@ -118,14 +118,14 @@ function App() {
   }, [reconnectWebsocket]);
 
   function sendThresholdToBackend() {
-    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-      const data = { threshold };
-      console.log("Sending to backend: ", data);
-      websocket.current.send(JSON.stringify(data));
-      console.log("Threshold sent to backend:", data);
-    } else {
-      console.error("WebSocket is not open");
-    }
+    // if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+    //   const data = { threshold };
+    //   websocket.current.send(JSON.stringify(data));
+    //   console.log("Threshold sent to backend:", data);
+    // } else {
+    //   console.error("WebSocket is not open");
+    // }
+    console.log("Test");
   }
 
   const toggle = () => {
