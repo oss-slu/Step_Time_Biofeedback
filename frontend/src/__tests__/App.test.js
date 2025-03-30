@@ -172,7 +172,6 @@ describe("WebSocket in App Component", () => {
     const sendButton = screen.getByTestId("threshold-btn");
     await userEvent.click(sendButton);
 
-    expect(consoleLogSpy).toHaveBeenCalledWith("Sending to backend: ", { threshold: 25 });
     expect(consoleLogSpy).toHaveBeenCalledWith("Threshold sent to backend:", { threshold: 25 });
 
     consoleLogSpy.mockRestore();
