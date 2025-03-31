@@ -1,4 +1,6 @@
+import { useState } from "react";
 import "./StanceTimeTreadmill.css";
+import { HelpCircle } from "lucide-react";
 
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
