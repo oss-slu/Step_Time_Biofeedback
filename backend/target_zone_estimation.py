@@ -3,16 +3,28 @@ import asyncio
 import os
 from Stance_Time_Calculation import calculate_stance_time
 
-threshold = 20.0
 data_file_path = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
 
 async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
-    accumulated_data = []  # To accumulate force data over time
+    accumulated_data = []
+    threshold = 20
 
     async for force_data in load_data_from_file(data_file_path):
         try:
-            # data manipulation to yield stance time. This is to be removed.
+            try:
+                data = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
+                parsed_data = json.loads(data)
+                threshold = list(parsed_data.values())[0]
+                print(f"First value received: {threshold}")
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                print("Received invalid JSON data")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+                
+            # Data manipulation to yield stance time (this part remains unchanged)
             time = force_data[0]
             force = force_data[1] * 2.4
             force_data = (time, force)
@@ -21,9 +33,9 @@ async def handle_data_streaming(websocket):
                 "time": time,
                 "force": force
             } 
-            print(f"Force Data: {force_data}")# Debug print to inspect the input data
+            print(f"Force Data: {force_data}")  # Debug print to inspect the input data
             await websocket.send_text(json.dumps(force_message))
-            
+
             # Accumulate force data over time
             accumulated_data.append(force_data)
 
@@ -40,8 +52,8 @@ async def handle_data_streaming(websocket):
                     "target_zone": target_zone
                 }
                 await websocket.send_text(json.dumps(message))
-
-            # Control message streaming rate
+                
+                # Control message streaming rate
             await asyncio.sleep(1)  
         except Exception as e:
             print(f"Error occurred during data handling: {e}")

@@ -25,6 +25,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 await handle_data_streaming(websocket)
                 data = await websocket.receive_text()
                 print(f"Received from client: {data}")
+                
                 for client in connectedClients:
                     await client.send_text(f"Message Received: {data}")
             except WebSocketDisconnect:
