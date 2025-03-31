@@ -1,9 +1,7 @@
 import { useState } from "react";
 import "./StanceTimeTreadmill.css";
 import { HelpCircle } from "lucide-react";
-import { MinusSquare } from "lucide-react";
-import { CheckCircle, XCircle } from "lucide-react";
-import { Ruler } from "lucide-react";
+
 
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
@@ -20,7 +18,7 @@ function StanceTimeTreadmill({ stanceTime }) {
   let leftMaxPosition = Math.max(scaleFactor - leftOffsetMin, 0);
   let leftMinPosition = Math.min(scaleFactor + leftOffsetMax, 100);
   let rightMaxPosition = Math.max(scaleFactor - rightOffsetMin, 0);
-  let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 100);
+  let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 10);
   // let leftCurrent = stanceTime.left * leftScaleFactor;
   // let rightCurrent = stanceTime.right * rightScaleFactor;
   let leftCurrent = Math.floor(Math.random() * 80);
@@ -40,7 +38,7 @@ function StanceTimeTreadmill({ stanceTime }) {
           onClick={() => setShowHelpText(true)}
           title="Show help"
         >
-          <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={20} />
+          <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={30} />
         </div>
 
         {showHelpText && (
@@ -50,20 +48,18 @@ function StanceTimeTreadmill({ stanceTime }) {
               <ul>
                 <li>
                   <strong>Stance Time Range:</strong>
-                  The blue rectangles represent the stance time range bounds for the left and right foot.
-                  <span className="inline-icon"><Ruler size={16} color="blue" /></span>
+                  The <span style={{ backgroundColor: "#a3bed4", padding: "2px 6px", borderRadius: "3px" }}>blue rectangles</span> represents the stance time range bounds for the left and right foot.
                 </li>
 
                 <li>
-                  <strong>X's and O's:</strong>
-                  A <span className="inline-icon"><CheckCircle size={16} color="green" /></span> appears if the step is within range;
-                  otherwise, an <span className="inline-icon"><XCircle size={16} color="red" /></span> shows the step was out of range.
+                  <strong>X's and O's: </strong>
+                  A <span style={{ color: "green", fontSize: "2rem" }}>●</span> appears if the step is within range; otherwise, a
+                  <span style={{ color: "black", fontSize: "1rem" }}> X</span> shows the step was out of range.
                 </li>
 
                 <li>
                   <strong>Baseline:</strong>
-                  The horizontal dashed line represents the normal stance time position.
-                  <span className="inline-icon"><MinusSquare size={16} color="gray" /></span>
+                  The horizontal dashed line ----- represents the normal stance time position.
                 </li>
 
               </ul>
@@ -98,7 +94,7 @@ function StanceTimeTreadmill({ stanceTime }) {
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
               <circle cx="29" cy={leftCurrent} r="2" fill="green" />
             ) : (
-              <text x="29" y={leftCurrent} fontSize="4" textAnchor="middle" fill="red">x</text>
+              <text x="29" y={leftCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
@@ -106,7 +102,7 @@ function StanceTimeTreadmill({ stanceTime }) {
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
               <circle cx="79" cy={rightCurrent} r="2" fill="green" />
             ) : (
-              <text x="79" y={rightCurrent} fontSize="4" textAnchor="middle" fill="red">x</text>
+              <text x="79" y={rightCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
@@ -117,7 +113,7 @@ function StanceTimeTreadmill({ stanceTime }) {
         <text x="29" y="5" textAnchor="middle" fontSize="5" fill="white">Left</text>
         <text x="79" y="5" textAnchor="middle" fontSize="5" fill="white">Right</text>
       </svg>
-    </div>
+    </div >
   );
 }
 

@@ -29,11 +29,11 @@
   stroke: black;
 }
 
-.Baseline line {
+.Baseline {
   stroke: black;
-  stroke-dasharray: 4;
-  stroke-width: 0.5;
+  stroke-dasharray: 0.005cm;
 }
+
 
 
 .YAxis line {
