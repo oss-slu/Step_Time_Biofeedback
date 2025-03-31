@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./StanceTimeTreadmill.css";
 import { HelpCircle } from "lucide-react";
 
-
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
 
@@ -90,19 +89,31 @@ function StanceTimeTreadmill({ stanceTime }) {
           </g>
         </g>
         <g data-testid="stance-time-values" className="StanceTimeValues">
-          <g data-testid="left-step-mark" className="LeftStep">
+          <g
+            data-testid="left-step-mark" className="LeftStep"
+            style={{
+              transform: `translate(0, ${leftCurrent}px)`,
+              transition: 'transform 0.25s ease-in-out',
+            }}
+          >
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
-              <circle cx="29" cy={leftCurrent} r="2" fill="green" />
+              <circle cx="29" cy="0" r="2" fill="green" />
             ) : (
-              <text x="29" y={leftCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="29" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
-          <g data-testid="right-step-mark" className="RightStep">
+          <g
+            data-testid="right-step-mark" className="RightStep"
+            style={{
+              transform: `translate(0, ${rightCurrent}px)`,
+              transition: 'transform 0.25s ease-in-out',
+            }}
+          >
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
-              <circle cx="79" cy={rightCurrent} r="2" fill="green" />
+              <circle cx="79" cy="0" r="2" fill="green" />
             ) : (
-              <text x="79" y={rightCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="79" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
