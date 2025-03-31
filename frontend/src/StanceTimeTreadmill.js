@@ -97,9 +97,9 @@ function StanceTimeTreadmill({ stanceTime }) {
             }}
           >
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
-              <circle cx="29" cy="0" r="1.5" fill="green" />
+              <circle cx="29" cy="0" r="2" fill="green" />
             ) : (
-              <text x="29" y={leftCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="29" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
@@ -111,9 +111,9 @@ function StanceTimeTreadmill({ stanceTime }) {
             }}
           >
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
-              <circle cx="79" cy="0" r="1.5" fill="green" />
+              <circle cx="79" cy="0" r="2" fill="green" />
             ) : (
-              <text x="79" y={rightCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="79" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
 
           </g>
