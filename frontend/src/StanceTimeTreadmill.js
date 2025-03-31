@@ -1,6 +1,8 @@
 import "./StanceTimeTreadmill.css";
 
-function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
+function StanceTimeTreadmill({ stanceTime }) {
+  const [showHelpText, setShowHelpText] = useState(false);
+
   const scaleFactor = 50;
   const leftScaleFactor = scaleFactor / stanceTime.left;
   const rightScaleFactor = scaleFactor / stanceTime.right;
@@ -13,7 +15,7 @@ function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
   let leftMaxPosition = Math.max(scaleFactor - leftOffsetMin, 0);
   let leftMinPosition = Math.min(scaleFactor + leftOffsetMax, 100);
   let rightMaxPosition = Math.max(scaleFactor - rightOffsetMin, 0);
-  let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 100);
+  let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 10);
   // let leftCurrent = stanceTime.left * leftScaleFactor;
   // let rightCurrent = stanceTime.right * rightScaleFactor;
   let leftCurrent = Math.floor(Math.random() * 80);
@@ -24,35 +26,49 @@ function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
       setShowHelpText(false);
     }
   }
-  
+
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
       <div className="stance-time-treadmill-container">
-      <button 
-        onClick={() => setShowHelpText(true)}
-        className="help-button"
-      >
-        Show Help
-      </button>
-
-      {showHelpText && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>Help Guide</h2>
-            <ul>
-              <li><strong>Stance Time Range:</strong> The blue rectangles represent the stance time range bounds for the left and right foot.</li>
-              <li><strong>X's and O's:</strong> A circle appears if the step is within range; otherwise, an X shows the step was out of range.</li>
-              <li><strong>Baseline:</strong> The horizontal line represents the normal stance time position.</li>
-            </ul>
-            <button 
-              onClick={() => setShowHelpText(false)}
-              className="close-button"
-            >
-              Close
-            </button>
-          </div>
+        <div
+          className="help-icon-container"
+          onClick={() => setShowHelpText(true)}
+          title="Show help"
+        >
+          <HelpCircle className="text-gray-400 hover:text-gray-300 cursor-pointer" size={30} />
         </div>
-      )}
+
+        {showHelpText && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <h2>Help Guide</h2>
+              <ul>
+                <li>
+                  <strong>Stance Time Range:</strong>
+                  The <span style={{ backgroundColor: "#a3bed4", padding: "2px 6px", borderRadius: "3px" }}>blue rectangles</span> represents the stance time range bounds for the left and right foot.
+                </li>
+
+                <li>
+                  <strong>X's and O's: </strong>
+                  A <span style={{ color: "green", fontSize: "2rem" }}>●</span> appears if the step is within range; otherwise, a
+                  <span style={{ color: "black", fontSize: "1rem" }}> X</span> shows the step was out of range.
+                </li>
+
+                <li>
+                  <strong>Baseline:</strong>
+                  The horizontal dashed line ----- represents the normal stance time position.
+                </li>
+
+              </ul>
+              <button
+                onClick={() => setShowHelpText(false)}
+                className="close-button"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <svg data-testid="treadmill-svg" className="Treadmill" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -81,11 +97,9 @@ function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
             {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
               <circle cx="29" cy="0" r="1.5" fill="green" />
             ) : (
-              <>
-                <line x1="27" y1="-1.5" x2="31" y2="1.5" stroke="red" strokeWidth="2" />
-                <line x1="27" y1="1.5" x2="31" y2="-1.5" stroke="red" strokeWidth="2" />
-              </>
+              <text x="29" y={leftCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
+
           </g>
           <g
             data-testid="right-step-mark" className="RightStep"
@@ -97,11 +111,9 @@ function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
             {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
               <circle cx="79" cy="0" r="1.5" fill="green" />
             ) : (
-              <>
-                <line x1="77" y1="-1.5" x2="81" y2="1.5" stroke="red" strokeWidth="2" />
-                <line x1="77" y1="1.5" x2="81" y2="-1.5" stroke="red" strokeWidth="2" />
-              </>
+              <text x="79" y={rightCurrent} fontSize="6" textAnchor="middle" fill="black">x</text>
             )}
+
           </g>
         </g>
       </svg>
@@ -110,7 +122,7 @@ function StanceTimeTreadmill({ stanceTime, setShowHelpText, showHelpText }) {
         <text x="29" y="5" textAnchor="middle" fontSize="5" fill="white">Left</text>
         <text x="79" y="5" textAnchor="middle" fontSize="5" fill="white">Right</text>
       </svg>
-    </div>
+    </div >
   );
 }
 

@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "../App";
 import WS from "jest-websocket-mock";
 
@@ -157,4 +158,22 @@ describe("WebSocket in App Component", () => {
 
     consoleLogSpy.mockRestore();
   });
+
+  test("sendThresholdToBackend sends correct data", async () => {
+    const consoleLogSpy = jest.spyOn(console, "log");
+
+    render(<App />);
+    await server.connected;
+
+    const thresholdInput = screen.getByTestId("threshold-input");
+    await userEvent.clear(thresholdInput);
+    await userEvent.type(thresholdInput, "25");
+
+    const sendButton = screen.getByTestId("threshold-btn");
+    await userEvent.click(sendButton);
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Threshold sent to backend:", { threshold: 25 });
+
+    consoleLogSpy.mockRestore();
+});
 });
