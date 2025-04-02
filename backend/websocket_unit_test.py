@@ -114,3 +114,18 @@ def test_threshold_update():
         response_data = json.loads(response)
         
         assert response_data["threshold"] == test_threshold, "Threshold was not updated correctly"
+
+def test_moving_average_update():
+    """
+    Ensure moving average is updated 
+    """
+    client = TestClient(biostepFeedback)
+    
+    with client.websocket_connect("/ws") as websocket:
+        test_mov = 6.7
+        websocket.send_text(json.dumps({"movingAverage": test_mov}))
+
+        response = websocket.receive_text()
+        response_data = json.loads(response)
+        
+        assert response_data["movingAverage"] == test_mov, "Moving average was not updated correctly"

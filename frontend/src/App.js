@@ -127,6 +127,14 @@ function App() {
       console.error("WebSocket is not open");
     }
   }
+  function updateMovingAverageFactor() {
+    if (websocket.current?.readyState === WebSocket.OPEN) {
+      const data = { movingAverageFactor };
+      websocket.current.send(JSON.stringify(data));
+    } else {
+      console.error("WebSocket is not open");
+    }
+  }
 
   const toggle = () => {
     if (patientWindow && !patientWindow.closed) {
@@ -156,6 +164,7 @@ function App() {
           <ResearcherToolbar 
             movingAverageFactor={movingAverageFactor} 
             setMovingAverageFactor={setMovingAverageFactor}
+            updateMovingAverageFactor={updateMovingAverageFactor}
             threshold={threshold} 
             setThreshold={setThreshold}
             sendThresholdToBackend={sendThresholdToBackend}

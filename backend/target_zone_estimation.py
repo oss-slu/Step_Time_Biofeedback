@@ -9,6 +9,7 @@ async def handle_data_streaming(websocket):
     """Handle data streaming from sample data and print it for testing."""
     accumulated_data = []
     threshold = 20
+    moving_avg_factor = 2
 
     async for force_data in load_data_from_file(data_file_path):
         try:
@@ -41,7 +42,7 @@ async def handle_data_streaming(websocket):
 
             # Only process once we have multiple data points
             if len(accumulated_data) > 1:
-                stance_times = calculate_stance_time(accumulated_data, threshold)
+                stance_times = calculate_stance_time(accumulated_data, threshold, moving_avg_factor)
                 print(f"Calculated stance times: {stance_times}")
 
                 # Estimate the target zone based on stance times
