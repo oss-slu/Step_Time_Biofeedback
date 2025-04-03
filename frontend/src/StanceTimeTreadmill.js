@@ -5,6 +5,11 @@ import { HelpCircle } from "lucide-react";
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
 
+  const xColor = {
+    left:'black',
+    right:'black'
+  }
+
   const scaleFactor = 50;
   const leftScaleFactor = scaleFactor / stanceTime.left;
   const rightScaleFactor = scaleFactor / stanceTime.right;
@@ -28,6 +33,26 @@ function StanceTimeTreadmill({ stanceTime }) {
       setShowHelpText(false);
     }
   }
+
+  // bounds check
+  let isInsideZone = {
+    left: false,
+    right: false
+  }
+
+  if (rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition) {
+    isInsideZone.right = true;
+  } else {
+    xColor.right = "red";
+  }
+
+  if (leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition) {
+    isInsideZone.left = true;
+  } else {
+    xColor.left = "red";
+  }
+
+  // checks if data is started
 
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
@@ -96,10 +121,10 @@ function StanceTimeTreadmill({ stanceTime }) {
               transition: 'transform 0.25s ease-in-out',
             }}
           >
-            {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
+            {isInsideZone.left ? (
               <circle cx="29" cy="0" r="2" fill="green" />
             ) : (
-              <text x="29" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="29" y="0" fontSize="6" textAnchor="middle" fill={xColor.left}>x</text>
             )}
 
           </g>
@@ -110,10 +135,10 @@ function StanceTimeTreadmill({ stanceTime }) {
               transition: 'transform 0.25s ease-in-out',
             }}
           >
-            {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
+            {isInsideZone.right ? (
               <circle cx="79" cy="0" r="2" fill="green" />
             ) : (
-              <text x="79" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="79" y="0" fontSize="6" textAnchor="middle" fill={xColor.right}>x</text>
             )}
 
           </g>
