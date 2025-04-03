@@ -5,6 +5,7 @@ import { HelpCircle } from "lucide-react";
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
 
+  const XFontSize = 8;
   const xColor = {
     left:'black',
     right:'black'
@@ -25,8 +26,12 @@ function StanceTimeTreadmill({ stanceTime }) {
   let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 10);
   // let leftCurrent = stanceTime.left * leftScaleFactor;
   // let rightCurrent = stanceTime.right * rightScaleFactor;
+
+  // TBD
   let leftCurrent = Math.floor(Math.random() * 80);
   let rightCurrent = Math.floor(Math.random() * 80);
+  if (!stanceTime.left) leftCurrent = scaleFactor;
+  if (!stanceTime.right) rightCurrent = scaleFactor;
 
   function hideHelp() {
     if (showHelpText) {
@@ -126,7 +131,7 @@ function StanceTimeTreadmill({ stanceTime }) {
             {isInsideZone.left ? (
               <circle cx="29" cy="0" r="2" fill="green" />
             ) : (
-              <text x="29" y="0" fontSize="6" textAnchor="middle" fill={xColor.left}>x</text>
+              <text x="29" y={XFontSize/4} fontSize={XFontSize} textAnchor="middle" fill={xColor.left}>x</text>
             )}
 
           </g>
@@ -140,7 +145,7 @@ function StanceTimeTreadmill({ stanceTime }) {
             {isInsideZone.right ? (
               <circle cx="79" cy="0" r="2" fill="green" />
             ) : (
-              <text x="79" y="0" fontSize="6" textAnchor="middle" fill={xColor.right}>x</text>
+              <text x="79" y={XFontSize/4} fontSize={XFontSize} textAnchor="middle" fill={xColor.right}>x</text>
             )}
 
           </g>
