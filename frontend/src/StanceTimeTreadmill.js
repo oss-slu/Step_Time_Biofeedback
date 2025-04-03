@@ -40,19 +40,21 @@ function StanceTimeTreadmill({ stanceTime }) {
     right: false
   }
 
-  if (rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition) {
-    isInsideZone.right = true;
-  } else {
-    xColor.right = "red";
+  if (stanceTime.right){
+    if (rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition) {
+      isInsideZone.right = true;
+    } else {
+      xColor.right = "red";
+    }
   }
 
-  if (leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition) {
-    isInsideZone.left = true;
-  } else {
-    xColor.left = "red";
+  if (stanceTime.left) {
+    if (leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition) {
+      isInsideZone.left = true;
+    } else {
+      xColor.left = "red";
+    }
   }
-
-  // checks if data is started
 
   return (
     <div data-testid="stance-time-treadmill-view" className="StanceTimeTreadmill" onClick={hideHelp}>
@@ -78,7 +80,7 @@ function StanceTimeTreadmill({ stanceTime }) {
                 <li>
                   <strong>X's and O's: </strong>
                   A <span style={{ color: "green", fontSize: "2rem" }}>●</span> appears if the step is within range; otherwise, a
-                  <span style={{ color: "black", fontSize: "1rem" }}> X</span> shows the step was out of range.
+                  <span style={{ color: "red", fontSize: "1.1rem" }}> X</span> shows the step was out of range. A black <span style={{ color: "black", fontSize: "1.1rem" }}> X</span> appears if no stance time is found.
                 </li>
 
                 <li>
