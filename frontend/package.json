@@ -51,6 +51,7 @@
     "eslint": "^8.57.1",
     "jest": "^27.5.1",
     "jest-websocket-mock": "^2.5.0",
+    "primereact": "^10.9.4",
     "react-test-renderer": "^18.3.1"
   }
 }

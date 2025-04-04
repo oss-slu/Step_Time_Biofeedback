@@ -1,6 +1,7 @@
 import "./ResearcherToolbar.css";
+import { Toast } from 'primereact/toast';
 
-function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold, sendThresholdToBackend }) {
+function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold, sendThresholdToBackend, toast }) {
 
   return (
     <div className="researcher-toolbar">
@@ -30,6 +31,7 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
         />
       </div>
 
+      <Toast ref={toast}/>
       <button className="toolbar-button" onClick={sendThresholdToBackend}  data-testid="threshold-btn">
         Submit
       </button>
