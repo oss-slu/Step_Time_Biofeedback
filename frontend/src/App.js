@@ -125,7 +125,7 @@ function App() {
       const data = { threshold };
       websocket.current.send(JSON.stringify(data));
       console.log("Threshold sent to backend:", data);
-      threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold sent to backend!" });
+      threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
     } else {
       console.error("WebSocket is not open");
     }
