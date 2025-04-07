@@ -20,8 +20,8 @@ function StanceTimeTreadmill({ stanceTime }) {
   let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 10);
   // let leftCurrent = stanceTime.left * leftScaleFactor;
   // let rightCurrent = stanceTime.right * rightScaleFactor;
-  let leftCurrent = Math.floor(Math.random() * 80);
-  let rightCurrent = Math.floor(Math.random() * 80);
+  let leftCurrent = Math.floor(40);
+  let rightCurrent = Math.floor(40);
 
   function hideHelp() {
     if (showHelpText) {
