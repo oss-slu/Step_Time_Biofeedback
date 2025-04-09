@@ -176,4 +176,22 @@ describe("WebSocket in App Component", () => {
 
     consoleLogSpy.mockRestore();
 });
+
+test("updateMovingAverageFactor sends correct data", async () => {
+  const consoleLogSpy = jest.spyOn(console, "log");
+
+  render(<App />);
+  await server.connected;
+
+  const movingAverageInput = screen.getByTestId("moving-average-input");
+  await userEvent.clear(movingAverageInput);
+  await userEvent.type(movingAverageInput, "4");
+
+  const sendButton = screen.getByTestId("threshold-btn");
+  await userEvent.click(sendButton);
+
+  expect(consoleLogSpy).toHaveBeenCalledWith("movingAverage sent to backend:", { movingAverage: 4 });
+
+  consoleLogSpy.mockRestore();
+});
 });
