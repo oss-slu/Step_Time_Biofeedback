@@ -1,6 +1,6 @@
 import "./ResearcherToolbar.css";
-import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import ToastNotification from "./toast/Toast";
 
 function ResearcherToolbar({
   movingAverageFactor,
@@ -43,7 +43,7 @@ function ResearcherToolbar({
         />
       </div>
 
-      <Toast ref={threshold_toast} />
+      <ToastNotification ref={threshold_toast} />
       <button
         className="toolbar-button"
         onClick={() => {
