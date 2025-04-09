@@ -1,7 +1,19 @@
 import "./ResearcherToolbar.css";
-import { Toast } from 'primereact/toast';
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
-function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, threshold, setThreshold, sendThresholdToBackend, toast }) {
+function ResearcherToolbar({
+  movingAverageFactor,
+  setMovingAverageFactor,
+  threshold,
+  setThreshold,
+  sendThresholdToBackend,
+}) {
+  const threshold_toast = useRef(null);
+
+  function activateToast() {
+    threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
+  }
 
   return (
     <div className="researcher-toolbar">
@@ -31,8 +43,15 @@ function ResearcherToolbar({ movingAverageFactor, setMovingAverageFactor, thresh
         />
       </div>
 
-      <Toast ref={toast}/>
-      <button className="toolbar-button" onClick={sendThresholdToBackend}  data-testid="threshold-btn">
+      <Toast ref={threshold_toast} />
+      <button
+        className="toolbar-button"
+        onClick={() => {
+          sendThresholdToBackend();
+          activateToast();
+        }}
+        data-testid="threshold-btn"
+      >
         Submit
       </button>
     </div>

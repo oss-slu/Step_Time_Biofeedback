@@ -9,8 +9,6 @@ import ResearcherToolbar from './components/ResearcherToolbar';
 import PatientView from './PatientView';
 
 function App() {
-  const threshold_toast = useRef(null);
-
   const [currentView, setCurrentView] = useState('StanceTimeTreadmill');
 
   const [stanceTime, setStanceTime] = useState({
@@ -125,7 +123,6 @@ function App() {
       const data = { threshold };
       websocket.current.send(JSON.stringify(data));
       console.log("Threshold sent to backend:", data);
-      threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
     } else {
       console.error("WebSocket is not open");
     }
@@ -162,7 +159,6 @@ function App() {
             threshold={threshold} 
             setThreshold={setThreshold}
             sendThresholdToBackend={sendThresholdToBackend}
-            toast={threshold_toast}
           />
         </div>
         <div className="main-view">
