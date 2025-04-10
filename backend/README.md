@@ -2,7 +2,7 @@
 # Stance-Time Biofeedback Backend
 
 ## Description
-This README provides instructions on how to install necessary dependencies, and run the tests the Stance-Time Biofeedback backend. 
+This README provides instructions on how to install necessary dependencies, and run the STB backend tests. 
 
 ## Prerequisites
 Before running any code, make sure you're in your Python virtual environment. Once activated, you can install the required dependencies by running:
@@ -92,11 +92,11 @@ pytest -s tests
 ```
 pytest -s tests/test_stance_time.py
 pytest -s tests/test_threshold_update.py
-pytest -s tests/test_basic_communication.py
-pytest -s tests/test_error_handling.py
+pytest -s tests/test_socket_communication.py
+pytest -s tests/test_socket_error_handling.py
 ```
 ### Test Cases
-`test_stance_time.py t`
+`test_stance_time.py`
 
 - Stance time calculation when values are below the threshold (20N).
 - Stance time output as a moving average of two steps.
@@ -108,12 +108,12 @@ pytest -s tests/test_error_handling.py
 - Tests threshold updates received via websocket.
 - Ensures correct internal state update upon receiving new threshold values.
 
-`test_basic_communication.py`
+`test_socket_communication.py`
 
 - Validates basic websocket communication between client and server.
 - Tests connection, message send/receive functionality using FastAPI's websocket.
 
-`test_error_handling.py`
+`test_socket_error_handling.py`
 
 - Simulates malformed or invalid websocket messages.
 - Verifies graceful error handling and system robustness.
