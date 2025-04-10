@@ -6,7 +6,7 @@ import os
 import asyncio
 
 THRESHOLD = 20.0 
-DATA_FILE_PATH = os.path.join(os.path.dirname(__file__), "tied_belt_OSS_f_1.tsv")
+DATA_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../tied_belt_OSS_f_1.tsv"))
 
 class TestStanceTimeAndTargetZone(unittest.TestCase):
 
