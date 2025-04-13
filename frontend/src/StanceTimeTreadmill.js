@@ -5,6 +5,12 @@ import { HelpCircle } from "lucide-react";
 function StanceTimeTreadmill({ stanceTime }) {
   const [showHelpText, setShowHelpText] = useState(false);
 
+  const XFontSize = 8;
+  const xColor = {
+    left:'black',
+    right:'black'
+  }
+
   const scaleFactor = 50;
   const leftScaleFactor = scaleFactor / stanceTime.left;
   const rightScaleFactor = scaleFactor / stanceTime.right;
@@ -20,12 +26,39 @@ function StanceTimeTreadmill({ stanceTime }) {
   let rightMinPosition = Math.min(scaleFactor + rightOffsetMax, 10);
   // let leftCurrent = stanceTime.left * leftScaleFactor;
   // let rightCurrent = stanceTime.right * rightScaleFactor;
+
+  // TBD
   let leftCurrent = Math.floor(40);
   let rightCurrent = Math.floor(40);
+  if (!stanceTime.left) leftCurrent = scaleFactor;
+  if (!stanceTime.right) rightCurrent = scaleFactor;
+
 
   function hideHelp() {
     if (showHelpText) {
       setShowHelpText(false);
+    }
+  }
+
+  // bounds check
+  let isInsideZone = {
+    left: false,
+    right: false
+  }
+
+  if (stanceTime.right){
+    if (rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition) {
+      isInsideZone.right = true;
+    } else {
+      xColor.right = "red";
+    }
+  }
+
+  if (stanceTime.left) {
+    if (leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition) {
+      isInsideZone.left = true;
+    } else {
+      xColor.left = "red";
     }
   }
 
@@ -53,7 +86,7 @@ function StanceTimeTreadmill({ stanceTime }) {
                 <li>
                   <strong>X's and O's: </strong>
                   A <span style={{ color: "green", fontSize: "2rem" }}>●</span> appears if the step is within range; otherwise, a
-                  <span style={{ color: "black", fontSize: "1rem" }}> X</span> shows the step was out of range.
+                  <span style={{ color: "red", fontSize: "1.1rem" }}> X</span> shows the step was out of range. A black <span style={{ color: "black", fontSize: "1.1rem" }}> X</span> appears if no stance time is found.
                 </li>
 
                 <li>
@@ -96,10 +129,10 @@ function StanceTimeTreadmill({ stanceTime }) {
               transition: 'transform 0.25s ease-in-out',
             }}
           >
-            {leftCurrent <= leftMaxPosition && leftCurrent >= leftMinPosition ? (
+            {isInsideZone.left ? (
               <circle cx="29" cy="0" r="2" fill="green" />
             ) : (
-              <text x="29" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="29" y={XFontSize/4} fontSize={XFontSize} textAnchor="middle" fill={xColor.left}>x</text>
             )}
 
           </g>
@@ -110,10 +143,10 @@ function StanceTimeTreadmill({ stanceTime }) {
               transition: 'transform 0.25s ease-in-out',
             }}
           >
-            {rightCurrent <= rightMaxPosition && rightCurrent >= rightMinPosition ? (
+            {isInsideZone.right ? (
               <circle cx="79" cy="0" r="2" fill="green" />
             ) : (
-              <text x="79" y="0" fontSize="6" textAnchor="middle" fill="black">x</text>
+              <text x="79" y={XFontSize/4} fontSize={XFontSize} textAnchor="middle" fill={xColor.right}>x</text>
             )}
 
           </g>
