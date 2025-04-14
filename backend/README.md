@@ -2,7 +2,7 @@
 # Stance-Time Biofeedback Backend
 
 ## Description
-This README provides instructions on how to install necessary dependencies, and run the tests for `Stance_Time_Calculation.py` and `target_zone_estimationn.py`.
+This README provides instructions on how to install necessary dependencies, and run the STB backend tests. 
 
 ## Prerequisites
 Before running any code, make sure you're in your Python virtual environment. Once activated, you can install the required dependencies by running:
@@ -78,23 +78,45 @@ pip install numpy
 brew install numpy
 ```
 
-## Running Unit Tests
+## Running Tests
 
-### How to run the test
+### To run all tests
 The unit tests verify the accuracy of the stance time calculations and target zone estimations. Follow these steps to run the tests successfully:
 
 1) Navigate to the backend directory.
-2) Run the test file using Python's unittest module:
+2) Run the the following:
 ```
-python -m unittest test_stance_time.py
+pytest -s tests
+```
+#### To run a specific test file:
+```
+pytest -s tests/test_stance_time.py
+pytest -s tests/test_threshold_update.py
+pytest -s tests/test_socket_communication.py
+pytest -s tests/test_socket_error_handling.py
 ```
 ### Test Cases
-The test_stance_time.py tests cover the following scenarios:
+`test_stance_time.py`
 
-Stance time calculation when values are below the threshold (20N).
-Stance time output as a moving average of two steps.
-Target zone estimation based on calculated stance times.
-Real data validation using sample data provided in tied_belt_OSS_f_1.tsv.
+- Stance time calculation when values are below the threshold (20N).
+- Stance time output as a moving average of two steps.
+- Target zone estimation based on calculated stance times.
+- Real data validation using sample data provided in tied_belt_OSS_f_1.tsv.
+
+`test_threshold_update.py`
+
+- Tests threshold updates received via websocket.
+- Ensures correct internal state update upon receiving new threshold values.
+
+`test_socket_communication.py`
+
+- Validates basic websocket communication between client and server.
+- Tests connection, message send/receive functionality using FastAPI's websocket.
+
+`test_socket_error_handling.py`
+
+- Simulates malformed or invalid websocket messages.
+- Verifies graceful error handling and system robustness.
 
 ### Sample Data for Testing
-Sample data should be in the format (time, force), where time is the time point, and force represents the force measurement. The calculate_stance_time function calculates stance times from this data.
+Sample data should be in the format `(time, force)`, where `time` is the time point, and `force` represents the force measurement. The `calculate_stance_time` function calculates stance times from this data.
