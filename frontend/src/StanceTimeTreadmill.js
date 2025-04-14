@@ -28,10 +28,11 @@ function StanceTimeTreadmill({ stanceTime }) {
   // let rightCurrent = stanceTime.right * rightScaleFactor;
 
   // TBD
-  let leftCurrent = Math.floor(Math.random() * 80);
-  let rightCurrent = Math.floor(Math.random() * 80);
+  let leftCurrent = Math.floor(40);
+  let rightCurrent = Math.floor(40);
   if (!stanceTime.left) leftCurrent = scaleFactor;
   if (!stanceTime.right) rightCurrent = scaleFactor;
+
 
   function hideHelp() {
     if (showHelpText) {
