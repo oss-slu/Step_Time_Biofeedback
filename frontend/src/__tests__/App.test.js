@@ -159,7 +159,7 @@ describe("WebSocket in App Component", () => {
     consoleLogSpy.mockRestore();
   });
 
-  test("sendThresholdToBackend sends correct data", async () => {
+  test("sendDataToBackend sends correct data", async () => {
     const consoleLogSpy = jest.spyOn(console, "log");
 
     render(<App />);
@@ -168,11 +168,15 @@ describe("WebSocket in App Component", () => {
     const thresholdInput = screen.getByTestId("threshold-input");
     await userEvent.clear(thresholdInput);
     await userEvent.type(thresholdInput, "25");
+    
+    const MFAInput = screen.getByTestId("moving-average-input");
+    await userEvent.clear(MFAInput);
+    await userEvent.type(MFAInput, "20");
 
-    const sendButton = screen.getByTestId("threshold-btn");
+    const sendButton = screen.getByTestId("send-data-btn");
     await userEvent.click(sendButton);
 
-    expect(consoleLogSpy).toHaveBeenCalledWith("Threshold sent to backend:", { threshold: 25 });
+    expect(consoleLogSpy).toHaveBeenCalledWith("Data sent to backend:", { threshold: 25, movingAverageFactor: 20 });
 
     consoleLogSpy.mockRestore();
 });
