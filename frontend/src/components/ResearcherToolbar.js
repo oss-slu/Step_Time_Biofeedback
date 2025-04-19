@@ -1,5 +1,5 @@
 import "./ResearcherToolbar.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ToastNotification from "./toast/Toast";
 
 function ResearcherToolbar({
@@ -7,9 +7,11 @@ function ResearcherToolbar({
   setMovingAverageFactor,
   threshold,
   setThreshold,
-  sendThresholdToBackend,
+  sendDataToBackend,
 }) {
   const threshold_toast = useRef(null);
+  const [sendThreshold, setSendThreshold] = useState(false);
+  const [sendMAF, setSendMAF] = useState(false);
 
   function activateToast() {
     threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
@@ -24,7 +26,10 @@ function ResearcherToolbar({
         <input
           type="number"
           value={movingAverageFactor}
-          onChange={(e) => setMovingAverageFactor(Number(e.target.value))}
+          onChange={ (e) => {
+            setMovingAverageFactor(Number(e.target.value));
+            setSendMAF(true);
+          }}
           className="tool-input"
           data-testid="moving-average-input"
         />
@@ -37,7 +42,10 @@ function ResearcherToolbar({
         <input
           type="number"
           value={threshold}
-          onChange={(e) => setThreshold(Number(e.target.value))}
+          onChange={(e) => {
+            setThreshold(Number(e.target.value));
+            setSendThreshold(true);
+          }}
           className="tool-input"
           data-testid="threshold-input"
         />
@@ -47,10 +55,21 @@ function ResearcherToolbar({
       <button
         className="toolbar-button"
         onClick={() => {
-          sendThresholdToBackend();
+          const data = {}
+
+          if (sendThreshold) data.threshold = threshold;
+          if (sendMAF) data.movingAverageFactor = movingAverageFactor;
+
+          if (Object.keys(data).length) sendDataToBackend(data);
+          else console.log("Tried to send old toolbar parameters to backend")
+
           activateToast();
+          
+          // reset send data flags
+          setSendMAF(false);
+          setSendThreshold(false);
         }}
-        data-testid="threshold-btn"
+        data-testid="send-data-btn"
       >
         Submit
       </button>
