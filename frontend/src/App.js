@@ -7,6 +7,7 @@ import StanceTimeChart from './StanceTimeChart';
 import StanceTimeGraph from './StanceTimeGraph';
 import ResearcherToolbar from './components/ResearcherToolbar';
 import PatientView from './PatientView';
+import WebSocketSwitch from './components/WebSocketSwitch';
 
 function App() {
   const [currentView, setCurrentView] = useState('StanceTimeTreadmill');
@@ -20,8 +21,8 @@ function App() {
     } 
   });
 
-  const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
-  const [webSocketError, setWebSocketError] = useState(null);
+ const [isWebSocketConnected, setIsWebSocketConnected] = useState(false);
+ const [webSocketError, setWebSocketError] = useState(null);
 
   const [movingAverageFactor, setMovingAverageFactor] = useState(0);
   const [threshold, setThreshold] = useState(0);
@@ -143,12 +144,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className={`WebSocketBanner ${isWebSocketConnected ? 'connected' : 'disconnected'}`}>
-        {isWebSocketConnected
-          ? "Connection established"
-          : webSocketError || "Waiting for WebSocket connection..."}
-        {!isWebSocketConnected && <button onClick={reconnectWebsocket}>Reconnect</button>}
-      </div>
+      <WebSocketSwitch isConnected={isWebSocketConnected} reconnect={reconnectWebsocket} />
       <Navigation setCurrentView={setCurrentView}/>
       {patientWindow && <PatientView borderColor={borderColor} patientWindow={patientWindow} view={views[currentPatientView]}/>}
       <div className="main-layout">

@@ -1,0 +1,42 @@
+.websocket-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+  }
+  
+  .websocket-toggle input[type="checkbox"] {
+    display: none;
+  }
+  
+  .switch-track {
+    width: 44px;
+    height: 24px;
+    border-radius: 9999px;
+    position: relative;
+    transition: background-color 0.3s;
+  }
+  
+  .switch-track.connected {
+    background-color: #22c55e; /* green */
+  }
+  
+  .switch-track.disconnected {
+    background-color: #ef4444; /* red */
+  }
+  
+  .switch-thumb {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s;
+  }
+  
+  input[type="checkbox"]:checked + .switch-track .switch-thumb {
+    transform: translateX(20px);
+  }
+  
