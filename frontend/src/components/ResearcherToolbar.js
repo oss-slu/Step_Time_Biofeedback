@@ -9,14 +9,16 @@ function ResearcherToolbar({
   setThreshold,
   sendDataToBackend,
 }) {
-  const threshold_toast = useRef(null);
+  const toast = useRef(null);
   const [sendThreshold, setSendThreshold] = useState(false);
   const [sendMAF, setSendMAF] = useState(false);
 
-  function activateToast() {
-    threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
-  }
+  function toastNotifyChanged(parameterName="") {
+    if (parameterName !== "") toast.current.show({ severity: "success", summary: "Success:", detail: `Backend received ${parameterName} successfully!` });
 
+    else toast.current.show({ severity: "warn", summary: "Warning:", detail: "There are no changes to sumbit." });
+  }
+ 
   return (
     <div className="researcher-toolbar">
       <h3 className="toolbar-header">Researcher Toolbar</h3>
@@ -51,20 +53,23 @@ function ResearcherToolbar({
         />
       </div>
 
-      <ToastNotification ref={threshold_toast} />
+      <ToastNotification ref={toast} />
       <button
         className="toolbar-button"
         onClick={() => {
           const data = {}
 
-          if (sendThreshold) data.threshold = threshold;
+          if (sendThreshold) data.threshold = threshold
           if (sendMAF) data.movingAverageFactor = movingAverageFactor;
-
-          if (Object.keys(data).length) sendDataToBackend(data);
-          else console.log("Tried to send old toolbar parameters to backend")
-
-          activateToast();
           
+          let keys = Object.keys(data)
+
+          if (keys.length) sendDataToBackend(data);
+          else console.log("Tried to send old toolbar parameters to backend")
+          
+          // empty string notification warns user of no change
+          toastNotifyChanged(keys.join(", "));
+
           // reset send data flags
           setSendMAF(false);
           setSendThreshold(false);
