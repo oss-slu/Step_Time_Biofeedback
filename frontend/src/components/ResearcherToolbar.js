@@ -8,12 +8,33 @@ function ResearcherToolbar({
   threshold,
   setThreshold,
   sendThresholdToBackend,
+  isThresholdChanged,
+  isMovingAverageChanged
 }) {
   const threshold_toast = useRef(null);
 
-  function activateToast() {
-    threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
+  const handleThresholdChange = (e) => {
+    setThreshold(Number(e.target.value));
+    isThresholdChanged = true;
+  };
+
+  const handleMovingAverageFactorChange = (e) => {
+    setMovingAverageFactor(Number(e.target.value));
+    isMovingAverageChanged= true;
+  };
+
+  function activateToast(boolean ) {
+      if(isThresholdChanged && isMovingAverageChanged) {
+        threshold_toast.current.show({ severity: "success", summary: "Threshold and Moving Average Updated", detail: "Threshold and Moving average factor successfully updated!" });
+      }
+      else if (isThresholdChanged) {
+        threshold_toast.current.show({ severity: "success", summary: "Threshold Updated", detail: "Threshold successfully updated!" });
+      } 
+      else if (isMovingAverageChanged) {
+        threshold_toast.current.show({ severity: "success", summary: "Moving Average Updated", detail: "Moving average factor successfully updated!" });
+      }
   }
+
 
   return (
     <div className="researcher-toolbar">
@@ -24,7 +45,7 @@ function ResearcherToolbar({
         <input
           type="number"
           value={movingAverageFactor}
-          onChange={(e) => setMovingAverageFactor(Number(e.target.value))}
+          onChange={handleMovingAverageFactorChange}
           className="tool-input"
           data-testid="moving-average-input"
         />
@@ -37,7 +58,7 @@ function ResearcherToolbar({
         <input
           type="number"
           value={threshold}
-          onChange={(e) => setThreshold(Number(e.target.value))}
+          onChange={handleThresholdChange}
           className="tool-input"
           data-testid="threshold-input"
         />
