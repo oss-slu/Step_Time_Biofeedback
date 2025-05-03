@@ -8,20 +8,12 @@ function ResearcherToolbar({
   threshold,
   setThreshold,
   sendThresholdToBackend,
-  isThresholdChanged,
-  isMovingAverageChanged
+  isThresholdChanged = false,
+  isMovingAverageChanged = false
 }) {
   const threshold_toast = useRef(null);
 
-  const handleThresholdChange = (e) => {
-    setThreshold(Number(e.target.value));
-    isThresholdChanged = true;
-  };
-
-  const handleMovingAverageFactorChange = (e) => {
-    setMovingAverageFactor(Number(e.target.value));
-    isMovingAverageChanged= true;
-  };
+ 
 
   function activateToast(boolean ) {
       if(isThresholdChanged && isMovingAverageChanged) {
@@ -32,6 +24,9 @@ function ResearcherToolbar({
       } 
       else if (isMovingAverageChanged) {
         threshold_toast.current.show({ severity: "success", summary: "Moving Average Updated", detail: "Moving average factor successfully updated!" });
+      }
+      else {
+        threshold_toast.current.show({ severity: "success", summary: "Nothing Updated", detail: "Neither threshold or moving average factor was updated!" });
       }
   }
 
@@ -45,7 +40,7 @@ function ResearcherToolbar({
         <input
           type="number"
           value={movingAverageFactor}
-          onChange={handleMovingAverageFactorChange}
+          onChange={(e) => setMovingAverageFactor(Number(e.target.value))}
           className="tool-input"
           data-testid="moving-average-input"
         />
@@ -58,7 +53,7 @@ function ResearcherToolbar({
         <input
           type="number"
           value={threshold}
-          onChange={handleThresholdChange}
+          onChange={(e) => setThreshold(Number(e.target.value))}
           className="tool-input"
           data-testid="threshold-input"
         />
@@ -69,6 +64,12 @@ function ResearcherToolbar({
         className="toolbar-button"
         onClick={() => {
           sendThresholdToBackend();
+          if (threshold !== 0)
+            isThresholdChanged = true;
+
+          if (movingAverageFactor !== 0)
+            isMovingAverageChanged = true;
+
           activateToast();
         }}
         data-testid="threshold-btn"
