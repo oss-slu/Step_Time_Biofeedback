@@ -119,11 +119,14 @@ function App() {
     };
   }, [reconnectWebsocket]);
 
-  function sendThresholdToBackend() {
+  function sendDataToBackend(data) {
     if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-      const data = { threshold };
-      websocket.current.send(JSON.stringify(data));
-      console.log("Threshold sent to backend:", data);
+      if (typeof data !== "object") {
+        console.error(`Error: Invalid data type - expected an object, but found a ${typeof data}`)
+      } else {
+        websocket.current.send(JSON.stringify(data));
+        console.log("Data sent to backend:", data);
+      }
     } else {
       console.error("WebSocket is not open");
     }
@@ -154,7 +157,7 @@ function App() {
             setMovingAverageFactor={setMovingAverageFactor}
             threshold={threshold} 
             setThreshold={setThreshold}
-            sendThresholdToBackend={sendThresholdToBackend}
+            sendDataToBackend={sendDataToBackend}
           />
         </div>
         <div className="main-view">

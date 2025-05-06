@@ -1,0 +1,24 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore pytest cache
+.pytest_cache/
+
+# Ignore virtual environments
+env/
+venv/
+
+# Ignore Git repo
+.git/
+.gitignore
+
+# Ignore Docker-related stuff
+Dockerfile
+docker-compose.yml
+
+# Ignore MacOS system files
+*.DS_Store
+
