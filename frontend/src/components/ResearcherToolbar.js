@@ -14,7 +14,7 @@ function ResearcherToolbar({
   const [sendMAF, setSendMAF] = useState(false);
 
   function toastNotifyChanged(parameterName="") {
-    if (parameterName !== "") toast.current.show({ severity: "success", summary: "Success:", detail: `Backend received ${parameterName} successfully!` });
+    if (parameterName !== "") toast.current.show({ severity: "success",  detail: `${parameterName} updated successfully!` });
 
     else toast.current.show({ severity: "warn", summary: "Warning:", detail: "There are no changes to sumbit." });
   }
