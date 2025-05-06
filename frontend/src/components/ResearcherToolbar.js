@@ -1,5 +1,5 @@
 import "./ResearcherToolbar.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ToastNotification from "./toast/Toast";
 
 function ResearcherToolbar({
@@ -7,14 +7,18 @@ function ResearcherToolbar({
   setMovingAverageFactor,
   threshold,
   setThreshold,
-  sendThresholdToBackend,
+  sendDataToBackend,
 }) {
-  const threshold_toast = useRef(null);
+  const toast = useRef(null);
+  const [sendThreshold, setSendThreshold] = useState(false);
+  const [sendMAF, setSendMAF] = useState(false);
 
-  function activateToast() {
-    threshold_toast.current.show({ severity: "success", summary: "Submitted", detail: "Threshold successfully submitted!" });
+  function toastNotifyChanged(parameterName="") {
+    if (parameterName !== "") toast.current.show({ severity: "success",  detail: `${parameterName} updated successfully!` });
+
+    else toast.current.show({ severity: "warn", summary: "Warning:", detail: "There are no changes to sumbit." });
   }
-
+ 
   return (
     <div className="researcher-toolbar">
       <h3 className="toolbar-header">Researcher Toolbar</h3>
@@ -24,7 +28,10 @@ function ResearcherToolbar({
         <input
           type="number"
           value={movingAverageFactor}
-          onChange={(e) => setMovingAverageFactor(Number(e.target.value))}
+          onChange={ (e) => {
+            setMovingAverageFactor(Number(e.target.value));
+            setSendMAF(true);
+          }}
           className="tool-input"
           data-testid="moving-average-input"
         />
@@ -37,20 +44,37 @@ function ResearcherToolbar({
         <input
           type="number"
           value={threshold}
-          onChange={(e) => setThreshold(Number(e.target.value))}
+          onChange={(e) => {
+            setThreshold(Number(e.target.value));
+            setSendThreshold(true);
+          }}
           className="tool-input"
           data-testid="threshold-input"
         />
       </div>
 
-      <ToastNotification ref={threshold_toast} />
+      <ToastNotification ref={toast} />
       <button
         className="toolbar-button"
         onClick={() => {
-          sendThresholdToBackend();
-          activateToast();
+          const data = {}
+
+          if (sendThreshold) data.threshold = threshold
+          if (sendMAF) data.movingAverageFactor = movingAverageFactor;
+          
+          let keys = Object.keys(data)
+
+          if (keys.length) sendDataToBackend(data);
+          else console.log("Tried to send old toolbar parameters to backend")
+          
+          // empty string notification warns user of no change
+          toastNotifyChanged(keys.join(", "));
+
+          // reset send data flags
+          setSendMAF(false);
+          setSendThreshold(false);
         }}
-        data-testid="threshold-btn"
+        data-testid="send-data-btn"
       >
         Submit
       </button>

@@ -16,7 +16,7 @@ async def handle_data_streaming(websocket):
                 data = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
                 parsed_data = json.loads(data)
                 threshold = list(parsed_data.values())[0]
-                print(f"First value received: {threshold}")
+                print(f"Received data: {str(parsed_data)}")
             except asyncio.TimeoutError:
                 pass
             except json.JSONDecodeError:
